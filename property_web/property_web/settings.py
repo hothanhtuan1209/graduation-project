@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "posts",
     "images",
     "storages",
-    "reviews"
+    "reviews",
+    "favorites"
 ]
 
 MIDDLEWARE = [
