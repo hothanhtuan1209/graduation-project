@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "category",
     "posts",
     "images",
-    "storages"
+    "storages",
+    "reviews"
 ]
 
 MIDDLEWARE = [
