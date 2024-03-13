@@ -34,6 +34,7 @@ class Post(BaseModel):
     area = models.DecimalField(max_digits=10, decimal_places=1)
     description = models.TextField()
     address = models.CharField(max_length=255)
+    hot_post = models.BooleanField(default=False)
     end_date = models.DateTimeField(
         default=datetime.now() + timedelta(days=30)
     )
