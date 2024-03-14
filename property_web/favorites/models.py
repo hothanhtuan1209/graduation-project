@@ -1,6 +1,6 @@
 from django.db import models
 
-from users.models import User
+from users.models import CustomUser
 from posts.models import Post
 
 
@@ -15,7 +15,7 @@ class Favorite(models.Model):
         post that was favorited.
     """
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
 
     class Meta:

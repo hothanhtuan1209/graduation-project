@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 
 from property_web.models import BaseModel
 
 
-class User(AbstractBaseUser, BaseModel):
+class CustomUser(AbstractUser, BaseModel):
     """
     A custom user model with phone number field.
 
@@ -21,6 +21,9 @@ class User(AbstractBaseUser, BaseModel):
     phone_number = models.CharField(
         validators=[RegexValidator(r"^0\d{9}$")], max_length=10, unique=True
     )
+
+    class Meta:
+        db_table = 'auth_user'
 
     def __str__(self):
         """

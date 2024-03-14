@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from property_web.models import BaseModel
 from property_web.constants.enum import Status, Type
 from category.models import Category
-from users.models import User
+from users.models import CustomUser
 
 
 class Post(BaseModel):
@@ -47,7 +47,7 @@ class Post(BaseModel):
         max_length=10, choices=[(type.value, type.value) for type in Type]
     )
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         """
