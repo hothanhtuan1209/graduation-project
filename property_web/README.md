@@ -23,13 +23,13 @@ https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 1. First, clone this repository on your computer
 > git clone https://github.com/hothanhtuan1209/graduation-project.git
 
-2. Next, move into the directory containing this file:
+2. Checkout to branch develop
+> git checkout develop
+
+3. Next, move into the directory containing this file:
 > cd graduation-project
 > cd property_web
 
-
-3. Checkout to branch develop
-> git checkout develop
 
 4. You should create virtual environment and install pyenv
 - Create virtual environment named 'venv'
