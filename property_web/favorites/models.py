@@ -1,10 +1,11 @@
 from django.db import models
 
+from property_web.models import BaseModel
 from users.models import CustomUser
 from posts.models import Post
 
 
-class Favorite(models.Model):
+class Favorite(BaseModel):
     """
     Model representing a favorite relationship between a user and a post.
 
