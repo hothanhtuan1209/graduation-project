@@ -7,13 +7,13 @@ class Status(Enum):
 
     Attributes:
         UNAPPROVED (str): The property listing has not been approved.
-        FOR_RENT (str): The property is available for rent.
-        FULL (str): The property is fully occupied.
+        AVAILABLE (str): The property has vacant rooms available.
+        OCCUPIED (str): The property is fully occupied.
     """
 
     UNAPPROVED = 'UNAPPROVED'
-    FOR_RENT = 'FOR_RENT'
-    FULL = 'FULL'
+    AVAILABLE = 'AVAILABLE'
+    OCCUPIED = 'OCCUPIED'
 
 
 class Type(Enum):
