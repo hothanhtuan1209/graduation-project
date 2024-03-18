@@ -13,3 +13,15 @@ class SignUpForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label='Username')
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+
+class PasswordChangeForm(forms.Form):
+    old_password = forms.CharField(
+        label='Old Password', widget=forms.PasswordInput
+    )
+    new_password = forms.CharField(
+        label='New Password', widget=forms.PasswordInput
+    )
+    confirm_new_password = forms.CharField(
+        label='Confirm New Password', widget=forms.PasswordInput
+    )
