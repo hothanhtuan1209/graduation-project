@@ -3,8 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib import messages
 
-from .forms import SignUpForm, LoginForm, PasswordChangeForm
+from .forms import SignUpForm, LoginForm
 
 
 def user_signup(request):
@@ -52,20 +54,19 @@ def change_password(request):
     This is function to change password for user
     """
 
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.POST)
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+
         if form.is_valid():
-            old_password = form.cleaned_data['old_password']
-            new_password = form.cleaned_data['new_password']
-            confirm_new_password = form.cleaned_data['confirm_new_password']
-            if request.user.check_password(old_password) and new_password == confirm_new_password:
-                request.user.set_password(new_password)
-                request.user.save()
-                # Update session to prevent logout after password change
-                update_session_auth_hash(request, request.user)
-                return redirect('login')
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+
     else:
-        form = PasswordChangeForm()
+        form = PasswordChangeForm(request.user)
+
     return render(request, 'change_password.html', {'form': form})
 
 
