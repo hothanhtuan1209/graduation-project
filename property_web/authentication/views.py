@@ -3,27 +3,33 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import PasswordChangeForm, AuthenticationForm
-from django.contrib import messages
+from django.contrib.auth.forms import (
+    PasswordChangeForm,
+    AuthenticationForm,
+    UserCreationForm,
+)
 
-from .forms import SignUpForm
+from django.contrib import messages
 
 
 def user_signup(request):
     """
-    This is function to signup a new user
+    This function handles user sign up.
     """
 
     if request.method == "POST":
-        form = SignUpForm(request.POST)
+        form = UserCreationForm(request.POST)
 
         if form.is_valid():
             form.save()
             return redirect("login")
+        else:
+            errors = form.errors.values()
     else:
-        form = SignUpForm()
+        form = UserCreationForm()
+        errors = None
 
-    return render(request, "signup.html", {"form": form})
+    return render(request, "signup.html", {"form": form, "errors": errors})
 
 
 def user_login(request):
