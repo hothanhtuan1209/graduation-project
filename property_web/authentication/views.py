@@ -6,10 +6,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import (
     PasswordChangeForm,
     AuthenticationForm,
-    UserCreationForm,
 )
-
 from django.contrib import messages
+
+from .forms import SignUpForm
 
 
 def user_signup(request):
@@ -18,18 +18,15 @@ def user_signup(request):
     """
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
 
         if form.is_valid():
             form.save()
             return redirect("login")
-        else:
-            errors = form.errors.values()
     else:
-        form = UserCreationForm()
-        errors = None
+        form = SignUpForm()
 
-    return render(request, "signup.html", {"form": form, "errors": errors})
+    return render(request, "signup.html", {"form": form})
 
 
 def user_login(request):
