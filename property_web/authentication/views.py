@@ -3,15 +3,18 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import (
+    PasswordChangeForm,
+    AuthenticationForm,
+)
 from django.contrib import messages
 
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm
 
 
 def user_signup(request):
     """
-    This is function to signup a new user
+    This function handles user sign up.
     """
 
     if request.method == "POST":
@@ -19,33 +22,43 @@ def user_signup(request):
 
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect("login")
     else:
         form = SignUpForm()
 
-    return render(request, 'signup.html', {'form': form})
+    return render(request, "signup.html", {"form": form})
 
 
 def user_login(request):
     """
-    This is function to login and authenticate user
+    This function handles user login and authentication.
     """
 
-    if request.method == 'POST':
-        form = LoginForm(request, request.POST)
+    if request.method == "POST":
+        form = AuthenticationForm(request, request.POST)
 
         if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
             user = authenticate(username=username, password=password)
 
             if user is not None:
                 login(request, user)
-                return redirect('home')
-    else:
-        form = LoginForm()
+                return redirect("home")
+        else:
+            return render(
+                request,
+                "login.html",
+                {
+                    "form": form,
+                    "error": "Username or password is incorrect, please re-enter",
+                },
+            )
 
-    return render(request, 'login.html', {'form': form})
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "login.html", {"form": form})
 
 
 @login_required
@@ -60,14 +73,14 @@ def change_password(request):
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect('login')
+            return redirect("login")
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, "Please correct the error below.")
 
     else:
         form = PasswordChangeForm(request.user)
 
-    return render(request, 'change_password.html', {'form': form})
+    return render(request, "change_password.html", {"form": form})
 
 
 @login_required
@@ -77,7 +90,7 @@ def user_logout(request):
     """
 
     logout(request)
-    return redirect('login')
+    return redirect("login")
 
 
 @csrf_exempt
@@ -87,4 +100,4 @@ def home(request):
     This home page of website
     """
 
-    return render(request, 'home.html')
+    return render(request, "home.html")
