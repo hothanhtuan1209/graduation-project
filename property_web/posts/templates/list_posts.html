@@ -7,6 +7,7 @@
     <ul class="post-list">
         {% for post in hot_posts %}
             <li class="post-item">
+                <img src="{{ post.image.imges.url }}" alt="{{ post.title }} Image">
                 <span>{{ post.title }} - {{ post.price }}</span>
             </li>
         {% endfor %}
@@ -16,6 +17,7 @@
     <ul class="post-list">
         {% for post in normal_posts %}
             <li class="post-item">
+                <img src="{{ post.image.image.url }}" alt="{{ post.title }} Image">
                 <span>{{ post.title }} - {{ post.price }}</span>
             </li>
         {% endfor %}

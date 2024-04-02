@@ -44,7 +44,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("home")
+                return redirect("list_post")
         else:
             return render(
                 request,
@@ -100,4 +100,4 @@ def home(request):
     This home page of website
     """
 
-    return render(request, "home.html")
+    return render(request, "list_posts.html")
