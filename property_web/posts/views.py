@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import PostForm, ImageForm
@@ -43,3 +43,12 @@ def post_list(request):
 
     context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
     return render(request, "list_posts.html", context)
+
+
+def post_detail(request, post_id):
+    """
+    View function to get detail post by post ID
+    """
+
+    post = get_object_or_404(Post, pk=post_id)
+    return render(request, 'post_detail.html', {'post': post})
