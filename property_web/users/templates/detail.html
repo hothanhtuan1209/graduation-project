@@ -6,6 +6,12 @@
     <title>User Detail</title>
 </head>
 <body>
+    <style>
+        .post-image-ava {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
     <div class="container">
         <h1 class="title">User Detail</h1>
         <ul class="detail-list">
@@ -14,7 +20,19 @@
             <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user.email }}</li>
             <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user.created_at }}</li>
         </ul>
-        <a href="{% url 'update_user' user.id %}" class="update-link">Update</a>
+        <ul class="post-list">
+            {% for post in user_posts %}
+                <li class="post-item">
+                    <a href="{% url 'post_detail' post_id=post.id %}">
+                        <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+                        <span>{{ post.title }} - {{ post.price }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        {% if user.is_authenticated and user.id == user.id %}
+            <a href="{% url 'update_user' user.id %}" class="update-link">Update</a>
+        {% endif %}
     </div>
 </body>
 </html>

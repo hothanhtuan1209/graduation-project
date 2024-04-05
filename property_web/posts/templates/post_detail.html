@@ -12,4 +12,9 @@
         <p class="post-end-date"><strong>Ngày hết hạn:</strong> {{ post.end_date }}</p>
         <p class="post-description"><strong>Mô tả:</strong> {{ post.description }}</p>
     </div>
+    <a href="{% url 'user_detail' user_id=post.user.id %}">
+        <div class="post-author-info">
+            <p class="post-username"><strong>Người đăng:</strong> {{ post_user.username }}</p>
+            <p class="post-phone"><strong>Điện thoại:</strong> {{ post_user.phone_number }}</p>
+        </div>
 {% endblock %}

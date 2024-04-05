@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .forms import PostForm, ImageForm
 from .models import Post
+from users.models import CustomUser
 from images.models import Image
 
 
@@ -51,4 +52,8 @@ def post_detail(request, post_id):
     """
 
     post = get_object_or_404(Post, pk=post_id)
-    return render(request, 'post_detail.html', {'post': post})
+    user_id = post.user_id
+    post_user = get_object_or_404(CustomUser, pk=user_id)
+    return render(
+        request, 'post_detail.html', {'post': post, 'post_user': post_user}
+    )

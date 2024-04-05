@@ -1,16 +1,22 @@
+<!-- post_list.html -->
 {% extends 'home.html' %}
 
-{% block title %}Post List{% endblock %}
-
 {% block content %}
+    <style>
+        .post-image-ava {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+
     <h2 class="subheading">Hot Posts</h2>
     <ul class="post-list">
         {% for post in hot_posts %}
             <li class="post-item">
                 <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img src="{{ post.image.url }}" alt="{{ post.title }} Image">
+                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+                    <span>{{ post.title }} - {{ post.price }}</span>
                 </a>
-                <span>{{ post.title }} - {{ post.price }}</span>
             </li>
         {% endfor %}
     </ul>
@@ -20,9 +26,9 @@
         {% for post in normal_posts %}
             <li class="post-item">
                 <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img src="{{ post.image.url }}" alt="{{ post.title }} Image">
+                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+                    <span>{{ post.title }} - {{ post.price }}</span>
                 </a>
-                <span>{{ post.title }} - {{ post.price }}</span>
             </li>
         {% endfor %}
     </ul>
