@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Detail</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">User Detail</h1>
+        <ul class="detail-list">
+            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user.username }}</li>
+            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user.phone_number }}</li>
+            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user.email }}</li>
+            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user.created_at }}</li>
+        </ul>
+        <a href="{% url 'update_user' user.id %}" class="update-link">Update</a>
+    </div>
+</body>
+</html>
