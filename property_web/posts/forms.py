@@ -1,4 +1,7 @@
 from django import forms
+from multiupload.fields import MultiFileField
+from django.core.validators import FileExtensionValidator
+
 from .models import Post
 from images.models import Image
 from category.models import Category
@@ -37,12 +40,13 @@ class PostForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
+    images = MultiFileField(
+        label='Chọn hình ảnh mô tả(tối đa 12)',
+        min_num=1,
+        max_num=12,
+        widget=forms.ClearableFileInput(attrs={'class': 'image-class'})
+    )
+
     class Meta:
         model = Image
-        fields = ['image']
-        labels = {
-            'image': 'Select an Image',
-        }
-        widgets = {
-            'image': forms.FileInput(attrs={'class': 'form-control'}),
-        }
+        fields = ('images',)

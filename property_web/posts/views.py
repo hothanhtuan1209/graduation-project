@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.http import require_http_methods
+from django.urls import reverse
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -12,19 +14,23 @@ def create_post(request):
     This view is for creating a new post feature.
     """
 
-    post_form = PostForm(request.POST or None)
-    image_form = ImageForm(request.POST or None, request.FILES or None)
+    if request.method == "POST":
+        post_form = PostForm(request.POST)
+        image_form = ImageForm(request.POST, request.FILES)
 
-    if request.method == "POST" and post_form.is_valid() and image_form.is_valid():
-        post = post_form.save(commit=False)
-        post.user = request.user
-        post.save()
+        if post_form.is_valid() and image_form.is_valid():
+            post = post_form.save(commit=False)
+            post.user = request.user
+            post.save()
 
-        image = image_form.cleaned_data.get("image")
-        if image:
-            Image.objects.create(post=post, image=image)
+            images = request.FILES.getlist('images')
+            for image in images:
+                Image.objects.create(post=post, image=image)
 
-        return redirect("list_post")
+            return redirect("list_post")
+    else:
+        post_form = PostForm()
+        image_form = ImageForm()
 
     context = {"post_form": post_form, "image_form": image_form}
     return render(request, "create_post.html", context)
@@ -56,4 +62,26 @@ def post_detail(request, post_id):
     post_user = get_object_or_404(CustomUser, pk=user_id)
     return render(
         request, 'post_detail.html', {'post': post, 'post_user': post_user}
+    )
+
+
+@require_http_methods(["GET", "POST"])
+def update_post(request, post_id):
+    """
+    View function to update information of a post.
+    """
+
+    post = get_object_or_404(Post, id=post_id)
+
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save()
+            detail_url = reverse("post_detail", args=[str(post.id)])
+            return redirect(detail_url)
+    else:
+        form = PostForm(instance=post)
+
+    return render(
+        request, "edit_post.html", {"form": form}
     )
