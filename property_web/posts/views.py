@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -9,6 +10,7 @@ from users.models import CustomUser
 from images.models import Image
 
 
+@login_required
 def create_post(request):
     """
     This view is for creating a new post feature.
