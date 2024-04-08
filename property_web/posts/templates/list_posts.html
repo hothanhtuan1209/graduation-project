@@ -2,12 +2,8 @@
 {% extends 'home.html' %}
 
 {% block content %}
-    <style>
-        .post-image-ava {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
 
     <h2 class="subheading">Hot Posts</h2>
     <ul class="post-list">

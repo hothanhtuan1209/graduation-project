@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
+from django.db.models import Case, When, BooleanField, Value
 from django.contrib.auth.decorators import login_required
 
 from .forms import PostForm, ImageForm
@@ -42,13 +43,12 @@ def post_list(request):
     """
     View function to display a list of posts categorized as hot and normal.
     """
+    posts = Post.objects.filter(status='AVAILABLE').values(
+        'id', 'title', 'address', 'price', 'hot_post', 'post.images'
+    )
 
-    hot_posts = Post.objects.filter(
-        hot_post=True, status='AVAILABLE'
-    ).order_by("-created_at")
-    normal_posts = Post.objects.filter(
-        hot_post=False, status='AVAILABLE'
-    ).order_by("-created_at")
+    hot_posts = [post for post in posts if post['hot_post']]
+    normal_posts = [post for post in posts if not post['hot_post']]
 
     context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
     return render(request, "list_posts.html", context)
