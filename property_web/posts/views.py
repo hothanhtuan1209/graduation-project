@@ -11,7 +11,7 @@ from images.models import Image
 
 
 @login_required
-def create_post(request):
+def create(request):
     """
     This view is for creating a new post feature.
     """
@@ -26,8 +26,8 @@ def create_post(request):
             post.save()
 
             images = request.FILES.getlist('images')
-            for image in images:
-                Image.objects.create(post=post, image=image)
+            image_instances = [Image(post=post, image=image) for image in images]
+            Image.objects.bulk_create(image_instances)
 
             return redirect("list_post")
     else:
