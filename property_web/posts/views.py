@@ -44,8 +44,15 @@ def post_list(request):
     View function to display a list of posts categorized as hot and normal.
     """
     posts = Post.objects.filter(status='AVAILABLE').values(
-        'id', 'title', 'address', 'price', 'hot_post', 'post.images'
+        'id', 'title', 'price', 'address', 'hot_post'
     )
+
+    for post in posts:
+        image = Image.objects.filter(post_id=post['id']).first()
+        if image:
+            post['image'] = image.image.url
+        else:
+            post['image'] = None
 
     hot_posts = [post for post in posts if post['hot_post']]
     normal_posts = [post for post in posts if not post['hot_post']]

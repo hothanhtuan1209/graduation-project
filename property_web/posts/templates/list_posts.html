@@ -10,7 +10,9 @@
         {% for post in hot_posts %}
             <li class="post-item">
                 <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+                    {% if post.image %}
+                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                    {% endif %}
                     <span>{{ post.title }} - {{ post.price }}</span>
                 </a>
             </li>
@@ -22,7 +24,9 @@
         {% for post in normal_posts %}
             <li class="post-item">
                 <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+                    {% if post.image %}
+                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                    {% endif %}
                     <span>{{ post.title }} - {{ post.price }}</span>
                 </a>
             </li>
