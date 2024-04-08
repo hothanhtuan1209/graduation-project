@@ -13,7 +13,8 @@ def user_detail(request, user_id):
     """
 
     user = get_object_or_404(CustomUser, id=user_id)
-    context = {"user": user}
+    user_post = user.post_set.all()
+    context = {"user": user, 'user_posts': user_post}
     return render(request, "detail.html", context)
 
 
