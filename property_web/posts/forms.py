@@ -44,7 +44,6 @@ class ImageForm(forms.ModelForm):
         label='Chọn hình ảnh mô tả(tối đa 12)',
         min_num=1,
         max_num=12,
-        widget=forms.ClearableFileInput(attrs={'class': 'image-class'})
     )
 
     class Meta:
