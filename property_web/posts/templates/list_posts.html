@@ -13,7 +13,9 @@
                     {% if post.image %}
                         <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
                     {% endif %}
-                    <span>{{ post.title }} - {{ post.price }}</span>
+                    <span>{{ post.title }}</span>
+                    <span>{{ post.price }}</span>
+                    <span>{{ post.address }}</span>
                 </a>
             </li>
         {% endfor %}
@@ -27,7 +29,9 @@
                     {% if post.image %}
                         <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
                     {% endif %}
-                    <span>{{ post.title }} - {{ post.price }}</span>
+                    <span>{{ post.title }}</span>
+                    <span>{{ post.price }}</span>
+                    <span>{{ post.address }}</span>
                 </a>
             </li>
         {% endfor %}
