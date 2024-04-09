@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
-from django.db.models import Case, When, BooleanField, Value
 from django.contrib.auth.decorators import login_required
 
 from .forms import PostForm, ImageForm
 from .models import Post
 from users.models import CustomUser
 from images.models import Image
+from property_web.constants.enum import Status
+from .helper.build_query_filter import build_query_filter
+from property_web.settings import PAGE_SIZE
 
 
 @login_required
@@ -26,11 +28,11 @@ def create(request):
             post.user = request.user
             post.save()
 
-            images = request.FILES.getlist('images')
+            images = request.FILES.getlist("images")
             image_instances = [Image(post=post, image=image) for image in images]
             Image.objects.bulk_create(image_instances)
 
-            return redirect("list_post")
+            return redirect("")
     else:
         post_form = PostForm()
         image_form = ImageForm()
@@ -39,25 +41,75 @@ def create(request):
     return render(request, "create_post.html", context)
 
 
-def post_list(request):
+def home_page(request):
     """
     View function to display a list of posts categorized as hot and normal.
     """
-    posts = Post.objects.filter(status='AVAILABLE').values(
-        'id', 'title', 'price', 'address', 'hot_post'
+
+    hot_posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=True)
+        .values("id", "title", "price", "address")
+        .order_by("-created_at")[:10]
     )
 
-    for post in posts:
-        image = Image.objects.filter(post_id=post['id']).first()
-        if image:
-            post['image'] = image.image.url
-        else:
-            post['image'] = None
+    normal_posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=False)
+        .values("id", "title", "price", "address")
+        .order_by("-created_at")[:10]
+    )
 
-    hot_posts = [post for post in posts if post['hot_post']]
-    normal_posts = [post for post in posts if not post['hot_post']]
+    post_ids = [post["id"] for post in hot_posts] + [
+        post["id"] for post in normal_posts
+    ]
+    images = Image.objects.filter(post_id__in=post_ids)
+    image_mapping = {image.post_id: image.image.url for image in images}
+
+    for post in hot_posts:
+        post["image"] = image_mapping.get(post["id"])
+
+    for post in normal_posts:
+        post["image"] = image_mapping.get(post["id"])
 
     context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
+    return render(request, "list_posts_home.html", context)
+
+
+def list_post(request):
+    """
+    This function to get list all posts have status is AVAILABLE, user can
+    filter, search data
+    """
+
+    request_data = request.GET
+    query_filter = build_query_filter(request_data)
+    order_by = request.GET.get("order_by", "-created_at")
+
+    posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value)
+        .filter(query_filter)
+        .order_by(order_by)
+        .values("id", "title", "price", "address", "area")
+    )
+
+    post_ids = [post["id"] for post in posts]
+    images = Image.objects.filter(post_id__in=post_ids)
+    image_mapping = {image.post_id: image.image.url for image in images}
+
+    for post in posts:
+        post["image"] = image_mapping.get(post["id"])
+
+    paginator = Paginator(posts, PAGE_SIZE)
+    page = request.GET.get("page", 1)
+
+    try:
+        posts_page = paginator.page(page)
+    except (PageNotAnInteger, EmptyPage):
+        posts_page = paginator.page(1)
+
+    context = {
+        "posts": posts_page,
+    }
+
     return render(request, "list_posts.html", context)
 
 
@@ -69,9 +121,7 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     user_id = post.user_id
     post_user = get_object_or_404(CustomUser, pk=user_id)
-    return render(
-        request, 'post_detail.html', {'post': post, 'post_user': post_user}
-    )
+    return render(request, "post_detail.html", {"post": post, "post_user": post_user})
 
 
 @require_http_methods(["GET", "POST"])
@@ -91,6 +141,4 @@ def update_post(request, post_id):
     else:
         form = PostForm(instance=post)
 
-    return render(
-        request, "edit_post.html", {"form": form}
-    )
+    return render(request, "edit_post.html", {"form": form})

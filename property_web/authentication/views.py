@@ -44,7 +44,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("list_post")
+                return redirect("list_post_home")
         else:
             return render(
                 request,
