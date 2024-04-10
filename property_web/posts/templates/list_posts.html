@@ -1,35 +1,61 @@
 <!-- post_list.html -->
-{% extends 'home.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <style>
-        .post-image-ava {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_post_home.css' %}">
 
-    <h2 class="subheading">Hot Posts</h2>
+    <h2 class="subheading">List Posts</h2>
+
+    <form method="get" action="{% url 'list_posts' %}">
+        <label for="address">Địa chỉ:</label>
+        <input type="text" name="address" id="address">
+
+        <label for="price_range">Giá:</label>
+        <select name="price_range" id="price_range">
+            <option value="">Tất cả</option>
+            <option value="lt_2m">Dưới 2 triệu</option>
+            <option value="2m_to_3m">Từ 2-3 triệu</option>
+            <option value="gt_3m">Lớn hơn 3 triệu</option>
+        </select>
+
+        <label for="area_range">Diện tích:</label>
+        <select name="area_range" id="area_range">
+            <option value="">Tất cả</option>
+            <option value="lt_15"> Dưới 15 m2</option>
+            <option value="15_to_25">Từ 15-25 m2</option>
+            <option value="gt_25">Lớn hơn 25 m2</option>
+        </select>
+
+        <button type="submit">Tìm Kiếm</button>
+    </form>
+
     <ul class="post-list">
-        {% for post in hot_posts %}
+        {% for post in posts %}
             <li class="post-item">
                 <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
-                    <span>{{ post.title }} - {{ post.price }}</span>
+                    {% if post.image %}
+                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                    {% endif %}
+                    <span>{{ post.title }}</span>
+                    <span>{{ post.price }}</span>
+                    <span>{{ post.area }}</span>
+                    <span>{{ post.address }}</span>
                 </a>
             </li>
         {% endfor %}
-    </ul>
 
-    <h2 class="subheading">Normal Posts</h2>
-    <ul class="post-list">
-        {% for post in normal_posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
-                    <span>{{ post.title }} - {{ post.price }}</span>
-                </a>
-            </li>
-        {% endfor %}
+            <!-- Paginator -->
+        <div class="pagination">
+            {% if posts.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ posts.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Next</a>
+                <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </div>
     </ul>
 {% endblock %}

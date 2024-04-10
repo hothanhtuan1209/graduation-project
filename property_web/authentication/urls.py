@@ -4,7 +4,6 @@ from .views import (
     user_login,
     change_password,
     user_logout,
-    home
     )
 
 urlpatterns = [
@@ -12,5 +11,4 @@ urlpatterns = [
     path('signup/', user_signup, name='signup'),
     path('changepassword/', change_password, name='change_password'),
     path('logout/', user_logout, name='logout'),
-    path('home/', home, name='home')
 ]
