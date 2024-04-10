@@ -70,30 +70,21 @@ def home_page(request):
     View function to display a list of posts categorized as hot and normal.
     """
 
-    hot_posts = (
-        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=True)
-        .values("id", "title", "price", "address")
-        .order_by("-created_at")[:10]
+    posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value)
+        .values("id", "title", "price", "address", "hot_post")
+        .order_by("-created_at")
     )
 
-    normal_posts = (
-        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=False)
-        .values("id", "title", "price", "address")
-        .order_by("-created_at")[:10]
-    )
-
-    post_ids = [post["id"] for post in hot_posts] + [
-        post["id"] for post in normal_posts
-    ]
+    post_ids = [post["id"] for post in posts]
     images = Image.objects.filter(post_id__in=post_ids)
     image_mapping = {image.post_id: image.image.url for image in images}
 
-    for post in hot_posts:
+    for post in posts:
         post["image"] = image_mapping.get(post["id"])
 
-    for post in normal_posts:
-        post["image"] = image_mapping.get(post["id"])
-
+    hot_posts = [post for post in posts if post["hot_post"]][:10]
+    normal_posts = [post for post in posts if not post["hot_post"]][:10]
     context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
     return render(request, "home.html", context)
 

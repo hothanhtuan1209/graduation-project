@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -52,18 +53,10 @@ def list_post(request):
     order_by = request.GET.get("order_by", "-created_at")
 
     posts = (
-        Post.objects.filter(status=Status.AVAILABLE.value)
-        .filter(query_filter)
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & query_filter)
         .order_by(order_by)
         .values("id", "title", "price", "address", "area")
     )
-
-    post_ids = [post["id"] for post in posts]
-    images = Image.objects.filter(post_id__in=post_ids)
-    image_mapping = {image.post_id: image.image.url for image in images}
-
-    for post in posts:
-        post["image"] = image_mapping.get(post["id"])
 
     paginator = Paginator(posts, PAGE_SIZE)
     page = request.GET.get("page", 1)
@@ -72,6 +65,13 @@ def list_post(request):
         posts_page = paginator.page(page)
     except (PageNotAnInteger, EmptyPage):
         posts_page = paginator.page(1)
+
+    post_ids = [post["id"] for post in posts_page]
+    images = Image.objects.filter(post_id__in=post_ids)
+    image_mapping = {image.post_id: image.image.url for image in images}
+
+    for post in posts_page:
+        post["image"] = image_mapping.get(post["id"])
 
     context = {
         "posts": posts_page,
