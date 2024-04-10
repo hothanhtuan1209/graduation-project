@@ -9,7 +9,7 @@ from .models import Post
 from users.models import CustomUser
 from images.models import Image
 from property_web.constants.enum import Status
-from .helper.build_query_filter import build_query_filter
+from .helpers.build_query_filter import build_query_filter
 from property_web.settings import PAGE_SIZE
 
 
@@ -39,39 +39,6 @@ def create(request):
 
     context = {"post_form": post_form, "image_form": image_form}
     return render(request, "create_post.html", context)
-
-
-def home_page(request):
-    """
-    View function to display a list of posts categorized as hot and normal.
-    """
-
-    hot_posts = (
-        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=True)
-        .values("id", "title", "price", "address")
-        .order_by("-created_at")[:10]
-    )
-
-    normal_posts = (
-        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=False)
-        .values("id", "title", "price", "address")
-        .order_by("-created_at")[:10]
-    )
-
-    post_ids = [post["id"] for post in hot_posts] + [
-        post["id"] for post in normal_posts
-    ]
-    images = Image.objects.filter(post_id__in=post_ids)
-    image_mapping = {image.post_id: image.image.url for image in images}
-
-    for post in hot_posts:
-        post["image"] = image_mapping.get(post["id"])
-
-    for post in normal_posts:
-        post["image"] = image_mapping.get(post["id"])
-
-    context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
-    return render(request, "list_posts_home.html", context)
 
 
 def list_post(request):

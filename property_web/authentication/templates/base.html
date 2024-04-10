@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HomeHaven{% endblock %}</title>
+</head>
+<body>
+    <h1>HOMEHAVEN</h1>
+
+    {% if user.is_authenticated %}
+        <p>Hi, {{ user.username }}!</p>
+        <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        <form action="{% url 'change_password' %}" method="get">
+            <button type="submit">Change Password</button>
+        </form>
+        <form action="{% url 'create_post' %}" method="get">
+            <button type="submit">Create Post</button>
+        </form>
+        <form action="{% url 'user_detail' user_id=user.id %}" method="get">
+            <button type="submit">Information user</button>
+        </form>
+    {% else %}
+        <form action="{% url 'login' %}" method="get">
+            <button type="submit">Login/Register</button>
+        </form>
+    {% endif %}
+    
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

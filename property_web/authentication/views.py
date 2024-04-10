@@ -10,6 +10,9 @@ from django.contrib.auth.forms import (
 from django.contrib import messages
 
 from .forms import SignUpForm
+from posts.models import Post
+from images.models import Image
+from property_web.constants.enum import Status
 
 
 def user_signup(request):
@@ -44,7 +47,7 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("list_post_home")
+                return redirect("home")
         else:
             return render(
                 request,
@@ -59,6 +62,40 @@ def user_login(request):
         form = AuthenticationForm()
 
     return render(request, "login.html", {"form": form})
+
+
+@csrf_exempt
+def home_page(request):
+    """
+    View function to display a list of posts categorized as hot and normal.
+    """
+
+    hot_posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=True)
+        .values("id", "title", "price", "address")
+        .order_by("-created_at")[:10]
+    )
+
+    normal_posts = (
+        Post.objects.filter(status=Status.AVAILABLE.value, hot_post=False)
+        .values("id", "title", "price", "address")
+        .order_by("-created_at")[:10]
+    )
+
+    post_ids = [post["id"] for post in hot_posts] + [
+        post["id"] for post in normal_posts
+    ]
+    images = Image.objects.filter(post_id__in=post_ids)
+    image_mapping = {image.post_id: image.image.url for image in images}
+
+    for post in hot_posts:
+        post["image"] = image_mapping.get(post["id"])
+
+    for post in normal_posts:
+        post["image"] = image_mapping.get(post["id"])
+
+    context = {"hot_posts": hot_posts, "normal_posts": normal_posts}
+    return render(request, "home.html", context)
 
 
 @login_required
@@ -91,13 +128,3 @@ def user_logout(request):
 
     logout(request)
     return redirect("login")
-
-
-@csrf_exempt
-@login_required
-def home(request):
-    """
-    This home page of website
-    """
-
-    return render(request, "list_posts.html")
