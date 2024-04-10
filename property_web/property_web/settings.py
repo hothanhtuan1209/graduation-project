@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     "images",
     "storages",
     "reviews",
-    "favorites"
+    "favorites",
+    "property_web"
 ]
 
 MIDDLEWARE = [
