@@ -10,6 +10,9 @@ from django.contrib.auth.forms import (
 from django.contrib import messages
 
 from .forms import SignUpForm
+from posts.models import Post
+from images.models import Image
+from property_web.constants.enum import Status
 
 
 def user_signup(request):
@@ -91,13 +94,3 @@ def user_logout(request):
 
     logout(request)
     return redirect("login")
-
-
-@csrf_exempt
-@login_required
-def home(request):
-    """
-    This home page of website
-    """
-
-    return render(request, "home.html")

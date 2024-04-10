@@ -2,8 +2,8 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-import images.models
 import uuid
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 (
                     "image",
                     models.ImageField(
-                        storage=images.models.S3MediaStorage(), upload_to=""
+                        storage=settings.DEFAULT_FILE_STORAGE, upload_to="images/"
                     ),
                 ),
                 (

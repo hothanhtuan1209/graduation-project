@@ -18,6 +18,8 @@ This is a project to build a property website, including User, Post, Category, I
 - Analytics documentation
 https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 
+- UI Design:
+> https://www.figma.com/file/T9NAkk4ibqfPPR4r0QTpOj/Boarding-house-web?type=design&node-id=0-1&mode=design&t=tBKFSTJOdBccfpXW-0
 ## How to use
 ### For Linux or MacOS operating systems, replace py with python
 1. First, clone this repository on your computer
