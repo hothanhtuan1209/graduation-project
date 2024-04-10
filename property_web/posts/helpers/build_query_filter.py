@@ -23,22 +23,15 @@ def build_query_filter(request_data):
     }
 
     # Filter by address
-    address = request_data.get('address')
-    if address:
+    if address := request_data.get('address'):
         query_filter &= Q(address__icontains=address)
 
     # Filter by price
-    price_range = request_data.get('price_range')
-    if price_range:
-        price_filter = price_dict.get(price_range)
-        if price_filter:
-            query_filter &= price_filter
+    if price_range := request_data.get('price_range'):
+        query_filter &= price_dict.get(price_range, Q())
 
     # Filter by area
-    area_range = request_data.get('area_range')
-    if area_range:
-        area_filter = area_dict.get(area_range)
-        if area_filter:
-            query_filter &= area_filter
+    if area_range := request_data.get('area_range'):
+        query_filter &= area_dict.get(area_range, Q())
 
     return query_filter
