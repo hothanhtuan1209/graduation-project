@@ -3,7 +3,7 @@
 
 {% block content %}
     <div class="post-detail">
-        <img class="post-image" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
+        <img class="post-image" src="{{ post_images.0.image.url }}" alt="{{ post.title }} Image">
         <h2 class="post-title">{{ post.title }}</h2>
         <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
         <p class="post-area"><strong>Diện tích (m2):</strong> {{ post.area }}</p>
@@ -12,9 +12,28 @@
         <p class="post-end-date"><strong>Ngày hết hạn:</strong> {{ post.end_date }}</p>
         <p class="post-description"><strong>Mô tả:</strong> {{ post.description }}</p>
     </div>
-    <a href="{% url 'user_detail' user_id=post.user.id %}">
-        <div class="post-author-info">
-            <p class="post-username"><strong>Người đăng:</strong> {{ post_user.username }}</p>
-            <p class="post-phone"><strong>Điện thoại:</strong> {{ post_user.phone_number }}</p>
-        </div>
+    
+    <div class="post-author-info">
+        <p class="post-username"><strong>Người đăng:</strong> {{ user.name }}</p>
+        <p class="post-phone"><strong>Điện thoại:</strong> {{ user.phone_number }}</p>
+    </div>
+
+    <div class="user-posts">
+        <h3>Danh sách bài viết khác của user.name</h3>
+        <ul class="post-list">
+            {% for post in user_posts %}
+                <li class="post-item">
+                    <a href="{% url 'post_detail' post_id=post.id %}">
+                        {% if post.image %}
+                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                        {% endif %}
+                        <span>{{ post.title }}</span>
+                        <span>{{ post.price }}</span>
+                        <span>{{ post.area }}</span>
+                        <span>{{ post.address }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

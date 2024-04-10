@@ -33,7 +33,7 @@ def create(request):
             image_instances = [Image(post=post, image=image) for image in images]
             Image.objects.bulk_create(image_instances)
 
-            return redirect("")
+            return redirect("home")
     else:
         post_form = PostForm()
         image_form = ImageForm()
@@ -82,13 +82,37 @@ def list_post(request):
 
 def post_detail(request, post_id):
     """
-    View function to get detail post by post ID
+    View function to get detail post by post ID. Addition get
+    information user, list post by user ID
     """
 
     post = get_object_or_404(Post, pk=post_id)
-    user_id = post.user_id
-    post_user = get_object_or_404(CustomUser, pk=user_id)
-    return render(request, "post_detail.html", {"post": post, "post_user": post_user})
+    post_images = post.image_set.all()
+
+    user = CustomUser.objects.get(pk=post.user_id)
+
+    user_posts = (
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user))
+            .exclude(id=post_id)
+            .order_by("-created_at")
+            .values("id", "title", "price", "address", "area")
+    )
+
+    post_ids = [post["id"] for post in user_posts]
+    images = Image.objects.filter(post_id__in=post_ids)
+    image_mapping = {image.post_id: image.image.url for image in images}
+
+    for post in user_posts:
+        post["image"] = image_mapping.get(post["id"])
+
+    context = {
+        "post": post,
+        "post_images": post_images,
+        "user": user,
+        "user_posts": user_posts,
+    }
+
+    return render(request, "post_detail.html", context)
 
 
 @require_http_methods(["GET", "POST"])
