@@ -23,7 +23,7 @@
     </div>
 
     <div class="user-posts">
-        <h3>Các bài viết khác của {{ username }}</h3>
+        <h3>Các bài viết khác của {{ user_post.username }}</h3>
         <ul class="post-list">
             {% for other_post in posts_of_user %}
                 <li class="post-item">
@@ -32,8 +32,6 @@
                             <img class="post-image-ava" src="{{ other_post.image }}" alt="{{ other_post.title }} Image">
                         {% endif %}
                         <span>{{ other_post.title }}</span>
-                        <span>{{ other_post.price }}</span>
-                        <span>{{ other_post.area }}</span>
                         <span>{{ other_post.address }}</span>
                     </a>
                 </li>

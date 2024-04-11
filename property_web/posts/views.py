@@ -89,13 +89,13 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post_images = post.image_set.all()
 
-    user_post = CustomUser.objects.get(pk=post.user_id)
+    user_post = CustomUser.objects.filter(pk=post.user_id).values('username', 'phone_number', 'id').first()
 
     posts_of_user = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post))
-            .order_by("-created_at")
-            .values()
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post['id']))
             .exclude(id=post_id)
+            .order_by("-created_at")
+            .values('id', 'title', 'address')[:5]
     )
 
     post_ids = [post["id"] for post in posts_of_user]
@@ -110,7 +110,6 @@ def post_detail(request, post_id):
         "post_images": post_images,
         "user_post": user_post,
         "posts_of_user": posts_of_user,
-        "username": user_post.username
     }
 
     return render(request, "post_detail.html", context)
