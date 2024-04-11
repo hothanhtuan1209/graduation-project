@@ -1,27 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Detail</title>
-</head>
-<body>
-    <style>
-        .post-image-ava {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_post_home.css' %}">
     <div class="container">
         <h1 class="title">User Detail</h1>
         <ul class="detail-list">
-            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user.username }}</li>
-            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user.phone_number }}</li>
-            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user.email }}</li>
-            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user.created_at }}</li>
+            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user_detail.username }}</li>
+            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user_detail.phone_number }}</li>
+            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user_detail.email }}</li>
+            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user_detail.created_at }}</li>
         </ul>
         <ul class="post-list">
-            <h3>Các bài viết khác của {{ user.username }}</h3>
             {% for post in user_posts %}
                 <li class="post-item">
                     <a href="{% url 'post_detail' post_id=post.id %}">
@@ -33,12 +23,9 @@
                         <span>{{ post.area }}</span>
                         <span>{{ post.price }}</span>
                     </a>
+                    <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
                 </li>
             {% endfor %}
         </ul>
-        {% if user.is_authenticated and user.id == user.id %}
-            <a href="{% url 'update_user' user.id %}" class="update-link">Update</a>
-        {% endif %}
     </div>
-</body>
-</html>
+{% endblock %}

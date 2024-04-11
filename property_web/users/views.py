@@ -17,9 +17,9 @@ def user_detail(request, user_id):
     This function to get detail employee.
     """
 
-    user = get_object_or_404(CustomUser, id=user_id)
+    user_detail = get_object_or_404(CustomUser, id=user_id)
     user_posts = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user.id))
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_detail.id))
             .order_by("-created_at")
             .values('id', 'title', 'address', 'area', 'price')[:10]
     )
@@ -31,7 +31,7 @@ def user_detail(request, user_id):
     for post in user_posts:
         post["image"] = image_mapping.get(post["id"])
 
-    context = {"user": user, 'user_posts': user_posts}
+    context = {"user_detail": user_detail, 'user_posts': user_posts}
     return render(request, "detail.html", context)
 
 
