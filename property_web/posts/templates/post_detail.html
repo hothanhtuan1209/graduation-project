@@ -2,8 +2,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
     <div class="post-detail">
-        <img class="post-image" src="{{ post_images.0.image.url }}" alt="{{ post.title }} Image">
+        {% for image in post_images %}
+            <img class="post-image" src="{{ image.image.url }}" alt="{{ post.title }} Image">
+        {% endfor %}
         <h2 class="post-title">{{ post.title }}</h2>
         <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
         <p class="post-area"><strong>Diện tích (m2):</strong> {{ post.area }}</p>
@@ -14,14 +18,14 @@
     </div>
     
     <div class="post-author-info">
-        <p class="post-username"><strong>Người đăng:</strong> {{ user.name }}</p>
-        <p class="post-phone"><strong>Điện thoại:</strong> {{ user.phone_number }}</p>
+        <p class="post-username"><strong>Người đăng:</strong> {{ user_post.username }}</p>
+        <p class="post-phone"><strong>Điện thoại:</strong> {{ user_post.phone_number }}</p>
     </div>
 
     <div class="user-posts">
-        <h3>Danh sách bài viết khác của user.name</h3>
+        <h3>Các bài viết khác của {{ username }}</h3>
         <ul class="post-list">
-            {% for post in user_posts %}
+            {% for post in posts_of_user %}
                 <li class="post-item">
                     <a href="{% url 'post_detail' post_id=post.id %}">
                         {% if post.image %}

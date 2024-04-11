@@ -89,27 +89,28 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post_images = post.image_set.all()
 
-    user = CustomUser.objects.get(pk=post.user_id)
+    user_post = CustomUser.objects.get(pk=post.user_id)
 
-    user_posts = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user))
+    posts_of_user = (
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post))
             .exclude(id=post_id)
             .order_by("-created_at")
-            .values("id", "title", "price", "address", "area")
+            .values()
     )
 
-    post_ids = [post["id"] for post in user_posts]
+    post_ids = [post["id"] for post in posts_of_user]
     images = Image.objects.filter(post_id__in=post_ids)
     image_mapping = {image.post_id: image.image.url for image in images}
 
-    for post in user_posts:
+    for post in posts_of_user:
         post["image"] = image_mapping.get(post["id"])
 
     context = {
         "post": post,
         "post_images": post_images,
-        "user": user,
-        "user_posts": user_posts,
+        "user_post": user_post,
+        "posts_of_user": posts_of_user,
+        "username": user_post.username
     }
 
     return render(request, "post_detail.html", context)
