@@ -21,23 +21,18 @@
             <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user.created_at }}</li>
         </ul>
         <ul class="post-list">
+            <h3>Các bài viết khác của {{ user.username }}</h3>
             {% for post in user_posts %}
                 <li class="post-item">
                     <a href="{% url 'post_detail' post_id=post.id %}">
-                        <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
-                        <span>{{ post.title }} - {{ post.price }}</span>
+                        {% if post.image %}
+                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                        {% endif %}
+                        <span>{{ post.title }}</span>
+                        <span>{{ post.address }}</span>
+                        <span>{{ post.area }}</span>
+                        <span>{{ post.price }}</span>
                     </a>
-                    {% if user.is_authenticated and user.id == post.user_id %}
-                        <div>
-                            <form action="{% url 'update_post' post_id=post.id %}" method="get" style="display: inline;">
-                                <button type="submit" class="update-button">Chỉnh sửa</button>
-                            </form>
-                            <form action="{% url 'update_status' post_id=post.id %}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="status-button">Hết Phòng</button>
-                            </form>
-                        </div>
-                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
