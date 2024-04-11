@@ -89,7 +89,7 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post_images = post.image_set.all()
 
-    user_post = CustomUser.objects.filter(pk=post.user_id).values('username', 'phone_number', 'id').first()
+    user_post = CustomUser.objects.filter(pk=post.user_id).values('username', 'phone_number', 'id').get()
 
     posts_of_user = (
         Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post['id']))
