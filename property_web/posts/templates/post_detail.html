@@ -25,19 +25,19 @@
     <div class="user-posts">
         <h3>Các bài viết khác của {{ username }}</h3>
         <ul class="post-list">
-            {% for post in posts_of_user %}
+            {% for other_post in posts_of_user %}
                 <li class="post-item">
-                    <a href="{% url 'post_detail' post_id=post.id %}">
-                        {% if post.image %}
-                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                    <a href="{% url 'post_detail' post_id=other_post.id %}">
+                        {% if other_post.image %}
+                            <img class="post-image-ava" src="{{ other_post.image }}" alt="{{ other_post.title }} Image">
                         {% endif %}
-                        <span>{{ post.title }}</span>
-                        <span>{{ post.price }}</span>
-                        <span>{{ post.area }}</span>
-                        <span>{{ post.address }}</span>
+                        <span>{{ other_post.title }}</span>
+                        <span>{{ other_post.price }}</span>
+                        <span>{{ other_post.area }}</span>
+                        <span>{{ other_post.address }}</span>
                     </a>
                 </li>
             {% endfor %}
         </ul>
-    </div>
+    </div>    
 {% endblock %}

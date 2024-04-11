@@ -93,17 +93,17 @@ def post_detail(request, post_id):
 
     posts_of_user = (
         Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post))
-            .exclude(id=post_id)
             .order_by("-created_at")
             .values()
+            .exclude(id=post_id)
     )
 
     post_ids = [post["id"] for post in posts_of_user]
     images = Image.objects.filter(post_id__in=post_ids)
     image_mapping = {image.post_id: image.image.url for image in images}
 
-    for post in posts_of_user:
-        post["image"] = image_mapping.get(post["id"])
+    for post_user in posts_of_user:
+        post_user["image"] = image_mapping.get(post_user["id"])
 
     context = {
         "post": post,
