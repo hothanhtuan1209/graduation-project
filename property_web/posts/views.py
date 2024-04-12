@@ -93,10 +93,14 @@ def post_detail(request, post_id):
 
 @require_http_methods(["GET", "POST"])
 def update_post(request, post_id):
+    """
+    This function to get instance of post and display in form. Alows user
+    to edit it
+    """
+
     post = get_object_or_404(Post, id=post_id)
     images = Image.objects.filter(post_id=post_id)
 
-    # Lấy đường dẫn của các ảnh đã có
     existing_image_urls = [image.image.url for image in images]
 
     if request.method == "POST":
@@ -105,7 +109,7 @@ def update_post(request, post_id):
 
         if post_form.is_valid() and image_form.is_valid():
             post = post_form.save()
-            # Lưu các ảnh mới được tải lên
+
             for image in request.FILES.getlist('images'):
                 Image.objects.create(post=post, image=image)
             user_id = post.user.id
@@ -118,5 +122,5 @@ def update_post(request, post_id):
     return render(request, "edit_post.html", {
         "post_form": post_form,
         "image_form": image_form,
-        "existing_image_urls": existing_image_urls  # Truyền danh sách các đường dẫn ảnh đã có vào template
+        "existing_image_urls": existing_image_urls
     })
