@@ -98,14 +98,20 @@ def update_post(request, post_id):
     """
 
     post = get_object_or_404(Post, id=post_id)
-
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save()
-            detail_url = reverse("post_detail", args=[str(post.id)])
-            return redirect(detail_url)
-    else:
-        form = PostForm(instance=post)
+        post_form = PostForm(request.POST, instance=post)
+        image_form = ImageForm(request.POST, request.FILES)
 
-    return render(request, "edit_post.html", {"form": form})
+        if post_form.is_valid() and image_form.is_valid():
+            post = post_form.save()
+            # Save images
+            for image in request.FILES.getlist('images'):
+                Image.objects.create(post=post, image=image)
+            user_id = post.user.id
+            return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
+
+    else:
+        post_form = PostForm(instance=post)
+        image_form = ImageForm()
+
+    return render(request, "edit_post.html", {"post_form": post_form, "image_form": image_form})
