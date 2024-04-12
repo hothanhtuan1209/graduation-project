@@ -11,6 +11,7 @@
             <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user_detail.email }}</li>
             <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user_detail.created_at }}</li>
         </ul>
+        <a href="{% url 'update_user' user_id=user.id %}" class="edit-link">Sửa thông tin cá nhân</a>
         <ul class="post-list">
             {% for post in user_posts %}
                 <li class="post-item">
