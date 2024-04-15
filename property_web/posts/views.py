@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseServerError
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -154,13 +155,17 @@ def update_post(request, post_id):
 
 
 @login_required
+@require_http_methods(["POST"])
 def delete_post(request, post_id):
     """
     View function to delete a post.
     """
 
-    post = get_object_or_404(Post, id=post_id)
-    user_id = post.user.id
+    try:
+        post = get_object_or_404(Post, id=post_id)
+        user_id = post.user.id
+        post.delete()
+        return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
 
-    post.delete()
-    return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
+    except Exception as e:
+        return HttpResponseServerError("Đã xảy ra lỗi trong quá trình xóa bài viết. Vui lòng thử lại sau.")
