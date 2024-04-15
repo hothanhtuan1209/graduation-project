@@ -1,6 +1,4 @@
 from django import forms
-from multiupload.fields import MultiFileField
-from django.core.validators import FileExtensionValidator
 
 from .models import Post
 from images.models import Image
@@ -39,13 +37,29 @@ class PostForm(forms.ModelForm):
         }
 
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            if len(data) > 12:
+                raise forms.ValidationError("Bạn chỉ được phép tải lên tối đa 12 ảnh.")
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = single_file_clean(data, initial)
+        return result
+
+
 class ImageForm(forms.ModelForm):
-    images = MultiFileField(
-        label='Chọn hình ảnh mô tả(tối đa 12)',
-        min_num=1,
-        max_num=12,
-    )
+    image = MultipleFileField(label='Chọn tối đa 12 ảnh:', required=False)
 
     class Meta:
         model = Image
-        fields = ('images',)
+        fields = ['image', ]
