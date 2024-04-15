@@ -147,3 +147,15 @@ def update_post(request, post_id):
         "image_form": image_form,
         "existing_image_urls": existing_image_urls
     })
+
+
+def delete_post(request, post_id):
+    """
+    View function to delete a post.
+    """
+
+    post = get_object_or_404(Post, id=post_id)
+    user_id = post.user.id
+
+    post.delete()
+    return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
