@@ -29,7 +29,7 @@ def create(request):
             post.user = request.user
             post.save()
 
-            images = request.FILES.getlist("images")
+            images = request.FILES.getlist("image")
             image_instances = [Image(post=post, image=image) for image in images]
             Image.objects.bulk_create(image_instances)
 
@@ -118,29 +118,32 @@ def post_detail(request, post_id):
 @require_http_methods(["GET", "POST"])
 def update_post(request, post_id):
     """
-    This function to get instance of post and display in form. Alows user
+    This function to get instance of post and display in form. Allows user
     to edit it
     """
 
     post = get_object_or_404(Post, id=post_id)
-    images = Image.objects.filter(post_id=post_id)
-    existing_image_urls = [image.image.url for image in images]
+    existing_images = Image.objects.filter(post=post)
+    existing_image_urls = [image.image.url for image in existing_images]
 
     if request.method == "POST":
         post_form = PostForm(request.POST, instance=post)
-        image_form = ImageForm(request.POST, request.FILES)
+        image_form = ImageForm(request.POST, request.FILES, instance=post)
 
         if post_form.is_valid() and image_form.is_valid():
             post = post_form.save()
 
-            for image in request.FILES.getlist('images'):
+            existing_images.delete()
+
+            for image in request.FILES.getlist('image'):
                 Image.objects.create(post=post, image=image)
-        user_id = post.user.id
-        return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
+
+            user_id = post.user.id
+            return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
 
     else:
         post_form = PostForm(instance=post)
-        image_form = ImageForm()
+        image_form = ImageForm(instance=post)
 
     return render(request, "edit_post.html", {
         "post_form": post_form,
