@@ -115,6 +115,7 @@ def post_detail(request, post_id):
     return render(request, "post_detail.html", context)
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def update_post(request, post_id):
     """
@@ -152,6 +153,7 @@ def update_post(request, post_id):
     })
 
 
+@login_required
 def delete_post(request, post_id):
     """
     View function to delete a post.
