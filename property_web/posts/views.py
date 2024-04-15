@@ -100,7 +100,6 @@ def update_post(request, post_id):
 
     post = get_object_or_404(Post, id=post_id)
     images = Image.objects.filter(post_id=post_id)
-
     existing_image_urls = [image.image.url for image in images]
 
     if request.method == "POST":
@@ -112,8 +111,8 @@ def update_post(request, post_id):
 
             for image in request.FILES.getlist('images'):
                 Image.objects.create(post=post, image=image)
-            user_id = post.user.id
-            return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
+        user_id = post.user.id
+        return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
 
     else:
         post_form = PostForm(instance=post)
