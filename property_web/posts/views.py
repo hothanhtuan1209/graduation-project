@@ -130,8 +130,7 @@ def update_post(request, post_id):
     """
 
     post = get_object_or_404(Post, id=post_id)
-    existing_images = Image.objects.filter(post=post)
-    existing_image_urls = [image.image.url for image in existing_images]
+    images_urls = [image.image.url for image in Image.objects.filter(post=post)]
 
     if request.method == "POST":
         post_form = PostForm(request.POST, instance=post)
@@ -140,17 +139,14 @@ def update_post(request, post_id):
         if post_form.is_valid() and image_form.is_valid():
             post = post_form.save()
 
-            existing_images.delete()
-
             for image in request.FILES.getlist("image"):
                 Image.objects.create(post=post, image=image)
 
-            user_id = post.user.id
-            return redirect(reverse("user_detail", kwargs={"user_id": user_id}))
+            return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
 
     else:
         post_form = PostForm(instance=post)
-        image_form = ImageForm(instance=post)
+        image_form = ImageForm()
 
     return render(
         request,
@@ -158,7 +154,7 @@ def update_post(request, post_id):
         {
             "post_form": post_form,
             "image_form": image_form,
-            "existing_image_urls": existing_image_urls,
+            "images_urls": images_urls,
         },
     )
 
