@@ -58,7 +58,7 @@ class MultipleFileField(forms.FileField):
 
 
 class ImageForm(forms.ModelForm):
-    image = MultipleFileField(label='Chọn tối đa 12 ảnh:', required=True)
+    image = MultipleFileField(label='Chọn tối đa 12 ảnh:', required=False)
 
     class Meta:
         model = Image
