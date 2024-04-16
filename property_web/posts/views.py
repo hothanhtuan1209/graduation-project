@@ -5,7 +5,6 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseServerError
-from django.views.decorators.http import require_POST
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -139,8 +138,9 @@ def update_post(request, post_id):
         if post_form.is_valid() and image_form.is_valid():
             post = post_form.save()
 
-            for image in request.FILES.getlist("image"):
-                Image.objects.create(post=post, image=image)
+            images = request.FILES.getlist("image")
+            image_instances = [Image(post=post, image=image) for image in images]
+            Image.objects.bulk_create(image_instances)
 
             return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
 
