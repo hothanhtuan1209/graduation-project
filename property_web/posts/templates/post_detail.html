@@ -18,9 +18,9 @@
     </div>
     
     <div class="post-author-info">
-        <p class="post-username"><strong>Người đăng:</strong> {{ user_post.username }}</p>
+        <p class="post-username"><strong>Người đăng:</strong> <a href="{% url 'user_detail' user_id=user_post.id %}">{{ user_post.username }}</a></p>
         <p class="post-phone"><strong>Điện thoại:</strong> {{ user_post.phone_number }}</p>
-    </div>
+    </div>    
 
     <div class="user-posts">
         <h3>Các bài viết khác của {{ user_post.username }}</h3>
