@@ -19,9 +19,12 @@ def user_detail(request, user_id):
 
     user_detail = get_object_or_404(CustomUser, id=user_id)
     user_posts = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_detail.id))
-            .order_by("-created_at")
-            .values('id', 'title', 'address', 'area', 'price')[:10]
+        Post.objects.filter(
+            Q(status=Status.UNAPPROVED.value) | Q(status=Status.AVAILABLE.value),
+            user=user_detail.id
+        )
+        .order_by("-created_at")
+        .values('id', 'title', 'address', 'status')[:10]
     )
 
     post_ids = [post["id"] for post in user_posts]

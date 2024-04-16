@@ -34,7 +34,8 @@ def create(request):
             image_instances = [Image(post=post, image=image) for image in images]
             Image.objects.bulk_create(image_instances)
 
-            return redirect("home")
+            user_id = request.user.id
+            return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
     else:
         post_form = PostForm()
         image_form = ImageForm()

@@ -21,8 +21,11 @@
                         {% endif %}
                         <span>{{ post.title }}</span>
                         <span>{{ post.address }}</span>
-                        <span>{{ post.area }}</span>
-                        <span>{{ post.price }}</span>
+                        {% if post.status == 'UNAPPROVED' %}
+                            <span>Chưa duyệt</span>
+                        {% elif post.status == 'AVAILABLE' %}
+                            <span>Đã duyệt</span>
+                        {% endif %}
                     </a>
                     <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
                     <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
