@@ -11,7 +11,9 @@
             <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user_detail.email }}</li>
             <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user_detail.created_at }}</li>
         </ul>
-        <a href="{% url 'update_user' user_id=user.id %}" class="edit-link">Sửa thông tin cá nhân</a>
+        {% if request.user == user_detail %}
+            <a href="{% url 'update_user' user_id=user.id %}" class="edit-link">Sửa thông tin cá nhân</a>
+        {% endif %}
         <ul class="post-list">
             {% for post in user_posts %}
                 <li class="post-item">
@@ -21,14 +23,16 @@
                         {% endif %}
                         <span>{{ post.title }}</span>
                         <span>{{ post.address }}</span>
-                        {% if post.status == 'UNAPPROVED' %}
+                        {% if post.status == 'UNAPPROVED'%}
                             <span>Chưa duyệt</span>
                         {% elif post.status == 'AVAILABLE' %}
                             <span>Đã duyệt</span>
                         {% endif %}
                     </a>
-                    <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
-                    <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
+                    {% if request.user == user_detail %}
+                        <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
+                        <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
