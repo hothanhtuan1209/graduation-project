@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.http import HttpResponseServerError
+from django.views.decorators.http import require_POST
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -90,13 +91,17 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post_images = post.image_set.all()
 
-    user_post = CustomUser.objects.filter(pk=post.user_id).values('username', 'phone_number', 'id').get()
+    user_post = (
+        CustomUser.objects.filter(pk=post.user_id)
+        .values("username", "phone_number", "id")
+        .get()
+    )
 
     posts_of_user = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post['id']))
-            .exclude(id=post_id)
-            .order_by("-created_at")
-            .values('id', 'title', 'address')[:5]
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post["id"]))
+        .exclude(id=post_id)
+        .order_by("-created_at")
+        .values("id", "title", "address")[:5]
     )
 
     post_ids = [post["id"] for post in posts_of_user]
@@ -137,7 +142,7 @@ def update_post(request, post_id):
 
             existing_images.delete()
 
-            for image in request.FILES.getlist('image'):
+            for image in request.FILES.getlist("image"):
                 Image.objects.create(post=post, image=image)
 
             user_id = post.user.id
@@ -147,22 +152,25 @@ def update_post(request, post_id):
         post_form = PostForm(instance=post)
         image_form = ImageForm(instance=post)
 
-    return render(request, "edit_post.html", {
-        "post_form": post_form,
-        "image_form": image_form,
-        "existing_image_urls": existing_image_urls
-    })
+    return render(
+        request,
+        "edit_post.html",
+        {
+            "post_form": post_form,
+            "image_form": image_form,
+            "existing_image_urls": existing_image_urls,
+        },
+    )
 
 
 @login_required
-@require_http_methods(["POST"])
 def delete_post(request, post_id):
     """
     View function to delete a post.
     """
 
     try:
-        post = get_object_or_404(Post, id=post_id)
+        post = Post.objects.get(id=post_id)
         user_id = post.user.id
         post.delete()
         return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
