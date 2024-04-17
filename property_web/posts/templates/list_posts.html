@@ -26,6 +26,12 @@
             <option value="15_to_25">Từ 15-25 m2</option>
             <option value="gt_25">Lớn hơn 25 m2</option>
         </select>
+        <label for="order_by">Sắp xếp theo:</label>
+        <select name="order_by" id="order_by">
+            <option value="-created_at">Thời gian tạo</option>
+            <option value="-price">Giá từ cao đến thấp</option>
+            <option value="price">Giá từ thấp đến cao</option>
+        </select>
 
         <button type="submit">Tìm Kiếm</button>
     </form>
