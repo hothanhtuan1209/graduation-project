@@ -50,13 +50,15 @@ def list_post(request):
 
     request_data = request.GET
     query_filter = build_query_filter(request_data)
+    order_by = request_data.get("order_by", "-created_at")
 
     posts = (
         Post.objects.filter(Q(status=Status.AVAILABLE.value) & query_filter)
+        .order_by(order_by)
         .values("id", "title", "price", "address", "area")
     )
-    order_by = request_data.get("order_by", "-created_at")
-    posts = posts.order_by(order_by)
+    # order_by = request_data.get("order_by", "-created_at")
+    # posts = posts.order_by(order_by)
 
     paginator = Paginator(posts, PAGE_SIZE)
     page = request.GET.get("page", 1)
