@@ -1,49 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Detail</title>
-</head>
-<body>
-    <style>
-        .post-image-ava {
-            width: 30px;
-            height: 30px;
-        }
-    </style>
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
     <div class="container">
         <h1 class="title">User Detail</h1>
         <ul class="detail-list">
-            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user.username }}</li>
-            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user.phone_number }}</li>
-            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user.email }}</li>
-            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user.created_at }}</li>
+            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user_detail.username }}</li>
+            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user_detail.phone_number }}</li>
+            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user_detail.email }}</li>
+            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user_detail.created_at }}</li>
         </ul>
+        {% if request.user == user_detail %}
+            <a href="{% url 'update_user' user_id=user.id %}" class="edit-link">Sửa thông tin cá nhân</a>
+        {% endif %}
         <ul class="post-list">
             {% for post in user_posts %}
                 <li class="post-item">
                     <a href="{% url 'post_detail' post_id=post.id %}">
-                        <img class="post-image-ava" src="{{ post.image_set.first.image.url }}" alt="{{ post.title }} Image">
-                        <span>{{ post.title }} - {{ post.price }}</span>
+                        {% if post.image %}
+                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                        {% endif %}
+                        <span>{{ post.title }}</span>
+                        <span>{{ post.address }}</span>
+                        {% if post.status == 'UNAPPROVED'%}
+                            <span>Chưa duyệt</span>
+                        {% elif post.status == 'AVAILABLE' %}
+                            <span>Đã duyệt</span>
+                        {% endif %}
                     </a>
-                    {% if user.is_authenticated and user.id == post.user_id %}
-                        <div>
-                            <form action="{% url 'update_post' post_id=post.id %}" method="get" style="display: inline;">
-                                <button type="submit" class="update-button">Chỉnh sửa</button>
-                            </form>
-                            <form action="{% url 'update_status' post_id=post.id %}" method="post" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="status-button">Hết Phòng</button>
-                            </form>
-                        </div>
+                    {% if request.user == user_detail %}
+                        <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
+                        <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
                     {% endif %}
                 </li>
             {% endfor %}
         </ul>
-        {% if user.is_authenticated and user.id == user.id %}
-            <a href="{% url 'update_user' user.id %}" class="update-link">Update</a>
-        {% endif %}
     </div>
-</body>
-</html>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseServerError
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -29,11 +30,12 @@ def create(request):
             post.user = request.user
             post.save()
 
-            images = request.FILES.getlist("images")
+            images = request.FILES.getlist("image")
             image_instances = [Image(post=post, image=image) for image in images]
             Image.objects.bulk_create(image_instances)
 
-            return redirect("home")
+            user_id = request.user.id
+            return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
     else:
         post_form = PostForm()
         image_form = ImageForm()
@@ -89,13 +91,17 @@ def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     post_images = post.image_set.all()
 
-    user_post = CustomUser.objects.filter(pk=post.user_id).values('username', 'phone_number', 'id').get()
+    user_post = (
+        CustomUser.objects.filter(pk=post.user_id)
+        .values("username", "phone_number", "id")
+        .get()
+    )
 
     posts_of_user = (
-        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post['id']))
-            .exclude(id=post_id)
-            .order_by("-created_at")
-            .values('id', 'title', 'address')[:5]
+        Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post["id"]))
+        .exclude(id=post_id)
+        .order_by("-created_at")
+        .values("id", "title", "address")[:5]
     )
 
     post_ids = [post["id"] for post in posts_of_user]
@@ -115,21 +121,56 @@ def post_detail(request, post_id):
     return render(request, "post_detail.html", context)
 
 
+@login_required
 @require_http_methods(["GET", "POST"])
 def update_post(request, post_id):
     """
-    View function to update information of a post.
+    This function to get instance of post and display in form. Allows user
+    to edit it
     """
 
     post = get_object_or_404(Post, id=post_id)
+    images_urls = [image.image.url for image in Image.objects.filter(post=post)]
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save()
-            detail_url = reverse("post_detail", args=[str(post.id)])
-            return redirect(detail_url)
-    else:
-        form = PostForm(instance=post)
+        post_form = PostForm(request.POST, instance=post)
+        image_form = ImageForm(request.POST, request.FILES, instance=post)
 
-    return render(request, "edit_post.html", {"form": form})
+        if post_form.is_valid() and image_form.is_valid():
+            post = post_form.save()
+
+            images = request.FILES.getlist("image")
+            image_instances = [Image(post=post, image=image) for image in images]
+            Image.objects.bulk_create(image_instances)
+
+            return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
+
+    else:
+        post_form = PostForm(instance=post)
+        image_form = ImageForm()
+
+    return render(
+        request,
+        "edit_post.html",
+        {
+            "post_form": post_form,
+            "image_form": image_form,
+            "images_urls": images_urls,
+        },
+    )
+
+
+@login_required
+def delete_post(request, post_id):
+    """
+    View function to delete a post.
+    """
+
+    try:
+        post = Post.objects.get(id=post_id)
+        user_id = post.user.id
+        post.delete()
+        return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
+
+    except Exception as e:
+        return HttpResponseServerError("Đã xảy ra lỗi trong quá trình xóa bài viết. Vui lòng thử lại sau.")
