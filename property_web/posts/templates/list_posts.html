@@ -37,9 +37,9 @@
         <input type="hidden" name="area_range" value="{{ request.GET.area_range }}">
         <label for="order_by">Sắp xếp theo:</label>
         <select name="order_by" id="order_by">
-            <option value="-created_at" {% if request.GET.order_by == '-created_at' %} selected {% endif %}>Thời gian tạo</option>
-            <option value="-price" {% if request.GET.order_by == '-price' %} selected {% endif %}>Giá từ cao đến thấp</option>
-            <option value="price" {% if request.GET.order_by == 'price' %} selected {% endif %}>Giá từ thấp đến cao</option>
+            <option value="-created_at" {% if order_by_selected == '-created_at' %} selected {% endif %}>Thời gian tạo</option>
+            <option value="-price" {% if order_by_selected == '-price' %} selected {% endif %}>Giá từ cao đến thấp</option>
+            <option value="price" {% if order_by_selected == 'price' %} selected {% endif %}>Giá từ thấp đến cao</option>
         </select>
         <button type="submit">Sắp Xếp</button>
     </form>

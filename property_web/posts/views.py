@@ -57,8 +57,8 @@ def list_post(request):
         .order_by(order_by)
         .values("id", "title", "price", "address", "area")
     )
-    # order_by = request_data.get("order_by", "-created_at")
-    # posts = posts.order_by(order_by)
+
+    order_by_selected = request.GET.get('order_by')
 
     paginator = Paginator(posts, PAGE_SIZE)
     page = request.GET.get("page", 1)
@@ -77,6 +77,7 @@ def list_post(request):
 
     context = {
         "posts": posts_page,
+        "order_by_selected": order_by_selected
     }
 
     return render(request, "list_posts.html", context)
