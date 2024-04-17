@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import user_detail, update_user
-
+from .views import UserDetailView, UpdateUserView
 
 urlpatterns = [
-    path('detail/<str:user_id>/', user_detail, name='user_detail'),
-    path('detail/<str:user_id>/edit/', update_user, name='update_user')
+    path('detail/<str:user_id>/', UserDetailView.as_view(), name='user_detail'),
+    path('detail/<str:user_id>/edit/', UpdateUserView.as_view(), name='update_user')
 ]
