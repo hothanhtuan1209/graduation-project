@@ -1,32 +1,36 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
+from django.contrib.auth.views import LogoutView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import (
     PasswordChangeForm,
     AuthenticationForm,
 )
-from django.contrib import messages
 
 from .forms import SignUpForm
 
 
-def user_signup(request):
-    """
-    This function handles user sign up.
-    """
+class UserSignupView(TemplateView):
+    template_name = 'signup.html'
 
-    if request.method == "POST":
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SignUpForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
         form = SignUpForm(request.POST)
 
         if form.is_valid():
             form.save()
             return redirect("login")
-    else:
-        form = SignUpForm()
 
-    return render(request, "signup.html", {"form": form})
+        else:
+            context = self.get_context_data(**kwargs)
+            context['form'] = form
+            return render(request, self.template_name, context)
 
 
 class UserLoginView(TemplateView):
@@ -55,33 +59,31 @@ class UserLoginView(TemplateView):
         return self.render_to_response(context)
 
 
-@login_required
-def change_password(request):
-    """
-    This is function to change password for user
-    """
+class ChangePasswordView(LoginRequiredMixin, TemplateView):
+    template_name = 'change_password.html'
 
-    if request.method == "POST":
-        form = PasswordChangeForm(request.user, request.POST)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = PasswordChangeForm(self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = PasswordChangeForm(self.request.user, request.POST)
 
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
-            return redirect("login")
-        else:
-            messages.error(request, "Please correct the error below.")
+            return redirect('login')
 
-    else:
-        form = PasswordChangeForm(request.user)
+        context = self.get_context_data(**kwargs)
+        context["form"] = form
 
-    return render(request, "change_password.html", {"form": form})
+        return self.render_to_response(context)
 
 
-@login_required
-def user_logout(request):
+class UserLogoutView(LogoutView):
     """
     This is function to log out account user
     """
 
-    logout(request)
-    return redirect("login")
+    next_page = 'login'
