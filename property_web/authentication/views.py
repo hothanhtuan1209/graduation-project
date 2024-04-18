@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
+from django.views.generic import TemplateView
 from django.contrib.auth.forms import (
     PasswordChangeForm,
     AuthenticationForm,
@@ -10,9 +10,6 @@ from django.contrib.auth.forms import (
 from django.contrib import messages
 
 from .forms import SignUpForm
-from posts.models import Post
-from images.models import Image
-from property_web.constants.enum import Status
 
 
 def user_signup(request):
@@ -32,13 +29,16 @@ def user_signup(request):
     return render(request, "signup.html", {"form": form})
 
 
-def user_login(request):
-    """
-    This function handles user login and authentication.
-    """
+class UserLoginView(TemplateView):
+    template_name = 'login.html'
 
-    if request.method == "POST":
-        form = AuthenticationForm(request, request.POST)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = AuthenticationForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = AuthenticationForm(request, data=request.POST)
 
         if form.is_valid():
             username = form.cleaned_data["username"]
@@ -47,21 +47,12 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
-                return redirect("home")
-        else:
-            return render(
-                request,
-                "login.html",
-                {
-                    "form": form,
-                    "error": "Username or password is incorrect, please re-enter",
-                },
-            )
+                return redirect('home')
 
-    else:
-        form = AuthenticationForm()
+        context = self.get_context_data(**kwargs)
+        context["form"] = form
 
-    return render(request, "login.html", {"form": form})
+        return self.render_to_response(context)
 
 
 @login_required
