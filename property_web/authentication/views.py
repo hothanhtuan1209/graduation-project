@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
