@@ -1,8 +1,22 @@
 from django.views.generic import TemplateView
+from django.views import View
+from django.shortcuts import get_object_or_404
 
 from posts.models import Post
 from images.models import Image
 from property_web.constants.enum import Status
+
+
+class BaseView(View):
+    """
+    Base view class to contain common functionality shared by other views.
+    """
+
+    def get_object_or_404(self, model, **kwargs):
+        """
+        A helper method to get an object from the database or return 404.
+        """
+        return get_object_or_404(model, **kwargs)
 
 
 class HomePageView(TemplateView):

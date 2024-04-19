@@ -53,8 +53,10 @@ class UserLoginView(TemplateView):
                 login(request, user)
                 return redirect('home')
 
-        context = self.get_context_data(**kwargs)
-        context["form"] = form
+        else:
+            context = self.get_context_data(**kwargs)
+            context["form"] = form
+            context["error"] = 'Username or password is incorrect, please re-enter'
 
         return self.render_to_response(context)
 
