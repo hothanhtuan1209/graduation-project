@@ -30,7 +30,8 @@ class UserSignupView(TemplateView):
         else:
             context = self.get_context_data(**kwargs)
             context['form'] = form
-            return render(request, self.template_name, context)
+
+        return self.render_to_response(context)
 
 
 class UserLoginView(TemplateView):

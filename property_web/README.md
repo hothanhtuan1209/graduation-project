@@ -59,6 +59,10 @@ https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 7. Running server
 >py manage.py runserver
 
+8. Login
+username: user
+password: user12345678
+
 
 ## Contribute
  - If you want to contribute to this project, please create a pull request and clearly describe the changes you propose
