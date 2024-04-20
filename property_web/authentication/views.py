@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic import TemplateView
@@ -27,9 +27,8 @@ class UserSignupView(TemplateView):
             form.save()
             return redirect("login")
 
-        else:
-            context = self.get_context_data(**kwargs)
-            context['form'] = form
+        context = self.get_context_data(**kwargs)
+        context['form'] = form
 
         return self.render_to_response(context)
 
@@ -54,10 +53,9 @@ class UserLoginView(TemplateView):
                 login(request, user)
                 return redirect('home')
 
-        else:
-            context = self.get_context_data(**kwargs)
-            context["form"] = form
-            context["error"] = 'Username or password is incorrect, please re-enter'
+        context = self.get_context_data(**kwargs)
+        context["form"] = form
+        context["error"] = 'Username or password is incorrect, please re-enter'
 
         return self.render_to_response(context)
 
