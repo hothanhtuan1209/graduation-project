@@ -1,9 +1,7 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DeleteView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.views.decorators.http import require_http_methods
-from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
 from django.db.models import Q
 from django.http import HttpResponseServerError
 
@@ -42,11 +40,10 @@ class CreatePostView(TemplateView):
             user_id = request.user.id
             return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
 
-        else:
-            context = self.get_context_data(**kwargs)
-            context['post_form'] = post_form
-            context['image_form'] = image_form
-            return context
+        context = self.get_context_data(**kwargs)
+        context['post_form'] = post_form
+        context['image_form'] = image_form
+        return context
 
 
 class ListPostView(TemplateView):
@@ -160,28 +157,25 @@ class UpdatePostView(TemplateView):
                 Image.objects.create(post=post, image=image)
             return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
 
-        else:
-            context = self.get_context_data(**kwargs)
-            context = {
-                "post_form": PostForm(instance=post),
-                "image_form": ImageForm(),
-            }
-            return self.render_to_response(context)
+        context = self.get_context_data(**kwargs)
+        context = {
+            "post_form": PostForm(instance=post),
+            "image_form": ImageForm(),
+        }
+        return self.render_to_response(context)
 
 
-@login_required
-@require_http_methods(["POST"])
-def delete_post(request, post_id):
+class PostDeleteView(DeleteView):
     """
     View function to delete a post.
     """
+    model = Post
+    success_url = reverse_lazy('user_detail')
+    template_name = 'posts/templates/post_confirm_delete.html'
 
-    try:
-        post = Post.objects.get(id=post_id)
-        user_id = post.user.id
-        post.delete()
-
-        return redirect(reverse('user_detail', kwargs={'user_id': user_id}))
-
-    except Exception as e:
-        return HttpResponseServerError("Đã xảy ra lỗi trong quá trình xóa bài viết. Vui lòng thử lại sau.")
+    def post(self, request, *args, **kwargs):
+        try:
+            user_id = self.get_object().user.id
+            return super().post(request, *args, **kwargs)
+        except Exception as e:
+            return HttpResponseServerError("Đã xảy ra lỗi trong quá trình xóa bài viết. Vui lòng thử lại sau.")
