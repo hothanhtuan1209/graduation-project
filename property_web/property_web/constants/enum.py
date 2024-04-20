@@ -26,4 +26,3 @@ class Type(Enum):
     """
 
     RENT = 'RENT'
-    SALE = 'SALE'
