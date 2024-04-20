@@ -39,27 +39,27 @@ class UserDetailView(TemplateView):
         return context
 
 
-@method_decorator(login_required, name="dispatch")
-class UpdateUserView(View):
+class UpdateUserView(TemplateView):
     template_name = "update.html"
-    form_class = UserForm
 
-    def get(self, request, *args, **kwargs):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         user_id = self.kwargs.get("user_id")
         user = get_object_or_404(CustomUser, id=user_id)
-        form = self.form_class(instance=user)
-        return render(
-            request, self.template_name, {"form": form}
-        )
+        form = UserForm(instance=user)
+        context['form'] = form
+
+        return context
 
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs.get("user_id")
         user = get_object_or_404(CustomUser, id=user_id)
-        form = self.form_class(request.POST, instance=user)
+        form = UserForm(request.POST, instance=user)
+
         if form.is_valid():
             user = form.save()
             detail_url = reverse("user_detail", args=[str(user.id)])
             return redirect(detail_url)
-        return render(
-            request, self.template_name, {"form": form}
-        )
+
+        return self.render_to_response(self.get_context_data())

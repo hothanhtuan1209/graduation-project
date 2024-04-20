@@ -170,12 +170,10 @@ class PostDeleteView(DeleteView):
     View function to delete a post.
     """
     model = Post
-    success_url = reverse_lazy('user_detail')
     template_name = 'posts/templates/post_confirm_delete.html'
 
-    def post(self, request, *args, **kwargs):
-        try:
-            user_id = self.get_object().user.id
-            return super().post(request, *args, **kwargs)
-        except Exception as e:
-            return HttpResponseServerError("Đã xảy ra lỗi trong quá trình xóa bài viết. Vui lòng thử lại sau.")
+    def get_object(self, queryset=None):
+        return self.model.objects.get(pk=self.kwargs['post_id'])
+
+    def get_success_url(self):
+        return reverse_lazy('user_detail', kwargs={'user_id': self.request.user.id})
