@@ -9,6 +9,3 @@ __pycache__/
 
 # Ignore media folder
 media/
-
-# Ignore database
-db.sqlite3
