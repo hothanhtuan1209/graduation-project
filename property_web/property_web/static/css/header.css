@@ -7,7 +7,7 @@
     }
     .header_list_title {
         display: flex;
-        width: 500px;
+        width: 750px;
         justify-content: space-between;
         h2 {
             font-size: 20px;
