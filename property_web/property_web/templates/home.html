@@ -1,40 +1,44 @@
 <!-- home_page.html -->
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block extrahead %} 
+    <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock extrahead %}
 
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
+    <div class="container">
+        <h2 class="h4">Tin nổi bật</h2>
+        <ul class="list-group">
+            {% for post in hot_posts %}
+                <li class="list-group-item">
+                    <a href="{% url 'post_detail' post_id=post.id %}">
+                        {% if post.image %}
+                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                        {% endif %}
+                        <span class="fw-bold">{{ post.title }}</span>
+                        <span class="badge bg-primary">{{ post.price }}</span>
+                        <span>{{ post.address }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
 
-    <h2 class="subheading">Hot Posts</h2>
-    <ul class="post-list">
-        {% for post in hot_posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    {% if post.image %}
-                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                    {% endif %}
-                    <span>{{ post.title }}</span>
-                    <span>{{ post.price }}</span>
-                    <span>{{ post.address }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-
-    <h2 class="subheading">Normal Posts</h2>
-    <ul class="post-list">
-        {% for post in normal_posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    {% if post.image %}
-                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                    {% endif %}
-                    <span>{{ post.title }}</span>
-                    <span>{{ post.price }}</span>
-                    <span>{{ post.address }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'list_posts' %}" class="btn">Xem thêm</a>
+        <h2 class="h4 mt-4">Khác</h2>
+        <ul class="list-group">
+            {% for post in normal_posts %}
+                <li class="list-group-item">
+                    <a href="{% url 'post_detail' post_id=post.id %}">
+                        {% if post.image %}
+                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+                        {% endif %}
+                        <span class="fw-bold">{{ post.title }}</span>
+                        <span class="badge bg-primary">{{ post.price }}</span>
+                        <span>{{ post.address }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'list_posts' %}" class="btn btn-primary mt-4">Xem thêm</a>
+    </div>
 {% endblock %}

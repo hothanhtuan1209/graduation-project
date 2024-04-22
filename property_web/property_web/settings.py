@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "storages",
     "reviews",
     "favorites",
-    "property_web"
+    "property_web",
+    "django_bootstrap5"
 ]
 
 MIDDLEWARE = [
