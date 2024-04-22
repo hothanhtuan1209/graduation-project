@@ -43,9 +43,10 @@
             {% endif %}
         </div>
     </header>
-    <div class="content">
-        {% block content %}
-        {% endblock %}
+    <div class="container">
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
     {% comment %} Script of base {% endcomment %}
     {% block extrastcrip%} {%endblock extrastcrip%}
