@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import TemplateView, DeleteView
+from django.views.generic import DeleteView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
-from django.http import HttpResponseServerError
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import PostForm, ImageForm
 from .models import Post
@@ -12,9 +12,10 @@ from images.models import Image
 from property_web.constants.enum import Status
 from .helpers.build_query_filter import build_query_filter
 from property_web.settings import PAGE_SIZE
+from property_web.views import BaseView
 
 
-class CreatePostView(TemplateView):
+class CreatePostView(LoginRequiredMixin, BaseView):
     template_name = 'create_post.html'
 
     def get_context_data(self, **kwargs):
@@ -46,7 +47,7 @@ class CreatePostView(TemplateView):
         return context
 
 
-class ListPostView(TemplateView):
+class ListPostView(BaseView):
     template_name = 'list_posts.html'
 
     def get_context_data(self, **kwargs):
@@ -84,7 +85,7 @@ class ListPostView(TemplateView):
         return context
 
 
-class PostDetailView(TemplateView):
+class PostDetailView(BaseView):
     template_name = 'post_detail.html'
 
     def get_context_data(self, **kwargs):
@@ -124,7 +125,7 @@ class PostDetailView(TemplateView):
         return context
 
 
-class UpdatePostView(TemplateView):
+class UpdatePostView(LoginRequiredMixin, BaseView):
     template_name = 'edit_post.html'
 
     def get_context_data(self, **kwargs):
@@ -165,7 +166,7 @@ class UpdatePostView(TemplateView):
         return self.render_to_response(context)
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     """
     View function to delete a post.
     """

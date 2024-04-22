@@ -1,25 +1,27 @@
 from django.views.generic import TemplateView
-from django.views import View
-from django.shortcuts import get_object_or_404
 
 from posts.models import Post
 from images.models import Image
 from property_web.constants.enum import Status
 
 
-class BaseView(View):
+class BaseView(TemplateView):
     """
     Base view class to contain common functionality shared by other views.
     """
 
-    def get_object_or_404(self, model, **kwargs):
+    def get_current_user(self, **kwargs):
         """
-        A helper method to get an object from the database or return 404.
+        A helper method to get the current logged-in user.
         """
-        return get_object_or_404(model, **kwargs)
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['user'] = user
+
+        return context
 
 
-class HomePageView(TemplateView):
+class HomePageView(BaseView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):

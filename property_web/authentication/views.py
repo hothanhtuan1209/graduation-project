@@ -1,7 +1,6 @@
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import update_session_auth_hash
-from django.views.generic import TemplateView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import (
@@ -10,9 +9,10 @@ from django.contrib.auth.forms import (
 )
 
 from .forms import SignUpForm
+from property_web.views import BaseView
 
 
-class UserSignupView(TemplateView):
+class UserSignupView(BaseView):
     template_name = 'signup.html'
 
     def get_context_data(self, **kwargs):
@@ -33,7 +33,7 @@ class UserSignupView(TemplateView):
         return self.render_to_response(context)
 
 
-class UserLoginView(TemplateView):
+class UserLoginView(BaseView):
     template_name = 'login.html'
 
     def get_context_data(self, **kwargs):
@@ -60,7 +60,7 @@ class UserLoginView(TemplateView):
         return self.render_to_response(context)
 
 
-class ChangePasswordView(LoginRequiredMixin, TemplateView):
+class ChangePasswordView(LoginRequiredMixin, BaseView):
     template_name = 'change_password.html'
 
     def get_context_data(self, **kwargs):
@@ -82,7 +82,7 @@ class ChangePasswordView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class UserLogoutView(LogoutView):
+class UserLogoutView(LoginRequiredMixin, LogoutView):
     """
     This is function to log out account user
     """

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}HomeHaven{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    {% block extrahead%} {%endblock extrahead%}
+</head>
+<body>
+    <header class = "header" >
+        <h1 class="logo">HOMEHAVEN</h1>
+        <div class="header_list_title"> 
+            <h2>Trang Chủ</h2>
+            <h2 class="select">Cho Thuê</h2>
+            <h2>Mua Bán</h2>
+            <h2>Liên Hệ</h2>
+        </div>
+        <div>
+            {% if user.is_authenticated %}
+                <form action="{% url 'create_post' %}" method="get">
+                    <button type="submit">Create Post</button>
+                </form>
+                <div class="dropdown">
+                    <button class="dropbtn">{{ user.username }}</button>
+                    <div class="dropdown-content">
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                        <form action="{% url 'change_password' %}" method="get">
+                            <button type="submit">Change Password</button>
+                        </form>
+                        <form action="{% url 'user_detail' user_id=user.id %}" method="get">
+                            <button type="submit">Information user</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <form action="{% url 'login' %}" method="get">
+                    <button type="submit">Login/Register</button>
+                </form>
+            {% endif %}
+        </div>
+    </header>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% comment %} Script of base {% endcomment %}
+    {% block extrastcrip%} {%endblock extrastcrip%}
+</body>
+</html>

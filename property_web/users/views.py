@@ -1,19 +1,17 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views import View
-from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.db.models import Q
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import CustomUser
+from property_web.views import BaseView
 from .forms import UserForm
 from posts.models import Post
 from images.models import Image
 from property_web.constants.enum import Status
 
 
-class UserDetailView(TemplateView):
+class UserDetailView(BaseView):
     template_name = "detail.html"
 
     def get_context_data(self, **kwargs):
@@ -39,7 +37,7 @@ class UserDetailView(TemplateView):
         return context
 
 
-class UpdateUserView(TemplateView):
+class UpdateUserView(LoginRequiredMixin, BaseView):
     template_name = "update.html"
 
     def get_context_data(self, **kwargs):
