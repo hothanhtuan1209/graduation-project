@@ -86,21 +86,33 @@ body {
 	flex-direction: column;
 	gap: 10px;
 	color: #484848;
+	overflow: hidden;
 }
 
 .item-link {
 	text-decoration: none;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .title-content {
 	font-size: 17px;
 	font-weight: 700;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.address-content {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .post-image {
-	width: 70px;
-	height: 70px;
-	border-radius: 50%;
+	width: 235px;
+	height: 175px;
+	border-radius: 6px;
 	margin-bottom: 20px;
 }
 
