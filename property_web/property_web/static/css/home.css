@@ -139,3 +139,29 @@ body {
 	font-weight: 700;
 	text-decoration: none;
 }
+
+.header-content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 65px;
+	margin: 15px 0;
+}
+
+.content-title {
+	color: #484848;
+}
+
+.content-nav .nav-list li:nth-child(1) .nav-item {
+	position: relative;
+}
+
+.content-nav .nav-list li:nth-child(1) .nav-item::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -2px;
+	width: 100%;
+	height: 2px;
+	background-color: #484848;
+}
