@@ -1,0 +1,19 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/components/post_item.css' %}" />
+<li class="item-group">
+	<i class="fa-regular fa-heart fa-xl"></i>
+	<a class="item-link" href="{% url 'post_detail' post_id=post.id %}">
+		{% if post.image %}
+		<img
+			class="post-image"
+			src="{{ post.image }}"
+			alt="{{ post.title }} Image"
+		/>
+		{% endif %}
+		<div class="item-content">
+			<span class="title-content">{{ post.title }}</span>
+			<span class="badge bg-primary">{{ post.price }} VNĐ</span>
+			<span>{{ post.address }}</span>
+		</div>
+	</a>
+</li>

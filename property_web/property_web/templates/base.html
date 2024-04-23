@@ -24,7 +24,7 @@
 						<a href="javascript:void(0)" class="nav-item">Trang Chủ</a>
 					</li>
 					<li>
-						<a href="javascript:void(0)" class="nav-item">Cho Thuê</a>
+						<a href="#" class="nav-item">Cho Thuê</a>
 					</li>
 					<li>
 						<a href="javascript:void(0)" class="nav-item">Mua Bán</a>
@@ -37,7 +37,7 @@
 			{% if user.is_authenticated %}
 			<form action="{% url 'create_post' %}" method="get">
 				<button class="header-btn btn-add" type="submit">
-					Create Post
+					Tạo bài đăng
 					<i class="fa-solid fa-plus"></i>
 				</button>
 			</form>
@@ -48,23 +48,23 @@
 				<div class="dropdown-content">
 					<form action="{% url 'logout' %}" method="post">
 						{% csrf_token %}
-						<button class="header-btn btn-content" type="submit">Logout</button>
+						<button class="header-btn btn-content" type="submit">Đăng xuất</button>
 					</form>
 					<form action="{% url 'change_password' %}" method="get">
 						<button class="header-btn btn-content" type="submit">
-							Change Password
+							Đổi mật khẩu
 						</button>
 					</form>
 					<form action="{% url 'user_detail' user_id=user.id %}" method="get">
 						<button class="header-btn btn-content" type="submit">
-							Information user
+							Tài khoản
 						</button>
 					</form>
 				</div>
 			</div>
 			{% else %}
 			<form action="{% url 'login' %}" method="get">
-				<button class="header-btn" type="submit">Login/Register</button>
+				<button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
 			</form>
 			{% endif %}
 		</header>

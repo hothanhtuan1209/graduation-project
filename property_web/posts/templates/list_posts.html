@@ -10,15 +10,15 @@
     <form method="get" action="{% url 'list_posts' %}">
         <label for="address">Địa chỉ:</label>
         <input type="text" name="address" id="address" value="{{ request.GET.address }}">
-    
+
         <label for="price_range">Giá:</label>
         <select name="price_range" id="price_range">
-            <option value="" {% if request.GET.price_range == "" %} selected {% endif %}>Tất cả</option>
+          	<option value="" {% if request.GET.price_range == "" %} selected {% endif %}>Tất cả</option>
             <option value="lt_2m" {% if request.GET.price_range == "lt_2m" %} selected {% endif %}>Dưới 2 triệu</option>
             <option value="2m_to_3m" {% if request.GET.price_range == "2m_to_3m" %} selected {% endif %}>Từ 2-3 triệu</option>
             <option value="gt_3m" {% if request.GET.price_range == "gt_3m" %} selected {% endif %}>Lớn hơn 3 triệu</option>
         </select>
-    
+
         <label for="area_range">Diện tích:</label>
         <select name="area_range" id="area_range">
             <option value="" {% if request.GET.area_range == "" %} selected {% endif %}>Tất cả</option>
@@ -26,7 +26,7 @@
             <option value="15_to_25" {% if request.GET.area_range == "15_to_25" %} selected {% endif %}>Từ 15-25 m2</option>
             <option value="gt_25" {% if request.GET.area_range == "gt_25" %} selected {% endif %}>Lớn hơn 25 m2</option>
         </select>
-    
+
         <button type="submit">Tìm Kiếm</button>
     </form>
 

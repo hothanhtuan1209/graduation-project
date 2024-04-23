@@ -33,11 +33,11 @@
 	text-decoration: none;
 }
 
-.nav-list li:nth-child(2) .nav-item {
+.header-nav .nav-list li:nth-child(2) .nav-item {
 	position: relative;
 }
 
-.nav-list li:nth-child(2) .nav-item::after {
+.header-nav .nav-list li:nth-child(2) .nav-item::after {
 	content: "";
 	position: absolute;
 	left: 0;
