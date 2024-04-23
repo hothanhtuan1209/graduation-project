@@ -105,8 +105,8 @@ body {
 
 .address-content {
 	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .post-image {
