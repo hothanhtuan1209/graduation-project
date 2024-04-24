@@ -1,10 +1,12 @@
 <!-- home_page.html -->
 {% extends 'base.html' %}
 {% load static %}
+
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 <link rel="stylesheet" href="{% static 'css/components/post_item.css' %}" />
 {% endblock extrahead %}
+
 {% block content %}
 <div class="container">
   <div class="banner">
@@ -38,14 +40,14 @@
   <span class="main-title">Tin nổi bật</span>
   <ul class="list-group">
     {% for post in hot_posts %}
-      {% include 'components/post_item.html' with post=post %}
+      {% include 'components/post_item_home.html' with post=post %}
     {% endfor %}
   </ul>
 
   <span class="main-title">Tin gần đây</span>
   <ul class="list-group">
     {% for post in normal_posts %}
-      {% include 'components/post_item.html' with post=post %}
+      {% include 'components/post_item_home.html' with post=post %}
     {% endfor %}
   </ul>
   <button class="list-post-btn">

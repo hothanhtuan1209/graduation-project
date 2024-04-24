@@ -10,13 +10,13 @@ class BaseView(TemplateView):
     Base view class to contain common functionality shared by other views.
     """
 
-    def get_current_user(self, **kwargs):
+    def get_context_data(self, **kwargs):
         """
         A helper method to get the current logged-in user.
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['user'] = user
+        context['profile'] = user
 
         return context
 
