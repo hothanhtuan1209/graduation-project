@@ -6,6 +6,3 @@ __pycache__/
 
 # Ignore file .env
 .env
-
-# Ignore media folder
-media/
