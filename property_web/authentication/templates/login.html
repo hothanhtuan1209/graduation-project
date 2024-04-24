@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h2 class="title">Login</h2>
-        <form method="post" class="login-form">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="id_username">Username:</label>
-                {{ form.username }}
-            </div>
-            <div class="form-group">
-                <label for="id_password">Password:</label>
-                {{ form.password }}
-            </div>
-            {% if error %}
-                <p class="error">{{ error }}</p>
-            {% endif %}
-            <button type="submit" class="btn btn-primary">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'signup' %}" class="signup-link">Sign up</a></p>
+      <h2 class="title">Login</h2>
+      <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="id_username">Username:</label>
+          {{ form.username }}
+        </div>
+        <div class="form-group">
+          <label for="id_password">Password:</label>
+          {{ form.password }}
+        </div>
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Login</button>
+      </form>
+      <p>
+        Don't have an account?
+        <a href="{% url 'signup' %}" class="signup-link">Sign up</a>
+      </p>
     </div>
-</body>
+  </body>
 </html>
