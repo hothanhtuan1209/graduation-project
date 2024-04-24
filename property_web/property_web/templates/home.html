@@ -1,40 +1,55 @@
 <!-- home_page.html -->
 {% extends 'base.html' %}
-
+{% load static %}
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+<link rel="stylesheet" href="{% static 'css/components/post_item.css' %}" />
+{% endblock extrahead %}
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
+<div class="container">
+  <div class="banner">
+    <img
+      class="banner-image"
+      src="../../media/banners/banner-6.jpg"
+      alt="Banner"
+    />
+  </div>
 
-    <h2 class="subheading">Hot Posts</h2>
-    <ul class="post-list">
-        {% for post in hot_posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    {% if post.image %}
-                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                    {% endif %}
-                    <span>{{ post.title }}</span>
-                    <span>{{ post.price }}</span>
-                    <span>{{ post.address }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+  <div class="header-content">
+    <h1 class="content-title">Bất động sản</h1>
+    <nav class="content-nav">
+      <ul class="nav-list">
+        <li>
+          <a href="javascript:void(0)" class="nav-item">Nhà trọ</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="nav-item">Căn hộ</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="nav-item">Nhà nguyên căn</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="nav-item">Mặt bằng kinh doanh</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
-    <h2 class="subheading">Normal Posts</h2>
-    <ul class="post-list">
-        {% for post in normal_posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    {% if post.image %}
-                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                    {% endif %}
-                    <span>{{ post.title }}</span>
-                    <span>{{ post.price }}</span>
-                    <span>{{ post.address }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'list_posts' %}" class="btn">Xem thêm</a>
+  <span class="main-title">Tin nổi bật</span>
+  <ul class="list-group">
+    {% for post in hot_posts %}
+      {% include 'components/post_item.html' with post=post %}
+    {% endfor %}
+  </ul>
+
+  <span class="main-title">Tin gần đây</span>
+  <ul class="list-group">
+    {% for post in normal_posts %}
+      {% include 'components/post_item.html' with post=post %}
+    {% endfor %}
+  </ul>
+  <button class="list-post-btn">
+    <a href="{% url 'list_posts' %}">Xem thêm</a>
+  </button>
+</div>
 {% endblock %}
