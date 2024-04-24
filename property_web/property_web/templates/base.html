@@ -5,76 +5,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}HomeHaven{% endblock %}</title>
+    <link href="{% static 'css/reset.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
     <link
-      href="{% static 'css/reset.css' %}"
       href="{% static 'fontawesomefree/css/all.min.css' %}"
       rel="stylesheet"
       type="text/css"
     />
-    {% block extrahead%} {%endblock extrahead%}
+    {% block extrahead %} {% endblock extrahead %}
   </head>
   <body>
     <header class="main-header">
-      <a href="javascript:void(0)" class="logo">
+      <a href="/" class="logo">
         <span>HOMEHAVEN</span>
       </a>
       <nav class="header-nav">
         <ul class="nav-list">
           <li>
-            <a href="javascript:void(0)" class="nav-item">Trang Chủ</a>
+            <a href="" class="nav-item">Trang Chủ</a>
           </li>
           <li>
             <a href="#" class="nav-item">Cho Thuê</a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="nav-item">Mua Bán</a>
+            <a href="" class="nav-item">Mua Bán</a>
           </li>
           <li>
-            <a href="javascript:void(0)" class="nav-item">Liên Hệ</a>
+            <a href="" class="nav-item">Liên Hệ</a>
           </li>
         </ul>
       </nav>
-      {% if user.is_authenticated %}
-      <form action="{% url 'create_post' %}" method="get">
-        <button class="header-btn btn-add" type="submit">
-          Tạo bài đăng
-          <i class="fa-solid fa-plus"></i>
-        </button>
-      </form>
-      <div class="dropdown">
-        <button class="header-btn btn-dropdown">
-          <i class="fa-solid fa-bars"></i>{{ user.username }}
-        </button>
-        <div class="dropdown-content">
-          <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <button class="header-btn btn-content" type="submit">
-              Đăng xuất
-            </button>
-          </form>
-          <form action="{% url 'change_password' %}" method="get">
-            <button class="header-btn btn-content" type="submit">
-              Đổi mật khẩu
-            </button>
-          </form>
-          <form action="{% url 'user_detail' user_id=user.id %}" method="get">
-            <button class="header-btn btn-content" type="submit">
-              Tài khoản
-            </button>
-          </form>
+      {% if profile.is_authenticated %}
+        <form action="{% url 'create_post' %}" method="get">
+          <button class="header-btn btn-add" type="submit">
+            Tạo bài đăng
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </form>
+        <div class="dropdown">
+          <button class="header-btn btn-dropdown">
+            <i class="fa-solid fa-bars"></i>{{ profile.username }}
+          </button>
+          <div class="dropdown-content">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="header-btn btn-content" type="submit">
+                Đăng xuất
+              </button>
+            </form>
+            <form action="{% url 'change_password' %}" method="get">
+              <button class="header-btn btn-content" type="submit">
+                Đổi mật khẩu
+              </button>
+            </form>
+            <form action="{% url 'user_detail' user_id=user.id %}" method="get">
+              <button class="header-btn btn-content" type="submit">
+                Tài khoản
+              </button>
+            </form>
+          </div>
         </div>
-      </div>
       {% else %}
-      <form action="{% url 'login' %}" method="get">
-        <button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
-      </form>
+        <form action="{% url 'login' %}" method="get">
+          <button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
+        </form>
       {% endif %}
     </header>
     <main class="main-body">{% block content %}{% endblock %}</main>
     <footer class="main-footer">
       <div class="footer-top">
-        <a href="javascript:void(0)" class="logo">
+        <a href="" class="logo">
           <span>HOMEHAVEN</span>
         </a>
         <div class="footer-info">
@@ -111,7 +111,7 @@
         <p>Created with love by thecreation.design</p>
       </div>
     </footer>
-    {% comment %} Script of base {% endcomment %} {% block extrastcrip%}
-    {%endblock extrastcrip%}
+    {% comment %} Script of base {% endcomment %}
+    {% block extrastcrip %} {% endblock extrastcrip %}
   </body>
 </html>

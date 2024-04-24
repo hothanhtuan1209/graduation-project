@@ -1,10 +1,12 @@
 <!-- home_page.html -->
 {% extends 'base.html' %}
 {% load static %}
+
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-<link rel="stylesheet" href="{% static 'css/components/post_item.css' %}" />
+<link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}"/>
 {% endblock extrahead %}
+
 {% block content %}
 <div class="container">
   <div class="banner">
@@ -20,16 +22,16 @@
     <nav class="content-nav">
       <ul class="nav-list">
         <li>
-          <a href="javascript:void(0)" class="nav-item">Nhà trọ</a>
+          <a href="" class="nav-item">Nhà trọ</a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-item">Căn hộ</a>
+          <a href="" class="nav-item">Căn hộ</a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-item">Nhà nguyên căn</a>
+          <a href="" class="nav-item">Nhà nguyên căn</a>
         </li>
         <li>
-          <a href="javascript:void(0)" class="nav-item">Mặt bằng kinh doanh</a>
+          <a href="" class="nav-item">Mặt bằng kinh doanh</a>
         </li>
       </ul>
     </nav>
@@ -38,14 +40,14 @@
   <span class="main-title">Tin nổi bật</span>
   <ul class="list-group">
     {% for post in hot_posts %}
-      {% include 'components/post_item.html' with post=post %}
+      {% include 'components/card_horizontal.html' with post=post %}
     {% endfor %}
   </ul>
 
   <span class="main-title">Tin gần đây</span>
   <ul class="list-group">
     {% for post in normal_posts %}
-      {% include 'components/post_item.html' with post=post %}
+      {% include 'components/card_horizontal.html' with post=post %}
     {% endfor %}
   </ul>
   <button class="list-post-btn">
