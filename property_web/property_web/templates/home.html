@@ -4,7 +4,7 @@
 
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
-<link rel="stylesheet" href="{% static 'css/components/post_item.css' %}" />
+<link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}"/>
 {% endblock extrahead %}
 
 {% block content %}
@@ -40,14 +40,14 @@
   <span class="main-title">Tin nổi bật</span>
   <ul class="list-group">
     {% for post in hot_posts %}
-      {% include 'components/post_item_home.html' with post=post %}
+      {% include 'components/card_horizontal.html' with post=post %}
     {% endfor %}
   </ul>
 
   <span class="main-title">Tin gần đây</span>
   <ul class="list-group">
     {% for post in normal_posts %}
-      {% include 'components/post_item_home.html' with post=post %}
+      {% include 'components/card_horizontal.html' with post=post %}
     {% endfor %}
   </ul>
   <button class="list-post-btn">
