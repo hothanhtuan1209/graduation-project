@@ -1,0 +1,44 @@
+.post-list{
+  display: flex;
+  flex-direction: column;
+  gap: 40px
+}
+
+.post-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 15px
+}
+
+.post-item-link{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+}
+
+.post-image {
+  flex: 0 0 auto;
+  margin-right: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  border-radius: 16px;
+}
+
+.post-item-content {
+  flex: 1 1 auto;
+  text-decoration: none;
+  color: black
+}
+
+.title-post {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.price-post, .area-post, .address-post {
+  padding-left: 10px;
+  color: #525252;
+}
