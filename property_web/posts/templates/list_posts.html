@@ -51,17 +51,39 @@
       {% include 'components/post_item.html' with post=post %}
     {% endfor %}
 
-            <!-- Paginator -->
+    <!-- Paginator -->
     <div class="pagination">
       {% if posts.has_previous %}
-        <a href="?page=1">&laquo; First</a>
-        <a href="?page={{ posts.previous_page_number }}">Previous</a>
+        <a class='pagination-link' href="?page={{ posts.previous_page_number }}">
+          <div class="pagination-box">&lt;</div>
+        </a>
+      {% else %}
+        <div class="pagination-box disabled">&lt;</div>
       {% endif %}
-      <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+
+      <a class='pagination-link' href="?page=1">
+        <div class="pagination-box{% if posts.number == 1 %} current{% endif %}">1</div>
+      </a>
+
+      {% if posts.paginator.num_pages > 1 %}
+        <div class="pagination-box disabled">...</div>
+      {% endif %}
+
+      <a class='pagination-link' href="?page={{ posts.paginator.num_pages }}">
+        <div class="pagination-box{% if posts.paginator.num_pages == posts.number %} current{% endif %}">{{ posts.paginator.num_pages }}</div>
+      </a>
+
       {% if posts.has_next %}
-        <a href="?page={{ posts.next_page_number }}">Next</a>
-        <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+        <a class='pagination-link' href="?page={{ posts.next_page_number }}">
+          <div class="pagination-box">&gt;</div>
+        </a>
+      {% else %}
+        <div class="pagination-box disabled">&gt;</div>
       {% endif %}
+
+      <a class='pagination-link' href="?page={{ posts.paginator.num_pages }}">
+        <div class="pagination-box">>></div>
+      </a>
     </div>
   </ul>
 {% endblock %}
