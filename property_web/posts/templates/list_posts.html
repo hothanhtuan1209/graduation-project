@@ -35,23 +35,22 @@
         </select>
       </div>
 
-      <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #fafafa;"></i></i></button>
+      <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #fafafa;"></i></button>
     </form>
 
     <!-- Form for sorting -->
-    <form class="sort-section" method="get" action="{% url 'list_posts' %}">
-      <div class="sort">
+    <form id="sortForm" class="sort" method="get" action="{% url 'list_posts' %}">
+      {% comment %} <div class="sort"> {% endcomment %}
         <input type="hidden" name="address" value="{{ request.GET.address }}">
         <input type="hidden" name="price_range" value="{{ request.GET.price_range }}">
         <input type="hidden" name="area_range" value="{{ request.GET.area_range }}">
         <label class="filter-sort" for="order_by">Sắp xếp theo</label>
-        <select name="order_by" id="sort_by_price">
+        <select name="order_by" id="sort_by_price" onchange="submitForm()">
           <option value="-created_at" {% if order_by_selected == '-created_at' %} selected {% endif %}>Mới nhất</option>
           <option value="-price" {% if order_by_selected == '-price' %} selected {% endif %}>Giá từ cao đến thấp</option>
           <option value="price" {% if order_by_selected == 'price' %} selected {% endif %}>Giá từ thấp đến cao</option>
         </select>
-      </div>
-      <button class="sort-btn" type="submit"><i class="fa-solid fa-sort fa-xl" style="color: #fafafa;"></i></button>
+      {% comment %} </div> {% endcomment %}
     </form>
   </div>
 
@@ -96,5 +95,7 @@
       </a>
     </div>
   </ul>
-
+  {% block extrascripts %}
+    <script src="{% static 'js/sort.js' %}"></script>
+  {% endblock extrascripts %}
 {% endblock %}

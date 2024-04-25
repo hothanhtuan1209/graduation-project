@@ -29,7 +29,7 @@
 
 .post-item-content {
   flex: 1 1 auto;
-  text-decoration: none !important;
+  text-decoration: none;
   color: black
 }
 
