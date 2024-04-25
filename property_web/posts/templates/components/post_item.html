@@ -1,11 +1,18 @@
 <li class="post-item">
+  <i class="fa-regular fa-heart fa-xl"></i>
   <a href="{% url 'post_detail' post_id=post.id %}">
     {% if post.image %}
-      <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
+      <img
+        class="post-image"
+        src="{{ post.image }}"
+        alt="{{ post.title }} Image"
+      />
     {% endif %}
-    <span>{{ post.title }}</span>
-    <span>{{ post.price }}</span>
-    <span>{{ post.area }}</span>
-    <span>{{ post.address }}</span>
+    <div class="post-item-content">
+      <span class="title-post">{{ post.title }}</span>
+      <span class="price-post">{{ post.price }} VNĐ</span>
+      <span class="area-post">{{ post.area }}</span>
+      <span class="address-post">{{ post.address }}</span>
+    </div>
   </a>
 </li>
