@@ -35,7 +35,7 @@
           </li>
         </ul>
       </nav>
-      {% if profile.is_authenticated %}
+      {% if user.is_authenticated %}
         <form action="{% url 'create_post' %}" method="get">
           <button class="header-btn btn-add" type="submit">
             Tạo bài đăng
@@ -44,7 +44,7 @@
         </form>
         <div class="dropdown">
           <button class="header-btn btn-dropdown">
-            <i class="fa-solid fa-bars"></i>{{ profile.username }}
+            <i class="fa-solid fa-bars"></i>{{ user.username }}
           </button>
           <div class="dropdown-content">
             <form action="{% url 'logout' %}" method="post">
