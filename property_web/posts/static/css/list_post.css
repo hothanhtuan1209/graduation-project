@@ -34,3 +34,61 @@
   background-color: #ccc;
   cursor: default;
 }
+
+.search-section {
+  display: flex;
+  gap: 150px;
+}
+
+.filter-section,
+.sort-section {
+  display: flex;
+  gap: 50px;
+}
+
+.filter,
+.sort {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter input {
+  border: none;
+  background-color: #eff0f2;
+  color: #484848;
+  padding: 5px 0;
+  width: 190px;
+}
+
+.filter input:focus {
+  outline: none;
+  border: 0px solid #484848;
+  box-shadow: 0 0 5px #484848;
+}
+
+.filter-label,
+.filter-sort {
+  font-size: 24px;
+  font-weight: 600;
+  color: #484848;
+}
+
+.search-btn,
+.sort-btn {
+  background: #484848;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  cursor: pointer;
+}
+
+#price_range,
+#area_range,
+#sort_by_price {
+  border: none;
+  background-color: #eff0f2;
+  color: #484848;
+  padding: 5px 0;
+  cursor: pointer;
+}
