@@ -1,7 +1,21 @@
+.post-list{
+  display: flex;
+  flex-direction: column;
+  gap: 25px
+}
+
 .post-item {
   display: flex;
   align-items: center;
   position: relative;
+  gap: 15px
+}
+
+.post-item-link{
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
 }
 
 .post-image {
@@ -10,8 +24,21 @@
   width: 200px;
   height: 200px;
   position: relative;
+  border-radius: 16px;
 }
 
 .post-item-content {
   flex: 1 1 auto;
+  text-decoration: none !important;
+  color: black
+}
+
+.title-post {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.price-post, .area-post, .address-post {
+  padding-left: 10px;
+  color: #525252;
 }
