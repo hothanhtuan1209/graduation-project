@@ -2,11 +2,17 @@
   <i class="fa-regular fa-heart fa-xl"></i>
   <a class="item-link" href="{% url 'post_detail' post_id=post.id %}">
     {% if post.image %}
-    <img
-      class="post-image"
-      src="{{ post.image }}"
-      alt="{{ post.title }} Image"
-    />
+      <img
+        class="post-image"
+        src="{{ post.image }}"
+        alt="{{ post.title }} Image"
+      />
+    {% else %}
+      <img
+        class="post-image"
+        src="{% static 'image_default/img_default.jpg' %}"
+        alt="Default Image"
+      />
     {% endif %}
     <div class="item-content">
       <span class="title-content">{{ post.title }}</span>
