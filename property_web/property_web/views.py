@@ -16,7 +16,7 @@ class BaseView(TemplateView):
         """
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        context['profile'] = user
+        context['user'] = user
 
         return context
 
