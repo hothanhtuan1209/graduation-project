@@ -37,7 +37,8 @@
 
 .search-section {
   display: flex;
-  gap: 150px;
+justify-content: space-between;
+margin-right: 200px;
 }
 
 .filter-section,
