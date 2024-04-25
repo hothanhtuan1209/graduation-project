@@ -1,75 +1,67 @@
 <!-- post_list.html -->
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/list_post.css' %}">
+<link rel="stylesheet" href="{% static 'css/post_item.css' %}"/>
+{% endblock extrahead %}
 
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
+  <h2 class="subheading">List Posts</h2>
+  <form method="get" action="{% url 'list_posts' %}">
+    <label for="address">Địa chỉ:</label>
+    <input type="text" name="address" id="address" value="{{ request.GET.address }}">
 
-    <h2 class="subheading">List Posts</h2>
+    <label for="price_range">Giá:</label>
+    <select name="price_range" id="price_range">
+      <option value="" {% if request.GET.price_range == "" %} selected {% endif %}>Tất cả</option>
+      <option value="lt_2m" {% if request.GET.price_range == "lt_2m" %} selected {% endif %}>Dưới 2 triệu</option>
+      <option value="2m_to_3m" {% if request.GET.price_range == "2m_to_3m" %} selected {% endif %}>Từ 2-3 triệu</option>
+      <option value="gt_3m" {% if request.GET.price_range == "gt_3m" %} selected {% endif %}>Lớn hơn 3 triệu</option>
+    </select>
 
-    <form method="get" action="{% url 'list_posts' %}">
-        <label for="address">Địa chỉ:</label>
-        <input type="text" name="address" id="address" value="{{ request.GET.address }}">
+    <label for="area_range">Diện tích:</label>
+    <select name="area_range" id="area_range">
+      <option value="" {% if request.GET.area_range == "" %} selected {% endif %}>Tất cả</option>
+      <option value="lt_15" {% if request.GET.area_range == "lt_15" %} selected {% endif %}>Dưới 15 m2</option>
+      <option value="15_to_25" {% if request.GET.area_range == "15_to_25" %} selected {% endif %}>Từ 15-25 m2</option>
+      <option value="gt_25" {% if request.GET.area_range == "gt_25" %} selected {% endif %}>Lớn hơn 25 m2</option>
+    </select>
 
-        <label for="price_range">Giá:</label>
-        <select name="price_range" id="price_range">
-          	<option value="" {% if request.GET.price_range == "" %} selected {% endif %}>Tất cả</option>
-            <option value="lt_2m" {% if request.GET.price_range == "lt_2m" %} selected {% endif %}>Dưới 2 triệu</option>
-            <option value="2m_to_3m" {% if request.GET.price_range == "2m_to_3m" %} selected {% endif %}>Từ 2-3 triệu</option>
-            <option value="gt_3m" {% if request.GET.price_range == "gt_3m" %} selected {% endif %}>Lớn hơn 3 triệu</option>
-        </select>
+    <button type="submit">Tìm Kiếm</button>
+  </form>
 
-        <label for="area_range">Diện tích:</label>
-        <select name="area_range" id="area_range">
-            <option value="" {% if request.GET.area_range == "" %} selected {% endif %}>Tất cả</option>
-            <option value="lt_15" {% if request.GET.area_range == "lt_15" %} selected {% endif %}>Dưới 15 m2</option>
-            <option value="15_to_25" {% if request.GET.area_range == "15_to_25" %} selected {% endif %}>Từ 15-25 m2</option>
-            <option value="gt_25" {% if request.GET.area_range == "gt_25" %} selected {% endif %}>Lớn hơn 25 m2</option>
-        </select>
+  <!-- Form for sorting -->
+  <form method="get" action="{% url 'list_posts' %}">
+    <input type="hidden" name="address" value="{{ request.GET.address }}">
+    <input type="hidden" name="price_range" value="{{ request.GET.price_range }}">
+    <input type="hidden" name="area_range" value="{{ request.GET.area_range }}">
+    <label for="order_by">Sắp xếp theo:</label>
+    <select name="order_by" id="sort_by_price">
+      <option value="-created_at" {% if order_by_selected == '-created_at' %} selected {% endif %}>Thời gian tạo</option>
+      <option value="-price" {% if order_by_selected == '-price' %} selected {% endif %}>Giá từ cao đến thấp</option>
+      <option value="price" {% if order_by_selected == 'price' %} selected {% endif %}>Giá từ thấp đến cao</option>
+    </select>
+    <button type="submit">Sắp Xếp</button>
+  </form>
 
-        <button type="submit">Tìm Kiếm</button>
-    </form>
-
-    <!-- Form for sorting -->
-    <form method="get" action="{% url 'list_posts' %}">
-        <input type="hidden" name="address" value="{{ request.GET.address }}">
-        <input type="hidden" name="price_range" value="{{ request.GET.price_range }}">
-        <input type="hidden" name="area_range" value="{{ request.GET.area_range }}">
-        <label for="order_by">Sắp xếp theo:</label>
-        <select name="order_by" id="sort_by_price">
-            <option value="-created_at" {% if order_by_selected == '-created_at' %} selected {% endif %}>Thời gian tạo</option>
-            <option value="-price" {% if order_by_selected == '-price' %} selected {% endif %}>Giá từ cao đến thấp</option>
-            <option value="price" {% if order_by_selected == 'price' %} selected {% endif %}>Giá từ thấp đến cao</option>
-        </select>
-        <button type="submit">Sắp Xếp</button>
-    </form>
-
-    <ul class="post-list">
-        {% for post in posts %}
-            <li class="post-item">
-                <a href="{% url 'post_detail' post_id=post.id %}">
-                    {% if post.image %}
-                        <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                    {% endif %}
-                    <span>{{ post.title }}</span>
-                    <span>{{ post.price }}</span>
-                    <span>{{ post.area }}</span>
-                    <span>{{ post.address }}</span>
-                </a>
-            </li>
-        {% endfor %}
+  <ul class="post-list">
+    {% for post in posts %}
+      {% include 'components/post_item.html' with post=post %}
+    {% endfor %}
 
             <!-- Paginator -->
-        <div class="pagination">
-            {% if posts.has_previous %}
-                <a href="?page=1">&laquo; First</a>
-                <a href="?page={{ posts.previous_page_number }}">Previous</a>
-            {% endif %}
-            <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
-            {% if posts.has_next %}
-                <a href="?page={{ posts.next_page_number }}">Next</a>
-                <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
-            {% endif %}
-        </div>
-    </ul>
+    <div class="pagination">
+      {% if posts.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ posts.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span class="current">Page {{ posts.number }} of {{ posts.paginator.num_pages }}</span>
+      {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}">Next</a>
+        <a href="?page={{ posts.paginator.num_pages }}">Last &raquo;</a>
+      {% endif %}
+    </div>
+  </ul>
 {% endblock %}
