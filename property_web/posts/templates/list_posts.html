@@ -7,9 +7,8 @@
 {% endblock extrahead %}
 
 {% block content %}
-  <h2 class="subheading">List Posts</h2>
-  <form method="get" action="{% url 'list_posts' %}">
-    <label for="address">Địa chỉ:</label>
+  <form method="get" action="{% url 'list_posts' %}"> 
+    <label for="address">Địa điểm:</label>
     <input type="text" name="address" id="address" value="{{ request.GET.address }}">
 
     <label for="price_range">Giá:</label>
@@ -45,6 +44,7 @@
     <button type="submit">Sắp Xếp</button>
   </form>
 
+  <h2 class="subheading">Bài viết mới nhất</h2>
   <ul class="post-list">
     {% for post in posts %}
       {% include 'components/post_item.html' with post=post %}
