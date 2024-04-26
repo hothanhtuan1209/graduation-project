@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     "reviews",
     "favorites",
     "property_web",
-    "django_bootstrap5",
     "fontawesomefree"
 ]
 
