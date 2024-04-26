@@ -67,8 +67,8 @@
   <ul class="post-list">
     {% for other_post in posts_of_user %}
     <li class="post-item">
-      {% include 'components/card_horizontal.html' with post=other_post %} {%
-      endfor %}
+      {% include 'components/card_horizontal.html' with post=other_post %}
+    {% endfor %}
     </li>
   </ul>
 </div>
