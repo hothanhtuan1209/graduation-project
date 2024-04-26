@@ -1,8 +1,15 @@
 <!-- post_detail.html -->
-{% extends 'base.html' %} {% load static %} {% block extrahead %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}" />
 <link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
-{% endblock extrahead %} {% block content %}
+<link rel="stylesheet" href="{% static 'css/modal_img.css' %}" />
+{% endblock extrahead %}
+
+{% block content %}
+
 <div class="post-detail">
   <div class="image-grid">
     {% for image in post_images|slice:":5" %}
@@ -71,5 +78,8 @@
     </li>
   </ul>
 </div>
+{% block extrascripts %}
+<script src="{% static 'js/modal_img.js' %}"></script>
+{% endblock extrascripts %}
 
 {% endblock %}
