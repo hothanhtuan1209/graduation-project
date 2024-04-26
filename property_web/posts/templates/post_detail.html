@@ -7,7 +7,7 @@
   <div class="image-grid">
     {% for image in post_images|slice:":5" %}
       <div class="image-wrapper {% if forloop.first %}big{% endif %}">
-        <img class="post-image" src="{{ image.image.url }}" alt="{{ post.title }} Image" />
+        <img class="posts-image" src="{{ image.image.url }}" alt="{{ post.title }} Image" />
       </div>
     {% endfor %}
     {% if post_images|length > 5 %}
