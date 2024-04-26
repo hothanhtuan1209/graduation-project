@@ -8,29 +8,39 @@
 {% endblock extrahead %}
 
 {% block content %}
-
 <div class="post-detail">
   {% for image in post_images %}
-  <img
-    class="post-image"
-    src="{{ image.image.url }}"
-    alt="{{ post.title }} Image"
-  />
+    <img
+      class="post-image"
+      src="{{ image.image.url }}"
+      alt="{{ post.title }} Image"
+    />
   {% endfor %}
-  <i class="fa-regular fa-heart fa-xl"></i>
-  <h2>{{ post.title }}</h2>
-  <h3>Thông tin chi tiết</h3>
+
   <div class="post-desc">
-    <div class="post-desc-info">
-      <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
-      <p class="post-area"><strong>Diện tích (m2):</strong> {{ post.area }}</p>
-      <p class="post-address"><strong>Địa chỉ:</strong> {{ post.address }}</p>
-      <p class="post-created-at">
-        <strong>Ngày đăng:</strong> {{ post.created_at }}
-      </p>
-      <p class="post-end-date">
-        <strong>Ngày hết hạn:</strong> {{ post.end_date }}
-      </p>
+    <div class="post-desc-wrapper">
+      <h2 class="post-desc-title">
+        {{ post.title }}
+        <img
+          class=""
+          src="{% static 'image_default/heart.png' %}"
+          alt="Large Map"
+        />
+      </h2>
+      <h3>Thông tin chi tiết</h3>
+      <div class="post-desc-info">
+        <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
+        <p class="post-area">
+          <strong>Diện tích (m2):</strong> {{ post.area }}
+        </p>
+        <p class="post-address"><strong>Địa chỉ:</strong> {{ post.address }}</p>
+        <p class="post-created-at">
+          <strong>Ngày đăng:</strong> {{ post.created_at }}
+        </p>
+        <p class="post-end-date">
+          <strong>Ngày hết hạn:</strong> {{ post.end_date }}
+        </p>
+      </div>
     </div>
 
     <div class="post-author-info">
@@ -44,8 +54,12 @@
     </div>
   </div>
 
-  <p class="post-description"><strong>Mô tả</strong> {{ post.description }}</p>
-  <img class="img-map" src="{% static 'image_default/map.jpg' %}" alt="Large Map" />
+  <p class="post-description"><strong>Mô tả:</strong> {{ post.description }}</p>
+  <img
+    class="img-map"
+    src="{% static 'image_default/map.jpg' %}"
+    alt="Large Map"
+  />
 </div>
 
 <div class="user-posts">
@@ -53,8 +67,8 @@
   <ul class="post-list">
     {% for other_post in posts_of_user %}
     <li class="post-item">
-      {% include 'components/card_horizontal.html' with post=other_post %}
-    {% endfor %}
+      {% include 'components/card_horizontal.html' with post=other_post %} {%
+      endfor %}
     </li>
   </ul>
 </div>
