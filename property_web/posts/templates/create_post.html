@@ -6,15 +6,16 @@
 
 {% block content %}
   <div class="container">
-      <h2 class="title">Create Post</h2>
+      <h2 class="title-create">Bài Đăng Mới</h2>
       <form method="post" enctype="multipart/form-data" class="create-post-form">
           {% csrf_token %}
           {{ post_form }}
           {{ image_form }}
-          <button type="submit" class="btn btn-primary">Create Post</button>
+          <button type="submit" class="btn btn-primary">Đăng</button>
+          <a href="{% url 'home' %}" class="btn btn-secondary">Hủy</a>
       </form>
   </div>
-  {% block extrascripts %}
-  {% endblock extrascripts %}
+{% block extrascripts %}
+{% endblock extrascripts %}
 
 {% endblock %}
