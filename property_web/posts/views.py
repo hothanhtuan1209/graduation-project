@@ -152,10 +152,15 @@ class UpdatePostView(LoginRequiredMixin, BaseView):
 
         if post_form.is_valid() and image_form.is_valid():
             post = post_form.save()
-            images = request.FILES.getlist("image")
 
-            for image in images:
-                Image.objects.create(post=post, image=image)
+            images = request.FILES.getlist("image")
+            if images:
+                images_post = Image.objects.filter(post=post)
+                images_post.delete()
+
+                for image in images:
+                    Image.objects.create(post=post, image=image)
+
             return redirect(reverse("post_detail", kwargs={"post_id": post.id}))
 
         context = self.get_context_data(**kwargs)
