@@ -1,7 +1,12 @@
-{% extends 'base.html' %} {% load static %} {% block extrahead %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/post_item.css' %}" />
 <link rel="stylesheet" href="{% static 'css/detail_user_item.css' %}" />
-{% endblock extrahead %} {% block content %} {% load static %}
+{% endblock extrahead %}
+
+{% block content %}
 <link rel="stylesheet" href="{% static 'css/list_post.css' %}" />
 <div class="container ">
   <h1 class="title">Thông tin tài khoản</h1>
