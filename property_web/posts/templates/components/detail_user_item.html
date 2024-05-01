@@ -18,7 +18,7 @@
     <p class="title-post">{{ post.title }}</p>
     <p class="price-post">{{ post.price }}VNĐ</p>
     <p class="area-post">{{ post.area }}mét vuông</p>
-    <p class="address-post">{{ post.address }}</p>
+    <p class="address-post" id="address-output"></p>
     {% if request.user == user_detail %}
       {% if post.status == 'UNAPPROVED'%}
           <p class="status-content">Chưa duyệt</s>
