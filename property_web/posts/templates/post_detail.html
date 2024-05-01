@@ -1,26 +1,24 @@
 <!-- post_detail.html -->
-{% extends 'base.html' %}
-{% load static %}
-
-{% block extrahead %}
+{% extends 'base.html' %} {% load static %} {% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}" />
 <link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
 <link rel="stylesheet" href="{% static 'css/modal_img.css' %}" />
-{% endblock extrahead %}
-
-{% block content %}
+{% endblock extrahead %} {% block content %}
 
 <div class="post-detail">
   <div class="image-grid">
     {% for image in post_images|slice:":5" %}
-      <div class="image-wrapper {% if forloop.first %}big{% endif %}">
-        <img class="posts-image" src="{{ image.image.url }}" alt="{{ post.title }} Image" />
-      </div>
-    {% endfor %}
-    {% if post_images|length > 5 %}
-      <div class="image-wrapper more-images">
-        <p>+{{ post_images|length|add:"-5" }} Ảnh</p>
-      </div>
+    <div class="image-wrapper {% if forloop.first %}big{% endif %}">
+      <img
+        class="posts-image"
+        src="{{ image.image.url }}"
+        alt="{{ post.title }} Image"
+      />
+    </div>
+    {% endfor %} {% if post_images|length > 5 %}
+    <div class="image-wrapper more-images">
+      <p>+{{ post_images|length|add:"-5" }} Ảnh</p>
+    </div>
     {% endif %}
   </div>
 
@@ -40,7 +38,10 @@
         <p class="post-area">
           <strong>Diện tích (m2):</strong> {{ post.area }}
         </p>
-        <p class="post-address"><strong>Địa chỉ:</strong> {{ post.address }}</p>
+        <p class="post-address">
+          <strong>Địa chỉ:</strong>
+          <span id="address-output" style="display: none">{{ post.address }}</span>
+        </p>
         <p class="post-created-at">
           <strong>Ngày đăng:</strong> {{ post.created_at }}
         </p>
@@ -74,12 +75,12 @@
   <ul class="post-list">
     {% for other_post in posts_of_user %}
     <li class="post-item">
-      {% include 'components/card_horizontal.html' with post=other_post %} {%endfor %}
+      {% include 'components/card_horizontal.html' with post=other_post %}
+      {%endfor %}
     </li>
   </ul>
 </div>
 {% block extrascripts %}
 <script src="{% static 'js/modal_img.js' %}"></script>
-{% endblock extrascripts %}
-
-{% endblock %}
+<script src="{% static 'js/address_detail.js' %}"></script>
+{% endblock extrascripts %} {% endblock %}
