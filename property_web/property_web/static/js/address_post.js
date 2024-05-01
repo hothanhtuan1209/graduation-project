@@ -1,7 +1,7 @@
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-    const addressElements = document.getElementsByClassName("address-post");
+    const addressElements = document.getElementsByClassName("address-content");
     console.log("here: ", addressElements.length);
     if (addressElements.length > 0) {
       for (let index = 0; index < addressElements.length; index++) {

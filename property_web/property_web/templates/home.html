@@ -54,4 +54,8 @@
     <a href="{% url 'list_posts' %}">Xem thêm</a>
   </button>
 </div>
+{% block extrascripts %}
+  <script src="{% static 'js/address_post.js' %}"></script>
+{% endblock extrascripts %}
+
 {% endblock %}
