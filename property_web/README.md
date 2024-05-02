@@ -1,5 +1,7 @@
 # PROJECT PROPERTY WEBSITE
-This is a project to build a property website, including User, Post, Category, Image, Favorates, Review.
+This project is created to support connecting individuals with real estate needs such as buying, selling, or renting properties, as well as searching for real estate information by region. The goal is to establish a reputable and high-quality real estate business platform where people can find reliable transactions and valuable investment opportunities.
+
+This is a project including User, Post, Category, Image, Favorates, Review models.
 - User: this is User model, each user can have many posts
 - Category: this is a model for managing category, each category include many post
 - Post: this is a model for managing post.
@@ -29,9 +31,7 @@ https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 > git checkout develop
 
 3. Next, move into the directory containing this file:
-> cd graduation-project/
-> cd property_web
-
+> cd graduation-project/property_web
 
 4. You should create virtual environment and install pyenv
 - Create virtual environment named 'venv'

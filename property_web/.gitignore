@@ -11,4 +11,4 @@ __pycache__/
 media/
 
 #Ignore database
-# db.sqlite3
+db.sqlite3
