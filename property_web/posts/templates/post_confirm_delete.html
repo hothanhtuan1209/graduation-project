@@ -1,16 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirm Delete</title>
-</head>
-<body>
-    <h1>Xác nhận xóa</h1>
-    <p>Bạn có chắc chắn muốn xóa bài đăng này không?</p>
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-    </form>
-</body>
-</html>
+{% load static %} {% block extrahead %}
+<link rel="stylesheet" href="{% static 'authentication/css/modal.css' %}" />
+{% endblock extrahead %}
+
+<div id="confirmDeleteModal" class="modal-container">
+  <div class="modal modal-confirm">
+    <h3 class="modal-title">Xác nhận xóa</h3>
+    <p class="modal-desc">Bạn có chắc chắn muốn xóa bài đăng này không?</p>
+    <div class="modal-confirm-btn">
+      <button href="{% url 'update_post' post_id=post.id %}" class="modal-btn confirm-btn" id="confirmBtn">Xác nhận</button>
+      <button class="modal-btn confirm-btn" id="cancelBtn">Hủy</button>
+    </div>
+  </div>
+</div>
+
+{% block extrascripts %}
+<script>
+  document.getElementById("confirmBtn").onclick = function () {
+    var postId = document.getElementById("confirmDeleteModal").dataset.postId;
+    window.location.href = "{% url 'user_detail' user_id=user.id %}".replace(
+      "POST_ID", // khi xác nhận xoá sẽ chuyển đến url => xem lại
+      postId
+    );
+  };
+
+  document.getElementById("cancelBtn").onclick = function () {
+    document.getElementById("confirmDeleteModal").style.display = "none";
+  };
+
+  function confirmDelete(postId) {
+    var modal = document.getElementById("confirmDeleteModal");
+    modal.style.display = "block";
+    modal.dataset.postId = postId;
+
+    // Khi người dùng click bên ngoài modal, đóng modal
+    window.onclick = function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    };
+  }
+</script>
+{% endblock extrascripts %}

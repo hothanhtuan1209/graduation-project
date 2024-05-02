@@ -55,3 +55,29 @@
   float: right;
   cursor: pointer;
 }
+
+.modal-confirm {
+  width: 19%;
+  text-align: center;
+}
+
+.modal-confirm .modal-title {
+  color: #484848;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 12px;
+}
+
+.modal-desc {
+  color: #484848;
+  font-size: 17px;
+}
+
+.modal-confirm-btn {
+  display: flex;
+  justify-content: space-between;
+}
+
+.confirm-btn {
+  padding: 11px 30px;
+}

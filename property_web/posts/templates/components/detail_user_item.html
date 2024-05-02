@@ -29,7 +29,9 @@
   </a>
   {% if request.user == user_detail %}
   <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
-  <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
+  <button class="delete-link" onclick="confirmDelete('{{ post.id }}')">Xóa</button>
 </article>
   {% endif %}
 </li>
+
+{% include 'post_confirm_delete.html' %}
