@@ -1,40 +1,44 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/post_item.css' %}" />
+<link rel="stylesheet" href="{% static 'css/detail_user_item.css' %}" />
+{% endblock extrahead %}
 
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/list_post.css' %}">
-    <div class="container">
-        <h1 class="title">User Detail</h1>
-        <ul class="detail-list">
-            <li class="detail-item"><strong class="detail-label">Tên:</strong> {{ user_detail.username }}</li>
-            <li class="detail-item"><strong class="detail-label">Số điện thoại:</strong> {{ user_detail.phone_number }}</li>
-            <li class="detail-item"><strong class="detail-label">Email:</strong> {{ user_detail.email }}</li>
-            <li class="detail-item"><strong class="detail-label">Ngày tham gia:</strong> {{ user_detail.created_at }}</li>
-        </ul>
-        {% if request.user == user_detail %}
-            <a href="{% url 'update_user' user_id=user.id %}" class="edit-link">Sửa thông tin cá nhân</a>
-        {% endif %}
-        <ul class="post-list">
-            {% for post in user_posts %}
-                <li class="post-item">
-                    <a href="{% url 'post_detail' post_id=post.id %}">
-                        {% if post.image %}
-                            <img class="post-image-ava" src="{{ post.image }}" alt="{{ post.title }} Image">
-                        {% endif %}
-                        <span>{{ post.title }}</span>
-                        <span>{{ post.address }}</span>
-                        {% if post.status == 'UNAPPROVED'%}
-                            <span>Chưa duyệt</span>
-                        {% elif post.status == 'AVAILABLE' %}
-                            <span>Đã duyệt</span>
-                        {% endif %}
-                    </a>
-                    {% if request.user == user_detail %}
-                        <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
-                        <a href="{% url 'delete_post' post_id=post.id %}" class="delete-link">Xóa</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
+{% comment %} <link rel="stylesheet" href="{% static 'css/list_post.css' %}" /> {% endcomment %}
+<div class="container ">
+  <h1 class="title">Thông tin tài khoản</h1>
+  <div class="detail-user-page">
+  <article class = "user-info">
+    <i class="fa-solid fa-circle-user" style="font-size: 120px"></i>
+    <ul class="detail-list">
+      <li class="detail-item">
+        <strong class="detail-label">Tên:</strong> {{ user_detail.username }}
+      </li>
+      <li class="detail-item">
+        <strong class="detail-label">Số điện thoại:</strong> {{user_detail.phone_number }}
+      </li>
+      <li class="detail-item">
+        <strong class="detail-label">Email:</strong> {{ user_detail.email }}
+      </li>
+    </ul>
+    {% if request.user == user_detail %}
+    <a href="{% url 'update_user' user_id=user.id %}" class="edit-link"
+    >Chỉnh sửa</a
+    >
+    {% endif %}
+  </article>
+  <ul class="post-list">
+      {% for post in user_posts %}
+      {% include 'components/detail_user_item.html' with post=post %}
+      {% endfor %}
+  </ul>
+</div>
+</div>
+{% block extrascripts %}
+  <script src="{% static 'js/address_convert.js' %}"></script>
+{% endblock extrascripts %}
+
 {% endblock %}

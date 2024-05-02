@@ -1,23 +1,26 @@
 html,
-.container {
+.login-container,
+.signup-container {
   padding-top: 70px;
   margin: 0 auto;
   width: 50%;
 }
 
-form {
+.login-form,
+.signup-form {
   border: 3px solid #f1f1f1;
   width: 100%;
 }
 
-.loginform {
+.login,
+.signup {
   padding: 16px;
   width: auto;
   background-color: #f1f1f1;
 }
 
-input[type="text"],
-input[type="password"] {
+.login input,
+.signup input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -26,7 +29,8 @@ input[type="password"] {
   box-sizing: border-box;
 }
 
-button {
+.login-btn,
+.signup-btn {
   background-color: #504f4f;
   color: white;
   padding: 14px 20px;
@@ -36,10 +40,21 @@ button {
   width: 100%;
 }
 
-button:hover {
+.login-btn:hover,
+.signup-btn {
   opacity: 0.8;
 }
 
 .error {
   color: #ff0000;
+}
+
+.signup-link,
+.login-link {
+  color: #484848;
+}
+
+.signup-link:hover,
+.login-link:hover {
+  color: black;
 }

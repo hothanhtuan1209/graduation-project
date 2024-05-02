@@ -5,15 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/authen.css' %}" />
     <title>Login</title>
   </head>
   <body>
-    <div class="container">
-      <h2 class="title">HOMEHAVEN</h2>
+    <div class="login-container">
+      <h2 class="title">Đăng nhập</h2>
       <form method="post" class="login-form">
         {% csrf_token %}
-        <div class="loginform">
+        <div class="login">
           <div class="form-group">
             <label for="id_username">Tên đăng nhập:</label>
             {{ form.username }}
@@ -24,7 +24,7 @@
             {{ form.password }}
           </div>
 
-          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          <button type="submit" class="login-btn">Đăng nhập</button>
 
           {% if error %}
           <p class="error">{{ error }}</p>
@@ -32,8 +32,8 @@
         </div>
       </form>
       <p>
-        Don't have an account?
-        <a href="{% url 'signup' %}" class="signup-link">Sign up</a>
+        Bạn chưa có tài khoản?
+        <a href="{% url 'signup' %}" class="signup-link">Đăng kí</a>
       </p>
     </div>
   </body>

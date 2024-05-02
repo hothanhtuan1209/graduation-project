@@ -25,4 +25,4 @@ class Type(Enum):
         SALE (str): The property is available for sale.
     """
 
-    RENT = 'RENT'
+    RENT = 'Cho Thuê'

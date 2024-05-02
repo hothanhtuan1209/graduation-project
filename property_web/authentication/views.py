@@ -55,7 +55,7 @@ class UserLoginView(BaseView):
 
         context = self.get_context_data(**kwargs)
         context["form"] = form
-        context["error"] = 'Username or password is incorrect, please re-enter'
+        context["error"] = 'Tên đăng nhập hoặc mật khẩu không đúng, vui lòng đăng nhập lại'
 
         return self.render_to_response(context)
 

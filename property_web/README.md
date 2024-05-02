@@ -29,7 +29,7 @@ https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 > git checkout develop
 
 3. Next, move into the directory containing this file:
-> cd graduation-project
+> cd graduation-project/
 > cd property_web
 
 
@@ -47,7 +47,7 @@ https://docs.google.com/document/d/1sIQv1cb0KxRe1qGgVPHCIVYlIncr9fXF/edit
 > deactivate
 
 - To install all packages and extensions in project
-> pip install -r requirements.txt 
+> pip install -r requirements.txt
 
 5. Create database
 > py manage.py makemigrations property_web

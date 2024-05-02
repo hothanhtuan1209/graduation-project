@@ -5,8 +5,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}HomeHaven{% endblock %}</title>
-    <link href="{% static 'css/reset.css' %}"/>
+    <link href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'authentication/css/modal.css' %}" />
     <link
       href="{% static 'fontawesomefree/css/all.min.css' %}"
       rel="stylesheet"
@@ -37,39 +38,42 @@
           </ul>
         </nav>
         {% if user.is_authenticated %}
-          <form action="{% url 'create_post' %}" method="get">
-            <button class="header-btn btn-add" type="submit">
-              Tạo bài đăng
-              <i class="fa-solid fa-plus"></i>
+        <form action="{% url 'create_post' %}" method="get">
+          <button class="header-btn btn-add" type="submit">
+            Tạo bài đăng
+            <i class="fa-solid fa-plus"></i>
+          </button>
+        </form>
+        <div class="dropdown">
+          <button class="header-btn btn-dropdown">
+            <i class="fa-solid fa-bars"></i>{{ user.username }}
+          </button>
+          <div class="dropdown-content">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="header-btn btn-content" type="submit">
+                Đăng xuất
+              </button>
+            </form>
+            <button
+              id="changePasswordBtn"
+              class="header-btn btn-content"
+              type="button"
+            >
+              Đổi mật khẩu
             </button>
-          </form>
-          <div class="dropdown">
-            <button class="header-btn btn-dropdown">
-              <i class="fa-solid fa-bars"></i>{{ user.username }}
-            </button>
-            <div class="dropdown-content">
-              <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button class="header-btn btn-content" type="submit">
-                  Đăng xuất
-                </button>
-              </form>
-              <form action="{% url 'change_password' %}" method="get">
-                <button class="header-btn btn-content" type="submit">
-                  Đổi mật khẩu
-                </button>
-              </form>
-              <form action="{% url 'user_detail' user_id=user.id %}" method="get">
-                <button class="header-btn btn-content" type="submit">
-                  Tài khoản
-                </button>
-              </form>
-            </div>
+
+            <form action="{% url 'user_detail' user_id=user.id %}" method="get">
+              <button class="header-btn btn-content" type="submit">
+                Tài khoản
+              </button>
+            </form>
           </div>
+        </div>
         {% else %}
-          <form action="{% url 'login' %}" method="get">
-            <button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
-          </form>
+        <form action="{% url 'login' %}" method="get">
+          <button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
+        </form>
         {% endif %}
       </header>
     </div>
@@ -115,6 +119,7 @@
         </div>
       </footer>
     </div>
+    {% include 'authentication/templates/change_password.html' %}
     {% comment %} Script of base {% endcomment %}
     {% block extrastcrip %} {% endblock extrastcrip %}
   </body>
