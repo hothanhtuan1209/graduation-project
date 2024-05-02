@@ -9,11 +9,11 @@
     <title>Login</title>
   </head>
   <body>
-    <div class="container">
-      <h2 class="title">HOMEHAVEN</h2>
+    <div class="login-container">
+      <h2 class="title">Đăng nhập</h2>
       <form method="post" class="login-form">
         {% csrf_token %}
-        <div class="loginform">
+        <div class="login">
           <div class="form-group">
             <label for="id_username">Tên đăng nhập:</label>
             {{ form.username }}
@@ -24,7 +24,7 @@
             {{ form.password }}
           </div>
 
-          <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          <button type="submit" class="login-btn">Đăng nhập</button>
 
           {% if error %}
           <p class="error">{{ error }}</p>
