@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     "posts",
     "images",
     "storages",
-    "reviews",
-    "favorites",
     "property_web",
     "fontawesomefree"
 ]
