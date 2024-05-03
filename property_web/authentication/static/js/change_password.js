@@ -1,24 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Lấy modal
+  // Get modal
   var modal = document.getElementById("changePasswordModal");
 
-  // Lấy nút mở modal
+  // Get the button to open the modal
   var openModalBtn = document.getElementById("changePasswordBtn");
 
-  // Khi người dùng click vào nút, mở modal
+  // When the user clicks on the button, open the modal
   openModalBtn.onclick = function () {
     modal.style.display = "block";
   };
 
-  // Lấy phần tử đóng modal
+  // Get the element that closes the modal
   var closeModalBtn = document.getElementById("closeBtn");
 
-  // Khi người dùng click vào nút đóng, đóng modal
+  // When the user clicks on the close button, the modal closes
   closeModalBtn.onclick = function () {
     modal.style.display = "none";
   };
 
-  // Khi người dùng click bên ngoài modal, đóng modal
+  // When the user clicks outside the modal, close the modal
   window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
