@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block extrahead %}
@@ -73,7 +72,7 @@
       <div class="basis-2/3">
         <div class="form-group">
           <label for="id_address" class="font-bold text-[22px]">Địa Điểm</label>
-          <!-- Các trường Tỉnh/Thành phố, Quận/Huyện, Phường/Xã -->
+          <!-- Fields Province/City, District/District, Ward/Commune -->
           <div class="flex justify-between gap-[60px] text-[15px] mb-2">
             <div class="basis-1/3">
               <label class="font-bold"
@@ -101,7 +100,7 @@
             </div>
           </div>
 
-          <!-- Các trường Số nhà và Tên đường -->
+          <!-- Fields House Number and Street Name -->
           <div class="flex gap-[60px]">
             <div class="basis-1/3">
               <label class="font-bold">Số nhà</label>
@@ -554,7 +553,7 @@
       var addressForm = document.getElementById("addressForm");
       if (addressForm) {
         addressForm.addEventListener("submit", function (event) {
-          // Các giá trị từ input của bạn
+          // Values ​​from your input
           var city = {
             name: document.getElementById("id_city").selectedOptions[0]
               .textContent,
@@ -575,19 +574,19 @@
 
           console.log("submit: ", district);
 
-          // Tạo địa chỉ đầy đủ
+          // Generate full address
           var fullAddress = { houseNumber, streetName, ward, district, city };
 
-          // Gán giá trị cho trường input ẩn "fullAddress"
+          // Assign value to hidden input field "fullAddress"
           var fullAddressField = document.getElementById("id_fullAddress");
           if (fullAddressField) {
             fullAddressField.value = JSON.stringify(fullAddress);
           } else {
-            // Trường hợp không tìm thấy trường 'fullAddress', cần hiển thị lỗi hoặc xử lý khác
+            // In case 'fullAddress' field is not found, error display or other handling is required
             console.error(
               "Không tìm thấy trường input ẩn để gán địa chỉ đầy đủ."
             );
-            event.preventDefault(); // Ngăn không cho form submit nếu có lỗi
+            event.preventDefault(); // Prevent the form from submitting if there are errors
           }
         });
       } else {
