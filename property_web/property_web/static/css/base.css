@@ -24,6 +24,11 @@ body {
   text-decoration: none;
 }
 
+.logo:hover {
+  color: #484848 !important;
+  text-decoration: none !important;
+}
+
 .header-nav {
   margin-right: 46px;
 }
@@ -41,6 +46,11 @@ body {
   font-weight: 600;
   color: #484848;
   text-decoration: none;
+}
+
+.nav-item:hover {
+  color: #484848 !important;
+  text-decoration: none !important;
 }
 
 .header-nav .nav-list li:nth-child(2) .nav-item {
@@ -75,7 +85,6 @@ body {
 .fa-plus {
   margin-left: 8px;
 }
-
 .btn-dropdown {
   background-color: #fff;
   color: #484848;
