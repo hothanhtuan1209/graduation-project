@@ -1,4 +1,6 @@
-{% load static %} {% block extrahead %}
+{% load static %}
+
+{% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
 {% endblock extrahead %}
 
@@ -7,22 +9,17 @@
     <h3 class="modal-title">Xác nhận xóa</h3>
     <p class="modal-desc">Bạn có chắc chắn muốn xóa bài đăng này không?</p>
     <div class="modal-confirm-btn">
-      <button href="{% url 'update_post' post_id=post.id %}" class="modal-btn confirm-btn" id="confirmBtn">Xác nhận</button>
-      <button class="modal-btn confirm-btn" id="cancelBtn">Hủy</button>
+      <form action="{% url 'delete_post' post_id=post.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="modal-btn confirm-btn" id="confirmBtn">Xác nhận</button>
+        <button type="button" class="modal-btn confirm-btn" id="cancelBtn">Hủy</button>
+      </form>
     </div>
   </div>
 </div>
 
 {% block extrascripts %}
 <script>
-  document.getElementById("confirmBtn").onclick = function () {
-    var postId = document.getElementById("confirmDeleteModal").dataset.postId;
-    window.location.href = "{% url 'user_detail' user_id=user.id %}".replace(
-      "POST_ID", // khi xác nhận xoá sẽ chuyển đến url => xem lại
-      postId
-    );
-  };
-
   document.getElementById("cancelBtn").onclick = function () {
     document.getElementById("confirmDeleteModal").style.display = "none";
   };
@@ -32,7 +29,6 @@
     modal.style.display = "block";
     modal.dataset.postId = postId;
 
-    // Khi người dùng click bên ngoài modal, đóng modal
     window.onclick = function (event) {
       if (event.target == modal) {
         modal.style.display = "none";
