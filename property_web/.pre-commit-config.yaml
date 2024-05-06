@@ -6,4 +6,3 @@ repos:
         entry: djhtml --tabwidth 2
     -   id: djcss
     -   id: djjs
-    -   id: djhtml

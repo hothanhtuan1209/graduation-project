@@ -23,7 +23,7 @@ class UserDetailView(BaseView):
                 user=user_detail.id
             )
             .order_by("-created_at")
-            .values('id', 'title', 'address', 'status')[:10]
+            .values('id', 'title', 'price', 'area', 'address', 'status')[:10]
         )
 
         post_ids = [post["id"] for post in user_posts]
