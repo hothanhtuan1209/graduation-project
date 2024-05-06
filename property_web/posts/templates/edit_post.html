@@ -1,7 +1,4 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block extrahead %}
+{% extends 'base.html' %} {% load static %} {% block extrahead %}
 <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -55,9 +52,7 @@
     color: #2b6cb0;
   }
 </style>
-{% endblock extrahead %}
-
-{% block content %}
+{% endblock extrahead %} {% block content %}
 <div class="container">
   <h2 class="title-create font-bold text-[28px] mb-8">Bài Đăng Mới</h2>
   <form
@@ -206,10 +201,10 @@
     <div class="form-group">
       <label class="font-bold" for="id_description">Mô tả</label>
       <textarea
-        id="id_description"
-        name="description"
-        class="form-control"
-      ></textarea>
+      id="id_description"
+      name="description"
+      class="form-control"
+    >{{ post_form.instance.description }}</textarea>
     </div>
     <div class="form-group">
       <label class="font-bold" for="id_image">Hình ảnh</label>
@@ -372,12 +367,30 @@
     </div>
     <div class="w-full flex justify-end px-[15px]">
       <div class="flex gap-4">
-        <a href="{% url 'home' %}" class="btn text-gray-700 border-gray-400 rounded-full g-whitew-[80px] font-bold text-center"><div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-          </svg><span>Hủy</span>
-        </div></a>
-        <button type="submit" class="bg-gray-500 rounded-full w-[80px] text-center font-bold text-white">Lưu</button>
+        <a
+          href="{% url 'home' %}"
+          class="btn text-gray-700 border-gray-400 rounded-full g-whitew-[80px] font-bold text-center"
+          ><div class="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-x-lg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+              /></svg
+            ><span>Hủy</span>
+          </div></a
+        >
+        <button
+          type="submit"
+          class="bg-gray-500 rounded-full w-[80px] text-center font-bold text-white"
+        >
+          Lưu
+        </button>
       </div>
     </div>
   </form>
@@ -501,6 +514,14 @@
     }
   };
 
+  function removeFieldIfDoesNotHaveFile() {
+    const fileInput = document.getElementById("hidden-input");
+
+    if (fileInput.files.length === 0) {
+      fileInput.removeAttribute("name");
+    }
+  }
+
   document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -511,10 +532,8 @@
         form.addEventListener(
           "submit",
           function (event) {
-            if (
-              form.checkValidity() === false ||
-              Object.keys(FILES).length === 0
-            ) {
+            removeFieldIfDoesNotHaveFile();
+            if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
             }
@@ -523,7 +542,6 @@
           false
         );
       });
-      console.log(document.getElementById("hidden-input").value);
       var fullAddressLoad = document.getElementById("id_fullAddress");
       if (fullAddressLoad) {
         var defaultFullAddress = JSON.parse(fullAddressLoad.value);
@@ -569,8 +587,6 @@
           var houseNumber = document.getElementById("id_houseNumber").value;
           var streetName = document.getElementById("id_streetName").value;
 
-          console.log("submit: ", district);
-
           // Generate full address
           var fullAddress = { houseNumber, streetName, ward, district, city };
 
@@ -594,5 +610,4 @@
   );
 </script>
 {% endblock extrascripts %}
-
 {% endblock %}
