@@ -33,8 +33,9 @@
       {% endif %}
     </article>
     <ul class="post-list">
-      {% for post in user_posts %} {% include 'components/detail_user_item.html'
-      with post=post %} {% endfor %}
+      {% for post in user_posts %}
+        {% include 'components/detail_user_item.html' with post=post %}
+      {% endfor %}
     </ul>
   </div>
 </div>
