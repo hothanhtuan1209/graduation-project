@@ -28,7 +28,7 @@ function isJson(str) {
 function formatAddress(address) {
   const obj = JSON.parse(address);
   let addressString = "";
- // gg ocschos r =))
+
   if (obj.houseNumber) {
     addressString += obj.houseNumber + ", ";
   }
