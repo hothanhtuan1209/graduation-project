@@ -44,7 +44,7 @@
           </p>
           <p class="post-address">
             <strong>Địa chỉ:</strong>
-            <span id="address-output" style="display: none">{{ post.address }}</span>
+            <span id="address-detail" style="display: none">{{ post.address }}</span>
           </p>
           <p class="post-created-at">
             <strong>Ngày đăng:</strong> {{ post.created_at }}
@@ -86,7 +86,7 @@
   </div>
 {% block extrascripts %}
   <script src="{% static 'js/modal_img.js' %}"></script>
-  <script src="{% static 'js/address_post.js' %}"></script>
+  <script src="{% static 'js/address_detail.js' %}"></script>
 {% endblock extrascripts %}
 
 {% endblock %}
