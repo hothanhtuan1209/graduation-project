@@ -1,44 +1,45 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block extrahead %}
-    <link rel="stylesheet" href="{% static 'css/post_item.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/detail_user_item.css' %}" />
-    <link rel="stylesheet" href="{% static 'css/list_post.css' %}" />
+<link rel="stylesheet" href="{% static 'css/post_item.css' %}" />
+<link rel="stylesheet" href="{% static 'css/detail_user_item.css' %}" />
+<link rel="stylesheet" href="{% static 'css/list_post.css' %}" />
 {% endblock extrahead %}
 
 {% block content %}
-    <div class="container ">
-        <h1 class="title">Thông tin tài khoản</h1>
-        <div class="detail-user-page">
-            <article class = "user-info">
-                <i class="fa-solid fa-circle-user" style="font-size: 120px"></i>
-                <ul class="detail-list">
-                    <li class="detail-item">
-                        <strong class="detail-label">Tên:</strong> {{ user_detail.username }}
-                    </li>
-                    <li class="detail-item">
-                        <strong class="detail-label">Số điện thoại:</strong> {{user_detail.phone_number }}
-                    </li>
-                    <li class="detail-item">
-                        <strong class="detail-label">Email:</strong> {{ user_detail.email }}
-                    </li>
-                </ul>
-                {% if request.user == user_detail %}
-                    <a href="{% url 'update_user' user_id=user.id %}" class="edit-link"
-                    >Chỉnh sửa</a
-                        >
-                {% endif %}
-            </article>
-            <ul class="post-list">
-                {% for post in user_posts %}
-                    {% include 'components/detail_user_item.html' with post=post %}
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    {% block extrascripts %}
-        <script src="{% static 'js/address_convert.js' %}"></script>
-    {% endblock extrascripts %}
+<div class="container">
+  <h1 class="detail-user-title">Thông tin tài khoản</h1>
+  <div class="detail-user-page">
+    <article class="user-info">
+      <i class="fa-solid fa-circle-user" style="font-size: 120px"></i>
+      <ul class="detail-list">
+        <li class="detail-item">
+          <strong class="detail-label">Tên:</strong> {{ user_detail.username }}
+        </li>
+        <li class="detail-item">
+          <strong class="detail-label">Số điện thoại:</strong>
+          {{user_detail.phone_number }}
+        </li>
+        <li class="detail-item">
+          <strong class="detail-label">Email:</strong> {{ user_detail.email }}
+        </li>
+      </ul>
+      {% if request.user == user_detail %}
+      <a href="{% url 'update_user' user_id=user.id %}" class="edit-link"
+        >Chỉnh sửa</a
+      >
+      {% endif %}
+    </article>
+    <ul class="post-list">
+      {% for post in user_posts %} {% include 'components/detail_user_item.html'
+      with post=post %} {% endfor %}
+    </ul>
+  </div>
+</div>
+{% block extrascripts %}
+<script src="{% static 'js/address_convert.js' %}"></script>
+{% endblock extrascripts %}
 
 {% endblock %}

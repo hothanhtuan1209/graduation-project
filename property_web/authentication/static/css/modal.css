@@ -1,92 +1,97 @@
 .modal-container {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
 }
 
 .modal {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 7px;
-    width: 25%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 7px;
+  width: 28%;
 }
 
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .modal-title {
-    color: #484848;
-    font-size: 17px;
-    font-weight: 700;
+  color: #484848;
+  font-size: 17px;
+  font-weight: 700;
 }
 
 .close-btn {
-    color: #484848;
-    font-size: 22px;
-    font-weight: bold;
+  color: #484848;
+  font-size: 22px;
+  font-weight: bold;
 }
 
 .close-btn:hover,
 .close-btn:focus {
-    color: black;
-    cursor: pointer;
+  color: black;
+  cursor: pointer;
 }
 
-.form-group{
-    display: flex;
-    justify-content: space-between;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
 }
 
 .modal-btn {
-    border: none;
-    font-size: 18px;
-    font-weight: 700;
-    border-radius: 30px;
-    padding: 11px 50px;
-    background-color: #9a9a9a;
-    color: #fff;
-    float: right;
-    cursor: pointer;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 30px;
+  padding: 11px 50px;
+  background-color: #9a9a9a;
+  color: #fff;
+  float: right;
+  cursor: pointer;
 }
 
 .modal-confirm {
-    width: 19%;
-    text-align: center;
+  width: 23%;
+  text-align: center;
+  justify-content: center;
 }
 
 .modal-confirm .modal-title {
-    color: #484848;
-    font-size: 20px;
-    font-weight: 700;
-    margin: 12px;
+  color: #484848;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 12px;
 }
 
 .modal-desc {
-    color: #484848;
-    font-size: 17px;
+  color: #484848;
+  font-size: 17px;
+  margin-bottom: 18px;
 }
 
 .modal-confirm-btn {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .confirm-btn {
-    padding: 11px 30px;
+  padding: 11px 30px;
 }
 
 .textfiled-authen {
-    border: 1px solid rgb(66, 66, 66) !important;
+  border: 1px solid rgb(66, 66, 66) !important;
 }
-

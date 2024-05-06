@@ -16,6 +16,14 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.post-desc-subtitle {
+  font-size: 22px;
+  font-weight: 700;
 }
 
 .post-desc-wrapper {
@@ -41,7 +49,7 @@
 .post-description {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  margin-bottom: 15px;
 }
 
 .other-post {
@@ -79,7 +87,7 @@
 .post-desc-info {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: 34px 1fr 34px;
   column-gap: 60px;
 }
 

@@ -41,12 +41,12 @@
         <form action="{% url 'create_post' %}" method="get">
           <button class="header-btn btn-add" type="submit">
             Tạo bài đăng
-            <i class="fa-solid fa-plus" style="display:contents"> </i>
+            <i class="fa-solid fa-plus"> </i>
           </button>
         </form>
         <div class="dropdown">
           <button class="header-btn btn-dropdown">
-            <i class="fa-solid fa-bars" style="display:contents">    </i>{{ user.username }}
+            <i class="fa-solid fa-bars">    </i>{{ user.username }}
           </button>
           <div class="dropdown-content">
             <form action="{% url 'logout' %}" method="post">

@@ -159,6 +159,8 @@ body {
 .info-title {
     color: #484848;
     margin: 0 0 15px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
 .footer-copyright {

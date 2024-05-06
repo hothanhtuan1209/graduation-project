@@ -1,19 +1,19 @@
-.post-list{
+.post-list {
   display: flex;
   flex-direction: column;
-  gap: 40px
+  gap: 40px;
 }
 
 .post-item {
   display: flex;
   align-items: center;
   position: relative;
-  gap: 15px
+  gap: 15px;
 }
 
-.post-item-link{
+.post-item-link {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   text-decoration: none;
 }
 
@@ -27,9 +27,11 @@
 }
 
 .post-item-content {
-  flex: 1 1 auto;
+  display: flex;
   text-decoration: none;
-  color: black
+  color: black;
+  flex-direction: column;
+  gap: 7px;
 }
 
 .title-post {
@@ -37,7 +39,9 @@
   font-size: 20px;
 }
 
-.price-post, .area-post, .address-post {
+.price-post,
+.area-post,
+.address-post {
   padding-left: 10px;
   color: #525252;
 }
