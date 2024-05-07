@@ -1,10 +1,13 @@
 <!-- post_detail.html -->
-{% extends 'base.html' %} {% load static %} {% block extrahead %}
-<link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}" />
-<link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
-<link rel="stylesheet" href="{% static 'css/modal_img.css' %}" />
-{% endblock extrahead %} {% block content %}
+{% extends 'base.html' %}
 
+{% load static %} {% block extrahead %}
+  <link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/modal_img.css' %}" />
+{% endblock extrahead %}
+
+{% block content %}
 <div class="post-detail">
   <div class="image-grid">
     {% for image in post_images|slice:":5" %}
@@ -26,13 +29,9 @@
     <div class="post-desc-wrapper">
       <h2 class="post-desc-title">
         {{ post.title }}
-        <img
-          class=""
-          src="{% static 'image_default/heart.png' %}"
-          alt="Large Map"
-        />
+        <img class="" src="{% static 'image/heart.png' %}" alt="Large Map" />
       </h2>
-      <h3>Thông tin chi tiết</h3>
+      <h3 class="post-desc-subtitle">Thông tin chi tiết</h3>
       <div class="post-desc-info">
         <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
         <p class="post-area">
@@ -40,7 +39,9 @@
         </p>
         <p class="post-address">
           <strong>Địa chỉ:</strong>
-          <span id="address-output" style="display: none">{{ post.address }}</span>
+          <span id="address-detail" style="display: none"
+            >{{ post.address }}</span
+          >
         </p>
         <p class="post-created-at">
           <strong>Ngày đăng:</strong> {{ post.created_at }}
@@ -62,12 +63,10 @@
     </div>
   </div>
 
-  <p class="post-description"><strong>Mô tả:</strong> {{ post.description }}</p>
-  <img
-    class="img-map"
-    src="{% static 'image_default/map.jpg' %}"
-    alt="Large Map"
-  />
+  <p class="post-description">
+    <strong class="post-desc-subtitle">Mô tả</strong> {{ post.description }}
+  </p>
+  <img class="img-map" src="{% static 'image/map.jpg' %}" alt="Large Map" />
 </div>
 
 <div class="user-posts">
@@ -81,6 +80,8 @@
   </ul>
 </div>
 {% block extrascripts %}
-<script src="{% static 'js/modal_img.js' %}"></script>
-<script src="{% static 'js/address_detail.js' %}"></script>
-{% endblock extrascripts %} {% endblock %}
+  <script src="{% static 'js/modal_img.js' %}"></script>
+  <script src="{% static 'js/address_detail.js' %}"></script>
+{% endblock extrascripts %}
+
+{% endblock %}

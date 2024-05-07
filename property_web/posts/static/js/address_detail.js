@@ -1,10 +1,9 @@
 document.addEventListener(
   "DOMContentLoaded",
   function () {
-    const addressElement = document.getElementById("address-output");
-
-    if (addressElement) { // Kiểm tra nếu phần tử và dữ liệu tồn tại
-      addressElement.innerHTML = formatAddress(addressElement.innerHTML);; // Sử dụng innerHTML để hiển thị HTML
+    const addressElement = document.getElementById("address-detail");
+    if (addressElement) { // Check if element and data exist
+      addressElement.innerHTML = formatAddress(addressElement.innerHTML);; // Use innerHTML to display HTML
       addressElement.style.display = 'flex';
     } else {
       console.error("Dữ liệu địa chỉ không tồn tại hoặc phần tử không được tìm thấy.");
@@ -12,34 +11,31 @@ document.addEventListener(
   },
   false
 );
-
 function formatAddress(addressString) {
   if (!addressString) {
-    return ""; // Xử lý địa chỉ trống
+    return ""; //Handling empty addresses
   }
-
   try {
     const address = JSON.parse(addressString);
     let formattedAddress = "";
-
     if (address.houseNumber) {
       formattedAddress += address.houseNumber + ", ";
     }
     if (address.streetName) {
       formattedAddress += address.streetName + ", ";
     }
-    if (address.ward) { // Sử dụng address.ward thay vì obj.ward
+    if (address.ward) { // Use address.ward instead of obj.ward
       formattedAddress += address.ward.name + ", ";
     }
-    if (address.district) { // Sử dụng address.district
+    if (address.district) { // Use address.district
       formattedAddress += address.district.name + ", ";
     }
-    if (address.city) { // Sử dụng address.city
+    if (address.city) { // Use address.city
       formattedAddress += address.city.name;
     }
-    return formattedAddress; // Loại bỏ dấu phẩy và khoảng trắng ở cuối
+    return formattedAddress; // Remove trailing commas and spaces
   } catch (error) {
     console.error("Lỗi phân tích JSON địa chỉ:", error);
-    return ""; // Xử lý lỗi phân tích
+    return ""; // Handle parsing errors
   }
 }

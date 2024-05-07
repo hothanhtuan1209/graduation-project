@@ -105,7 +105,7 @@ class PostDetailView(BaseView):
             Post.objects.filter(Q(status=Status.AVAILABLE.value) & Q(user=user_post["id"]))
             .exclude(id=post_id)
             .order_by("-created_at")
-            .values("id", "title", "address")[:5]
+            .values("id", "title", "price", "address")[:5]
         )
 
         post_ids = [post["id"] for post in posts_of_user]

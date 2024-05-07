@@ -67,7 +67,7 @@
       <div class="basis-2/3">
         <div class="form-group">
           <label for="id_address" class="font-bold text-[22px]">Địa Điểm</label>
-          <!-- Các trường Tỉnh/Thành phố, Quận/Huyện, Phường/Xã -->
+          <!-- Fields Province/City, District/District, Ward/Commune -->
           <div class="flex justify-between gap-[60px] text-[15px] mb-2">
             <div class="basis-1/3">
               <label class="font-bold"
@@ -96,7 +96,7 @@
             </div>
           </div>
 
-          <!-- Các trường Số nhà và Tên đường -->
+          <!-- Fields House Number and Street Name -->
           <div class="flex gap-[60px]">
             <div class="basis-1/3">
               <label class="font-bold">Số nhà</label>
@@ -201,21 +201,13 @@
     <div class="form-group">
       <label class="font-bold" for="id_description">Mô tả</label>
       <textarea
-        id="id_description"
-        name="description"
-        class="form-control"
-      ></textarea>
+      id="id_description"
+      name="description"
+      class="form-control"
+    >{{ post_form.instance.description }}</textarea>
     </div>
     <div class="form-group">
       <label class="font-bold" for="id_image">Hình ảnh</label>
-      <!-- <input
-          type="file"
-          id="id_image"
-          name="image"
-          multiple
-          class="form-control"
-          accept="image/*"
-        /> -->
       <div class="max-h-[600px] w-full">
         <main class="container">
           <!-- file upload modal -->
@@ -269,7 +261,6 @@
                       viewBox="0 0 16 16"
                     >
                       <g transform="scale(1.5) translate(-2.8, -2.8)">
-                        <!-- Scale path 2.5 lần và dịch chuyển về trung tâm -->
                         <path
                           d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
                         />
@@ -313,22 +304,6 @@
                 </li>
               </ul>
             </section>
-
-            <!-- sticky footer -->
-            <!-- <footer class="flex justify-end px-8 pb-8 pt-4">
-                <button
-                  id="submit"
-                  class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none"
-                >
-                  Upload now
-                </button>
-                <button
-                  id="cancel"
-                  class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
-                >
-                  Cancel
-                </button>
-              </footer> -->
           </article>
         </main>
       </div>
@@ -392,12 +367,30 @@
     </div>
     <div class="w-full flex justify-end px-[15px]">
       <div class="flex gap-4">
-        <a href="{% url 'home' %}" class="btn text-gray-700 border-gray-400 rounded-full g-whitew-[80px] font-bold text-center"><div class="flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-          </svg><span>Hủy</span>
-        </div></a>
-        <button type="submit" class="bg-gray-500 rounded-full w-[80px] text-center font-bold text-white">Lưu</button>
+        <a
+          href="{% url 'home' %}"
+          class="btn text-gray-700 border-gray-400 rounded-full g-whitew-[80px] font-bold text-center"
+          ><div class="flex items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-x-lg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"
+              /></svg
+            ><span>Hủy</span>
+          </div></a
+        >
+        <button
+          type="submit"
+          class="bg-gray-500 rounded-full w-[80px] text-center font-bold text-white"
+        >
+          Lưu
+        </button>
       </div>
     </div>
   </form>
@@ -521,6 +514,14 @@
     }
   };
 
+  function removeFieldIfDoesNotHaveFile() {
+    const fileInput = document.getElementById("hidden-input");
+
+    if (fileInput.files.length === 0) {
+      fileInput.removeAttribute("name");
+    }
+  }
+
   document.addEventListener(
     "DOMContentLoaded",
     function () {
@@ -531,10 +532,8 @@
         form.addEventListener(
           "submit",
           function (event) {
-            if (
-              form.checkValidity() === false ||
-              Object.keys(FILES).length === 0
-            ) {
+            removeFieldIfDoesNotHaveFile();
+            if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
             }
@@ -543,11 +542,10 @@
           false
         );
       });
-      console.log(document.getElementById("hidden-input").value);
       var fullAddressLoad = document.getElementById("id_fullAddress");
       if (fullAddressLoad) {
         var defaultFullAddress = JSON.parse(fullAddressLoad.value);
-        // Điền các giá trị mặc định vào các trường tương ứng trong form
+        // Fill in default values ​​into the corresponding fields in the form
         document.getElementById("id_city").options[0].textContent =
           defaultFullAddress.city.name;
         document.getElementById("id_city").options[0].value =
@@ -570,7 +568,7 @@
       var addressForm = document.getElementById("addressForm");
       if (addressForm) {
         addressForm.addEventListener("submit", function (event) {
-          // Các giá trị từ input của bạn
+          // Values ​​from your input
           var city = {
             name: document.getElementById("id_city").selectedOptions[0]
               .textContent,
@@ -589,21 +587,19 @@
           var houseNumber = document.getElementById("id_houseNumber").value;
           var streetName = document.getElementById("id_streetName").value;
 
-          console.log("submit: ", district);
-
-          // Tạo địa chỉ đầy đủ
+          // Generate full address
           var fullAddress = { houseNumber, streetName, ward, district, city };
 
-          // Gán giá trị cho trường input ẩn "fullAddress"
+          // Assign value to hidden input field "fullAddress"
           var fullAddressField = document.getElementById("id_fullAddress");
           if (fullAddressField) {
             fullAddressField.value = JSON.stringify(fullAddress);
           } else {
-            // Trường hợp không tìm thấy trường 'fullAddress', cần hiển thị lỗi hoặc xử lý khác
+            // In case the 'fullAddress' field is not found, an error should be displayed or other handling is required
             console.error(
               "Không tìm thấy trường input ẩn để gán địa chỉ đầy đủ."
             );
-            event.preventDefault(); // Ngăn không cho form submit nếu có lỗi
+            event.preventDefault(); // Prevent the form from submitting if there are errors
           }
         });
       } else {
@@ -612,21 +608,6 @@
     },
     false
   );
-
-  // print all selected files
-  // document.getElementById("submit").onclick = () => {
-  //   alert(`Submitted Files:\n${JSON.stringify(FILES)}`);
-  //   console.log(FILES);
-  // };
-
-  // clear entire selection
-  // document.getElementById("cancel").onclick = () => {
-  //   while (gallery.children.length > 0) {
-  //     gallery.lastChild.remove();
-  //   }
-  //   FILES = {};
-  //   empty.classList.remove("hidden");
-  //   gallery.append(empty);
-  // };
 </script>
-{% endblock extrascripts %} {% endblock %}
+{% endblock extrascripts %}
+{% endblock %}
