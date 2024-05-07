@@ -40,20 +40,20 @@ let responseData = [];
     selectDistrictElement.options[0].textContent;
 
   selectCityElement.onchange = (e) => {
-    // Lấy select element từ DOM
+    // Get select element from DOM
     console.log("change");
-    // Lấy giá trị của province_id từ select element với id_city
+    // Get the value of province_id from the select element with id_city
     if (e.target.value) {
-      // Gọi API để lấy dữ liệu về quận/huyện dựa trên province_id
+      // Call the API to get district data based on province_id
       fetch(
         "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district",
         {
-          method: "POST", // Phương thức GET
+          method: "POST",
           headers: {
             token: "f44f9dc5-05c9-11ef-b1d4-92b443b7a897", // Token
-            "Content-Type": "application/json", // Định dạng dữ liệu
+            "Content-Type": "application/json", // Data format
           },
-          // Truyền dữ liệu trong body dưới dạng JSON
+          // Pass data in body as JSON
           body: JSON.stringify({
             province_id: Number(e.target.value),
           }),
@@ -63,7 +63,7 @@ let responseData = [];
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-          return response.json(); // Chuyển đổi dữ liệu nhận được thành JSON
+          return response.json(); // Convert received data to JSON
         })
         .then((data) => {
           if (data.code === 200) {
@@ -71,18 +71,18 @@ let responseData = [];
           }
         })
         .then(() => {
-          // Xóa tất cả các option hiện có trong select element
+          // Delete all existing options in the select element
           selectDistrictElement.innerHTML = "";
           const defaultOption = document.createElement("option");
           defaultOption.value = defaultDistrictOptionValue;
           defaultOption.textContent = defaultDistrictOptionText;
           selectDistrictElement.appendChild(defaultOption);
-          // Lặp qua mỗi object trong dữ liệu trả về và tạo option mới cho mỗi object
+          // Loop through each object in the returned data and create new options for each object
           responseDistrictData.forEach((district) => {
-            const option = document.createElement("option"); // Tạo một option element
-            option.value = district.DistrictID; // Gán giá trị của option là DistrictID
-            option.textContent = district.DistrictName; // Gán nội dung của option là DistrictName
-            selectDistrictElement.appendChild(option); // Thêm option vào select element
+            const option = document.createElement("option"); // Create an option element
+            option.value = district.DistrictID; // Assign the value of the option to DistrictID
+            option.textContent = district.DistrictName; // Assign the content of the option to DistrictName
+            selectDistrictElement.appendChild(option); // Add options to the select element
           });
           console.log(responseWardData)
         })
@@ -97,20 +97,20 @@ let responseData = [];
   const selectWardElement = document.getElementById("id_ward");
   const defaultWardOptionValue = selectWardElement.options[0].value;
   const defaultWardOptionText = selectWardElement.options[0].textContent;
-  // Bắt sự kiện khi select district thay đổi
+  // Catch the event when the selected district changes
   selectDistrictElement.onchange = (e) => {
-    // Lấy giá trị của district_id từ select element
+    // Get the value of district_id from the select element
     const districtId = e.target.value;
     if (districtId) {
       fetch(
         "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id",
         {
-          method: "POST", // Phương thức POST
+          method: "POST", // POST method
           headers: {
             token: "f44f9dc5-05c9-11ef-b1d4-92b443b7a897", // Token
-            "Content-Type": "application/json", // Định dạng dữ liệu
+            "Content-Type": "application/json",
           },
-          // Truyền dữ liệu trong body dưới dạng JSON
+          // Pass data in body as JSON
           body: JSON.stringify({
             district_id: Number(districtId),
           }),
@@ -120,7 +120,7 @@ let responseData = [];
           if (!response.ok) {
             throw new Error("Network response was not ok");
           }
-          return response.json(); // Chuyển đổi dữ liệu nhận được thành JSON
+          return response.json(); // Convert received data to JSON
         })
         .then((data) => {
           if (data.code === 200) {
@@ -128,20 +128,20 @@ let responseData = [];
           }
         })
         .then(() => {
-          // Xóa tất cả các option hiện có trong select element
+          // Delete all existing options in the select element
           selectWardElement.innerHTML = "";
 
-          // Thêm lại option mặc định vào đầu danh sách option
+          // Add the default option back to the top of the options list
           const defaultOption = document.createElement("option");
           defaultOption.value = defaultWardOptionValue;
           defaultOption.textContent = defaultWardOptionText;
           selectWardElement.appendChild(defaultOption);
 
           responseWardData.forEach((ward) => {
-            const option = document.createElement("option"); // Tạo một option element
-            option.value = ward.WardCode; // Gán giá trị của option là WardID
-            option.textContent = ward.WardName; // Gán nội dung của option là WardName
-            selectWardElement.appendChild(option); // Thêm option vào select element
+            const option = document.createElement("option"); // Create an option element
+            option.value = ward.WardCode; // Assign the value of the option to WardID
+            option.textContent = ward.WardName; // Assign the content of the option to WardName
+            selectWardElement.appendChild(option); // Add options to the select element
           });
 
         })

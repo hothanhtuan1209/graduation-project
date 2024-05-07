@@ -12,12 +12,13 @@
 }
 
 .modal {
+  display: flex;
+  flex-direction: column;
   background-color: #fefefe;
   margin: 5% auto;
   padding: 20px;
   border-radius: 7px;
-  width: 25%;
-  height: 155px;
+  width: 28%;
 }
 
 .modal-header {
@@ -44,6 +45,13 @@
   cursor: pointer;
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 7px;
+}
+
 .modal-btn {
   border: none;
   font-size: 18px;
@@ -57,8 +65,9 @@
 }
 
 .modal-confirm {
-  width: 19%;
+  width: 23%;
   text-align: center;
+  justify-content: center;
 }
 
 .modal-confirm .modal-title {
@@ -71,6 +80,7 @@
 .modal-desc {
   color: #484848;
   font-size: 17px;
+  margin-bottom: 18px;
 }
 
 .modal-confirm-btn {
@@ -80,4 +90,8 @@
 
 .confirm-btn {
   padding: 11px 30px;
+}
+
+.textfiled-authen {
+  border: 1px solid rgb(66, 66, 66) !important;
 }

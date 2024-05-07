@@ -1,61 +1,63 @@
 {% extends 'base.html' %}
-
 {% load static %}
 
 {% block extrahead %}
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-  integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
-  crossorigin="anonymous"
-/>
-<script
-  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/popper.min.js"
-  integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-  crossorigin="anonymous"
-></script>
-<script
-  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
-  integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
-  crossorigin="anonymous"
-></script>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-  rel="stylesheet"
-/>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  .hasImage:hover section {
-    background-color: rgba(5, 5, 5, 0.4);
-  }
-  .hasImage:hover button:hover {
-    background: rgba(5, 5, 5, 0.45);
-  }
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  <script
+    src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+    integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+    crossorigin="anonymous"
+  ></script>
 
-  #overlay p,
-  i {
-    opacity: 0;
-  }
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+      href="{% static 'fontawesomefree/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hasImage:hover section {
+      background-color: rgba(5, 5, 5, 0.4);
+    }
+    .hasImage:hover button:hover {
+      background: rgba(5, 5, 5, 0.45);
+    }
 
-  #overlay.draggedover {
-    background-color: rgba(255, 255, 255, 0.7);
-  }
-  #overlay.draggedover p,
-  #overlay.draggedover i {
-    opacity: 1;
-  }
+    #overlay p,
+    i {
+      opacity: 0;
+    }
 
-  .group:hover .group-hover\:text-blue-800 {
-    color: #2b6cb0;
-  }
-</style>
+    #overlay.draggedover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+    #overlay.draggedover p,
+    #overlay.draggedover i {
+      opacity: 1;
+    }
+
+    .group:hover .group-hover\:text-blue-800 {
+      color: #2b6cb0;
+    }
+  </style>
 {% endblock extrahead %}
 
 {% block content %}
@@ -73,7 +75,7 @@
       <div class="basis-2/3">
         <div class="form-group">
           <label for="id_address" class="font-bold text-[22px]">Địa Điểm</label>
-          <!-- Các trường Tỉnh/Thành phố, Quận/Huyện, Phường/Xã -->
+          <!-- Fields Province/City, District/District, Ward/Commune -->
           <div class="flex justify-between gap-[60px] text-[15px] mb-2">
             <div class="basis-1/3">
               <label class="font-bold"
@@ -101,7 +103,7 @@
             </div>
           </div>
 
-          <!-- Các trường Số nhà và Tên đường -->
+          <!-- Fields House Number and Street Name -->
           <div class="flex gap-[60px]">
             <div class="basis-1/3">
               <label class="font-bold">Số nhà</label>
@@ -266,7 +268,6 @@
                       viewBox="0 0 16 16"
                     >
                       <g transform="scale(1.5) translate(-2.8, -2.8)">
-                        <!-- Scale path 2.5 lần và dịch chuyển về trung tâm -->
                         <path
                           d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
                         />
@@ -554,7 +555,7 @@
       var addressForm = document.getElementById("addressForm");
       if (addressForm) {
         addressForm.addEventListener("submit", function (event) {
-          // Các giá trị từ input của bạn
+          // Values ​​from your input
           var city = {
             name: document.getElementById("id_city").selectedOptions[0]
               .textContent,
@@ -575,19 +576,19 @@
 
           console.log("submit: ", district);
 
-          // Tạo địa chỉ đầy đủ
+          // Generate full address
           var fullAddress = { houseNumber, streetName, ward, district, city };
 
-          // Gán giá trị cho trường input ẩn "fullAddress"
+          // Assign value to hidden input field "fullAddress"
           var fullAddressField = document.getElementById("id_fullAddress");
           if (fullAddressField) {
             fullAddressField.value = JSON.stringify(fullAddress);
           } else {
-            // Trường hợp không tìm thấy trường 'fullAddress', cần hiển thị lỗi hoặc xử lý khác
+            // In case 'fullAddress' field is not found, error display or other handling is required
             console.error(
               "Không tìm thấy trường input ẩn để gán địa chỉ đầy đủ."
             );
-            event.preventDefault(); // Ngăn không cho form submit nếu có lỗi
+            event.preventDefault(); // Prevent the form from submitting if there are errors
           }
         });
       } else {

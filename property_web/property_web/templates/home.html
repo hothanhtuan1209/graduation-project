@@ -5,6 +5,8 @@
 {% block extrahead %}
 <link rel="stylesheet" href="{% static 'css/home.css' %}" />
 <link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}"/>
+<script src="https://cdn.tailwindcss.com"></script>
+
 {% endblock extrahead %}
 
 {% block content %}
@@ -12,7 +14,7 @@
   <div class="banner">
     <img
       class="banner-image"
-      src="../../media/banners/banner-6.jpg"
+      src="{% static 'image/banners/banner-6.jpg' %}"
       alt="Banner"
     />
   </div>

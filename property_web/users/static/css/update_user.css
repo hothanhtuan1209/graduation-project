@@ -11,15 +11,21 @@
   margin-bottom: 15px;
 }
 
-.form-group {
+.form-group-update {
   display: flex;
+}
+
+.form-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
 }
 
 .form-label {
   width: 115px;
 }
 
-.form-group input {
+.form-group-update input {
   width: 632px;
   padding: 8px;
   border-radius: 6px;

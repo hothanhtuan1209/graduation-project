@@ -7,7 +7,7 @@
     <title>{% block title %}HomeHaven{% endblock %}</title>
     <link href="{% static 'css/reset.css' %}" />
     <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    <link rel="stylesheet" href="{% static 'authentication/css/modal.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
     <link
       href="{% static 'fontawesomefree/css/all.min.css' %}"
       rel="stylesheet"
@@ -41,12 +41,12 @@
         <form action="{% url 'create_post' %}" method="get">
           <button class="header-btn btn-add" type="submit">
             Tạo bài đăng
-            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-plus"> </i>
           </button>
         </form>
         <div class="dropdown">
           <button class="header-btn btn-dropdown">
-            <i class="fa-solid fa-bars"></i>{{ user.username }}
+            <i class="fa-solid fa-bars">    </i>{{ user.username }}
           </button>
           <div class="dropdown-content">
             <form action="{% url 'logout' %}" method="post">
