@@ -1,0 +1,37 @@
+{% load static %}
+<li class="detail-user-item">
+  <a class="detail-item-link" href="{% url 'post_detail' post_id=post.id %}">
+    {% if post.image %}
+     <img
+     class="detail-image"
+     src="{{ post.image }}"
+     alt="{{ post.title }} Image"
+     />
+     {% else %}
+     <img
+     class="detail-image"
+     src="{% static 'image/default/img_default.jpg' %}"
+     alt="Default Image"
+     />
+  {% endif %}
+  <article>
+    <p class="title-post">{{ post.title }}</p>
+    <p class="price-post">{{ post.price }} VNĐ</p>
+    <p class="area-post">{{ post.area }} mét vuông</p>
+    <p class="address-post" style="display: none" id="address-output">{{ post.address }}</p>
+    {% if request.user == user_detail %}
+      {% if post.status == 'UNAPPROVED'%}
+          <p class="status-content">Chưa duyệt</s>
+      {% elif post.status == 'AVAILABLE' %}
+          <p class="status-content">Đã duyệt</p>
+      {% endif %}
+    {% endif %}
+  </a>
+  {% if request.user == user_detail %}
+  <a href="{% url 'update_post' post_id=post.id %}" class="edit-link">Chỉnh sửa</a>
+  <button class="delete-link" onclick="confirmDelete('{{ post.id }}')">Xóa</button>
+</article>
+  {% endif %}
+</li>
+
+{% include 'post_confirm_delete.html' %}

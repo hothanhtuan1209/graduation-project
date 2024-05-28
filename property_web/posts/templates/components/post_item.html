@@ -1,0 +1,24 @@
+{% load static %}
+<li class="post-item">
+  <a class="post-item-link" href="{% url 'post_detail' post_id=post.id %}">
+    {% if post.image %}
+      <img
+        class="post-image"
+        src="{{ post.image }}"
+        alt="{{ post.title }} Image"
+      />
+    {% else %}
+      <img
+        class="post-image"
+        src="{% static 'image/default/img_default.jpg' %}"
+        alt="Default Image"
+      />
+    {% endif %}
+    <div class="post-item-content">
+      <p class="title-post">{{ post.title }}</p>
+      <p class="price-post">{{ post.price }} VNĐ</p>
+      <p class="area-post">{{ post.area }} mét vuông</p>
+      <p class="address-post" style="display: none" id="address-output">{{ post.address }}</p>
+    </div>
+  </a>
+</li>

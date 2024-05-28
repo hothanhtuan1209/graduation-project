@@ -1,0 +1,63 @@
+<!-- home_page.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+<link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}"/>
+<script src="https://cdn.tailwindcss.com"></script>
+
+{% endblock extrahead %}
+
+{% block content %}
+<div class="container">
+  <div class="banner">
+    <img
+      class="banner-image"
+      src="{% static 'image/banners/banner-6.jpg' %}"
+      alt="Banner"
+    />
+  </div>
+
+  <div class="header-content">
+    <h1 class="content-title">Bất động sản</h1>
+    <nav class="content-nav">
+      <ul class="nav-list">
+        <li>
+          <a href="" class="nav-item">Nhà trọ</a>
+        </li>
+        <li>
+          <a href="" class="nav-item">Căn hộ</a>
+        </li>
+        <li>
+          <a href="" class="nav-item">Nhà nguyên căn</a>
+        </li>
+        <li>
+          <a href="" class="nav-item">Mặt bằng kinh doanh</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <span class="main-title">Tin nổi bật</span>
+  <ul class="list-group">
+    {% for post in hot_posts %}
+      {% include 'components/card_horizontal.html' with post=post %}
+    {% endfor %}
+  </ul>
+
+  <span class="main-title">Tin gần đây</span>
+  <ul class="list-group">
+    {% for post in normal_posts %}
+      {% include 'components/card_horizontal.html' with post=post %}
+    {% endfor %}
+  </ul>
+  <button class="list-post-btn">
+    <a href="{% url 'list_posts' %}">Xem thêm</a>
+  </button>
+</div>
+{% block extrascripts %}
+  <script src="{% static 'js/address_post.js' %}"></script>
+{% endblock extrascripts %}
+
+{% endblock %}

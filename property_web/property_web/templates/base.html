@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}HomeHaven{% endblock %}</title>
+    <link href="{% static 'css/reset.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/modal.css' %}" />
+    <link
+      href="{% static 'fontawesomefree/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    {% block extrahead %} {% endblock extrahead %}
+  </head>
+  <body>
+    <div style="background-color: #eff0f2">
+      <header class="base main-header">
+        <a href="/" class="logo">
+          <span>HOMEHAVEN</span>
+        </a>
+        <nav class="header-nav">
+          <ul class="nav-list">
+            <li>
+              <a href="" class="nav-item">Trang Chủ</a>
+            </li>
+            <li>
+              <a href="#" class="nav-item">Cho Thuê</a>
+            </li>
+            <li>
+              <a href="" class="nav-item">Mua Bán</a>
+            </li>
+            <li>
+              <a href="" class="nav-item">Liên Hệ</a>
+            </li>
+          </ul>
+        </nav>
+        {% if user.is_authenticated %}
+        <form action="{% url 'create_post' %}" method="get">
+          <button class="header-btn btn-add" type="submit">
+            Tạo bài đăng
+            <i class="fa-solid fa-plus"> </i>
+          </button>
+        </form>
+        <div class="dropdown">
+          <button class="header-btn btn-dropdown">
+            <i class="fa-solid fa-bars">    </i>{{ user.username }}
+          </button>
+          <div class="dropdown-content">
+            <form action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="header-btn btn-content" type="submit">
+                Đăng xuất
+              </button>
+            </form>
+            <button
+              id="changePasswordBtn"
+              class="header-btn btn-content"
+              type="button"
+            >
+              Đổi mật khẩu
+            </button>
+
+            <form action="{% url 'user_detail' user_id=user.id %}" method="get">
+              <button class="header-btn btn-content" type="submit">
+                Tài khoản
+              </button>
+            </form>
+          </div>
+        </div>
+        {% else %}
+        <form action="{% url 'login' %}" method="get">
+          <button class="header-btn" type="submit">Đăng nhập/Đăng kí</button>
+        </form>
+        {% endif %}
+      </header>
+    </div>
+    <main class="base main-body">{% block content %}{% endblock %}</main>
+    <div style="background-color: #eff0f2">
+      <footer class="base main-footer">
+        <div class="footer-top">
+          <a href="" class="logo">
+            <span>HOMEHAVEN</span>
+          </a>
+          <div class="footer-info">
+            <div class="company-info">
+              <h3 class="info-title">Tên công ty</h3>
+              <ul class="info-list">
+                <li>Giới thiệu</li>
+                <li>Thông tin liên hệ</li>
+              </ul>
+            </div>
+
+            <div class="help-info">
+              <h3 class="info-title">Trợ giúp</h3>
+              <ul class="info-list">
+                <li>Câu hỏi</li>
+                <li>Hướng dẫn đăng tin</li>
+                <li>Bảng giá dịch vụ</li>
+              </ul>
+            </div>
+
+            <div class="contact-info">
+              <h3 class="info-title">Thông tin liên hệ</h3>
+              <ul class="info-list">
+                <li>Điện thoại: 1234567890</li>
+                <li>Email: company@gmail.com</li>
+                <li>Địa chỉ:</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <hr />
+        <div class="footer-copyright">
+          <p>© 2024 thecreation.design | All rights raserved</p>
+          <p>Created with love by thecreation.design</p>
+        </div>
+      </footer>
+    </div>
+    {% include 'authentication/templates/change_password.html' %}
+    {% comment %} Script of base {% endcomment %}
+    {% block extrastcrip %} {% endblock extrastcrip %}
+  </body>
+</html>

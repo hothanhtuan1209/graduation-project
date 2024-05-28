@@ -1,0 +1,604 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+    crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+  <script
+    src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"
+  ></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"
+    integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+"
+    crossorigin="anonymous"
+  ></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+      href="{% static 'fontawesomefree/css/all.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hasImage:hover section {
+      background-color: rgba(5, 5, 5, 0.4);
+    }
+    .hasImage:hover button:hover {
+      background: rgba(5, 5, 5, 0.45);
+    }
+
+    #overlay p,
+    i {
+      opacity: 0;
+    }
+
+    #overlay.draggedover {
+      background-color: rgba(255, 255, 255, 0.7);
+    }
+    #overlay.draggedover p,
+    #overlay.draggedover i {
+      opacity: 1;
+    }
+
+    .group:hover .group-hover\:text-blue-800 {
+      color: #2b6cb0;
+    }
+  </style>
+{% endblock extrahead %}
+
+{% block content %}
+<div class="container">
+  <h2 class="title-create font-bold text-[28px] mb-8">Bài Đăng Mới</h2>
+  <form
+    id="addressForm"
+    method="post"
+    enctype="multipart/form-data"
+    class="create-post-form needs-validation"
+    novalidate
+  >
+    {% csrf_token %}
+    <div class="flex gap-[60px]">
+      <div class="basis-2/3">
+        <div class="form-group">
+          <label for="id_address" class="font-bold text-[22px]">Địa Điểm</label>
+          <!-- Fields Province/City, District/District, Ward/Commune -->
+          <div class="flex justify-between gap-[60px] text-[15px] mb-2">
+            <div class="basis-1/3">
+              <label class="font-bold"
+                >Tỉnh/Thành phố<span class="text-[#cf1f00]"> *</span></label
+              >
+              <select id="id_city" class="form-control" required>
+                <option value="">Chọn Tỉnh/Thành phố</option>
+              </select>
+            </div>
+            <div class="basis-1/3">
+              <label class="font-bold"
+                >Quận/Huyện<span class="text-[#cf1f00]"> *</span></label
+              >
+              <select id="id_district" class="form-control" required>
+                <option value="">Chọn Quận/Huyện</option>
+              </select>
+            </div>
+            <div class="basis-1/3">
+              <label class="font-bold"
+                >Phường/Xã<span class="text-[#cf1f00]"> *</span></label
+              >
+              <select id="id_ward" class="form-control" required>
+                <option value="">Chọn Phường/Xã</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fields House Number and Street Name -->
+          <div class="flex gap-[60px]">
+            <div class="basis-1/3">
+              <label class="font-bold">Số nhà</label>
+              <input type="text" id="id_houseNumber" class="form-control" />
+            </div>
+            <div class="basis-2/3">
+              <label class="font-bold">Tên đường</label>
+              <input type="text" id="id_streetName" class="form-control" />
+            </div>
+          </div>
+          <input type="hidden" id="id_fullAddress" name="address" value="" />
+        </div>
+        <label class="font-bold text-[22px]">Thông tin chi tiết</label>
+        <div class="flex gap-[60px]">
+          <div class="form-group">
+            <label class="font-bold" for="id_type"
+              >Loại<span class="text-[#cf1f00]"> *</span></label
+            >
+            <select
+              id="id_type"
+              name="type"
+              class="form-control w-[176px]"
+              required
+            >
+              {% for type_value, type_name in post_form.fields.type.choices %}
+              <option value="{{ type_value }}">{{ type_name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="font-bold" for="id_category"
+              >Loại Bất Động Sản<span class="text-[#cf1f00]"> *</span></label
+            >
+            <select
+              id="id_category"
+              name="category"
+              class="form-control w-[176px]"
+              required
+            >
+              {% for category in post_form.fields.category.queryset %}
+              <option value="{{ category.pk }}">{{ category.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="font-bold" for="id_title"
+            >Tiêu Đề<span class="text-[#cf1f00]"> *</span></label
+          >
+          <input
+            type="text"
+            id="id_title"
+            name="title"
+            class="form-control max-w-[484px]"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-bold" for="id_area"
+            >Diện Tích<span class="text-[#cf1f00]"> *</span></label
+          >
+          <input
+            type="number"
+            id="id_area"
+            name="area"
+            class="form-control max-w-[263px]"
+            required
+            min="0"
+          />
+        </div>
+        <div class="form-group">
+          <label class="font-bold" for="id_price"
+            >Giá (VND)<span class="text-[#cf1f00]"> *</span></label
+          >
+          <input
+            type="number"
+            id="id_price"
+            name="price"
+            class="form-control max-w-[484px]"
+            required
+            min="0"
+          />
+        </div>
+      </div>
+      <div class="basis-1/3 flex items-center">
+        <img
+          class="w-[500px] h-[400px] object-cover"
+          src="https://images.photowall.com/products/62911/london-map-1.jpg?h=699&q=85"
+          alt="map"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="font-bold" for="id_description">Mô tả</label>
+      <textarea
+        id="id_description"
+        name="description"
+        class="form-control"
+      ></textarea>
+    </div>
+    <div class="form-group">
+      <label class="font-bold" for="id_image">Hình ảnh</label>
+      <!-- <input
+        type="file"
+        id="id_image"
+        name="image"
+        multiple
+        class="form-control"
+        accept="image/*"
+      /> -->
+      <div class="max-h-[600px] w-full">
+        <main class="container">
+          <!-- file upload modal -->
+          <article
+            aria-label="File Upload Modal"
+            class="relative h-full flex flex-col bg-white shadow-xl rounded-md"
+            ondrop="dropHandler(event);"
+            ondragover="dragOverHandler(event);"
+            ondragleave="dragLeaveHandler(event);"
+            ondragenter="dragEnterHandler(event);"
+          >
+            <!-- overlay -->
+            <div
+              id="overlay"
+              class="w-full h-full absolute top-0 left-0 pointer-events-none z-50 flex flex-col items-center justify-center rounded-md"
+            >
+              <i>
+                <svg
+                  class="fill-current w-12 h-12 mb-3 text-blue-700"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19.479 10.092c-.212-3.951-3.473-7.092-7.479-7.092-4.005 0-7.267 3.141-7.479 7.092-2.57.463-4.521 2.706-4.521 5.408 0 3.037 2.463 5.5 5.5 5.5h13c3.037 0 5.5-2.463 5.5-5.5 0-2.702-1.951-4.945-4.521-5.408zm-7.479-1.092l4 4h-3v4h-2v-4h-3l4-4z"
+                  />
+                </svg>
+              </i>
+              <p class="text-lg text-blue-700">Drop files to upload</p>
+            </div>
+
+            <!-- scroll area -->
+            <section
+              class="h-full overflow-auto p-8 w-full h-full flex flex-col"
+            >
+              <header
+                class="border-dashed border-2 border-gray-400 py-12 flex flex-col justify-center items-center"
+              >
+                <div class="flex items-center gap-5">
+                  <button
+                    id="button"
+                    class="p-2 rounded-full bg-gray-300 hover:bg-gray-400 text-white focus:shadow-outline focus:outline-none"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      fill="currentColor"
+                      class="bi bi-plus"
+                      viewBox="0 0 16 16"
+                    >
+                      <g transform="scale(1.5) translate(-2.8, -2.8)">
+                        <path
+                          d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"
+                        />
+                      </g>
+                    </svg>
+                  </button>
+                  <div
+                    class="font-semibold text-gray-900 flex items-center justify-center"
+                  >
+                    <span>Chọn ảnh đính kèm</span>&nbsp;<span
+                      >(tối đa 12 ảnh)</span
+                    >
+                  </div>
+                </div>
+                <input
+                  id="hidden-input"
+                  type="file"
+                  name="image"
+                  multiple
+                  class="hidden"
+                />
+              </header>
+
+              <h1 class="pt-8 pb-3 font-semibold sm:text-lg text-gray-900">
+                To Upload
+              </h1>
+
+              <ul id="gallery" class="flex flex-1 flex-wrap -m-1">
+                <li
+                  id="empty"
+                  class="h-full w-full text-center flex flex-col items-center justify-center items-center"
+                >
+                  <img
+                    class="mx-auto w-32"
+                    src="https://user-images.githubusercontent.com/507615/54591670-ac0a0180-4a65-11e9-846c-e55ffce0fe7b.png"
+                    alt="no data"
+                  />
+                  <span class="text-small text-gray-500"
+                    >No files selected</span
+                  >
+                </li>
+              </ul>
+            </section>
+
+            <!-- sticky footer -->
+            <!-- <footer class="flex justify-end px-8 pb-8 pt-4">
+              <button
+                id="submit"
+                class="rounded-sm px-3 py-1 bg-blue-700 hover:bg-blue-500 text-white focus:shadow-outline focus:outline-none"
+              >
+                Upload now
+              </button>
+              <button
+                id="cancel"
+                class="ml-3 rounded-sm px-3 py-1 hover:bg-gray-300 focus:shadow-outline focus:outline-none"
+              >
+                Cancel
+              </button>
+            </footer> -->
+          </article>
+        </main>
+      </div>
+
+      <!-- using two similar templates for simplicity in js code -->
+
+      <template id="image-template">
+        <li class="block p-1 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 xl:w-1/8 h-24">
+          <article
+            tabindex="0"
+            class="group hasImage w-full h-full rounded-md focus:outline-none focus:shadow-outline bg-gray-100 cursor-pointer relative text-transparent hover:text-white shadow-sm"
+          >
+            <img
+              alt="upload preview"
+              class="img-preview w-full h-full sticky object-cover rounded-md bg-fixed"
+            />
+
+            <section
+              class="flex flex-col rounded-md text-xs break-words w-full h-full z-20 absolute top-0 py-2 px-3"
+            >
+              <h1 class="flex-1"></h1>
+              <div class="flex relative">
+                <span class="p-1">
+                  <i>
+                    <svg
+                      class="fill-current w-4 h-4 ml-auto pt-"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M5 8.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5zm9 .5l-2.519 4-2.481-1.96-4 5.96h14l-5-8zm8-4v14h-20v-14h20zm2-2h-24v18h24v-18z"
+                      />
+                    </svg>
+                  </i>
+                </span>
+
+                <p class="p-1 size text-xs"></p>
+                <button
+                  class="delete ml-auto focus:outline-none hover:bg-gray-300 p-1 rounded-md"
+                >
+                  <svg
+                    class="pointer-events-none fill-current w-4 h-4 ml-auto"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      class="pointer-events-none"
+                      d="M3 6l3 18h12l3-18h-18zm19-4v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </section>
+          </article>
+        </li>
+      </template>
+    </div>
+    <div class="w-full flex justify-end px-[15px]">
+      <div class="flex gap-4">
+        <a href="{% url 'home' %}" class="btn text-gray-700 border-gray-400 rounded-full g-whitew-[80px] font-bold text-center"><div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+          </svg><span>Hủy</span>
+        </div></a>
+        <button type="submit" class="bg-gray-500 rounded-full w-[80px] text-center font-bold text-white">Đăng</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% block extrascripts %}
+<script src="{% static 'js/getAdministrativeDivision.js' %}"></script>
+<script>
+  const fileTempl = document.getElementById("file-template"),
+    imageTempl = document.getElementById("image-template"),
+    empty = document.getElementById("empty");
+
+  // use to store pre selected files
+  let FILES = {};
+
+  // check if file is of type image and prepend the initialied
+  // template to the target element
+  function addFile(target, file) {
+    const isImage = file.type.match("image.*"),
+      objectURL = URL.createObjectURL(file);
+
+    const clone = isImage
+      ? imageTempl.content.cloneNode(true)
+      : fileTempl.content.cloneNode(true);
+
+    clone.querySelector("h1").textContent = file.name;
+    clone.querySelector("li").id = objectURL;
+    clone.querySelector(".delete").dataset.target = objectURL;
+    clone.querySelector(".size").textContent =
+      file.size > 1024
+        ? file.size > 1048576
+          ? Math.round(file.size / 1048576) + "mb"
+          : Math.round(file.size / 1024) + "kb"
+        : file.size + "b";
+
+    isImage &&
+      Object.assign(clone.querySelector("img"), {
+        src: objectURL,
+        alt: file.name,
+      });
+
+    empty.classList.add("hidden");
+    target.prepend(clone);
+
+    FILES[objectURL] = file;
+  }
+
+  const gallery = document.getElementById("gallery"),
+    overlay = document.getElementById("overlay");
+
+  // click the hidden input of type file if the visible button is clicked
+  // and capture the selected files
+  const hidden = document.getElementById("hidden-input");
+  document.getElementById("button").onclick = () => hidden.click();
+  hidden.onchange = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const numberOfProperties = Object.keys(FILES).length;
+    const sum = numberOfProperties + e.target.files.length;
+
+    if (sum <= 12) {
+      for (const file of Array.from(e.target.files).slice(0, 12)) {
+        addFile(gallery, file);
+      }
+    } else {
+      for (const file of Array.from(e.target.files).slice(
+        0,
+        12 - numberOfProperties
+      )) {
+        addFile(gallery, file);
+      }
+    }
+  };
+
+  // use to check if a file is being dragged
+  const hasFiles = ({ dataTransfer: { types = [] } }) =>
+    types.indexOf("Files") > -1;
+
+  // use to drag dragenter and dragleave events.
+  // this is to know if the outermost parent is dragged over
+  // without issues due to drag events on its children
+  let counter = 0;
+
+  // reset counter and append file to gallery when file is dropped
+  function dropHandler(ev) {
+    ev.preventDefault();
+    const numberOfProperties = Object.keys(FILES).length;
+    const sum = numberOfProperties + ev.dataTransfer.files.length;
+    if (sum <= 12) {
+      for (const file of Array.from(ev.dataTransfer.files).slice(0, 12)) {
+        addFile(gallery, file);
+        overlay.classList.remove("draggedover");
+        counter = 0;
+      }
+    } else {
+      for (const file of Array.from(ev.dataTransfer.files).slice(
+        0,
+        12 - numberOfProperties
+      )) {
+        addFile(gallery, file);
+      }
+    }
+  }
+
+  // only react to actual files being dragged
+  function dragEnterHandler(e) {
+    e.preventDefault();
+    if (!hasFiles(e)) {
+      return;
+    }
+    ++counter && overlay.classList.add("draggedover");
+  }
+
+  function dragLeaveHandler(e) {
+    1 > --counter && overlay.classList.remove("draggedover");
+  }
+
+  function dragOverHandler(e) {
+    if (hasFiles(e)) {
+      e.preventDefault();
+    }
+  }
+
+  // event delegation to caputre delete events
+  // fron the waste buckets in the file preview cards
+  gallery.onclick = ({ target }) => {
+    if (target.classList.contains("delete")) {
+      const ou = target.dataset.target;
+      document.getElementById(ou).remove(ou);
+      gallery.children.length === 1 && empty.classList.remove("hidden");
+      delete FILES[ou];
+    }
+  };
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName("needs-validation");
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener(
+          "submit",
+          function (event) {
+            if (
+              form.checkValidity() === false ||
+              Object.keys(FILES).length === 0
+            ) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add("was-validated");
+          },
+          false
+        );
+      });
+      var addressForm = document.getElementById("addressForm");
+      if (addressForm) {
+        addressForm.addEventListener("submit", function (event) {
+          // Values ​​from your input
+          var city = {
+            name: document.getElementById("id_city").selectedOptions[0]
+              .textContent,
+            id: document.getElementById("id_city").selectedOptions[0].value,
+          };
+          var district = {
+            name: document.getElementById("id_district").selectedOptions[0]
+              .textContent,
+            id: document.getElementById("id_district").selectedOptions[0].value,
+          };
+          var ward = {
+            name: document.getElementById("id_ward").selectedOptions[0]
+              .textContent,
+            code: document.getElementById("id_ward").selectedOptions[0].value,
+          };
+          var houseNumber = document.getElementById("id_houseNumber").value;
+          var streetName = document.getElementById("id_streetName").value;
+
+          console.log("submit: ", district);
+
+          // Generate full address
+          var fullAddress = { houseNumber, streetName, ward, district, city };
+
+          // Assign value to hidden input field "fullAddress"
+          var fullAddressField = document.getElementById("id_fullAddress");
+          if (fullAddressField) {
+            fullAddressField.value = JSON.stringify(fullAddress);
+          } else {
+            // In case 'fullAddress' field is not found, error display or other handling is required
+            console.error(
+              "Không tìm thấy trường input ẩn để gán địa chỉ đầy đủ."
+            );
+            event.preventDefault(); // Prevent the form from submitting if there are errors
+          }
+        });
+      } else {
+        console.error("Không tìm thấy form để gắn sự kiện submit.");
+      }
+    },
+    false
+  );
+</script>
+
+{% endblock extrascripts %}
+
+{% endblock %}

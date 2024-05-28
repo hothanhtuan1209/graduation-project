@@ -1,0 +1,89 @@
+.container {
+  position: relative;
+  margin: 50px 0;
+}
+
+.banner {
+  display: flex;
+  justify-content: center;
+}
+
+.banner-image {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+.main-title {
+  position: relative;
+  top: 16px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #484848;
+}
+
+.main-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 4px;
+  background-color: #484848;
+}
+
+.list-group {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 25px;
+  list-style: none;
+  padding: 0;
+  margin-top: 40px;
+  justify-items: center;
+}
+
+.list-post-btn {
+  position: absolute;
+  top: 104%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  background-color: #484848;
+  border-radius: 12px;
+  padding: 8px 23px;
+}
+
+.list-post-btn a {
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 65px;
+  margin: 15px 0;
+}
+
+.content-title {
+  color: #484848;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.content-nav .nav-list li:nth-child(1) .nav-item {
+  position: relative;
+}
+
+.content-nav .nav-list li:nth-child(1) .nav-item::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background-color: #484848;
+}

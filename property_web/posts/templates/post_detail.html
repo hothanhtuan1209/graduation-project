@@ -1,0 +1,87 @@
+<!-- post_detail.html -->
+{% extends 'base.html' %}
+
+{% load static %} {% block extrahead %}
+  <link rel="stylesheet" href="{% static 'css/card_horizontal.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/post_detail.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/modal_img.css' %}" />
+{% endblock extrahead %}
+
+{% block content %}
+<div class="post-detail">
+  <div class="image-grid">
+    {% for image in post_images|slice:":5" %}
+    <div class="image-wrapper {% if forloop.first %}big{% endif %}">
+      <img
+        class="posts-image"
+        src="{{ image.image.url }}"
+        alt="{{ post.title }} Image"
+      />
+    </div>
+    {% endfor %} {% if post_images|length > 5 %}
+    <div class="image-wrapper more-images">
+      <p>+{{ post_images|length|add:"-5" }} Ảnh</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="post-desc">
+    <div class="post-desc-wrapper">
+      <h2 class="post-desc-title">
+        {{ post.title }}
+        <img class="" src="{% static 'image/heart.png' %}" alt="Large Map" />
+      </h2>
+      <h3 class="post-desc-subtitle">Thông tin chi tiết</h3>
+      <div class="post-desc-info">
+        <p class="post-price"><strong>Giá (VND):</strong> {{ post.price }}</p>
+        <p class="post-area">
+          <strong>Diện tích (m2):</strong> {{ post.area }}
+        </p>
+        <p class="post-address">
+          <strong>Địa chỉ:</strong>
+          <span id="address-detail" style="display: none"
+            >{{ post.address }}</span
+          >
+        </p>
+        <p class="post-created-at">
+          <strong>Ngày đăng:</strong> {{ post.created_at }}
+        </p>
+        <p class="post-end-date">
+          <strong>Ngày hết hạn:</strong> {{ post.end_date }}
+        </p>
+      </div>
+    </div>
+
+    <div class="post-author-info">
+      <i class="fa-solid fa-circle-user" style="font-size: 120px"></i>
+      <p class="post-username">
+        <a class="username" href="{% url 'user_detail' user_id=user_post.id %}"
+          >{{ user_post.username }}</a
+        >
+      </p>
+      <p>{{ user_post.phone_number }}</p>
+    </div>
+  </div>
+
+  <p class="post-description">
+    <strong class="post-desc-subtitle">Mô tả</strong> {{ post.description }}
+  </p>
+  <img class="img-map" src="{% static 'image/map.jpg' %}" alt="Large Map" />
+</div>
+
+<div class="user-posts">
+  <span class="other-post">Các bài viết khác của {{ user_post.username }}</span>
+  <ul class="post-list">
+    {% for other_post in posts_of_user %}
+    <li class="post-item">
+      {% include 'components/card_horizontal.html' with post=other_post %}
+      {%endfor %}
+    </li>
+  </ul>
+</div>
+{% block extrascripts %}
+  <script src="{% static 'js/modal_img.js' %}"></script>
+  <script src="{% static 'js/address_detail.js' %}"></script>
+{% endblock extrascripts %}
+
+{% endblock %}
